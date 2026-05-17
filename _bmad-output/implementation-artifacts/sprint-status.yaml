@@ -266,14 +266,14 @@ phases:
     name: "Membership + Consulting"
     status: in_progress
     stories_total: 6
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "10.1"
         name: "Membership tiers page — 4 tier cards"
         status: completed
       - id: "10.2"
         name: "Membership FAQ accordion"
-        status: pending
+        status: completed
       - id: "10.3"
         name: "Consulting packages page"
         status: pending

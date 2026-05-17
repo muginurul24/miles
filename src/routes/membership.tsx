@@ -2,12 +2,41 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { ArrowRight, Check, Crown, Sparkles } from 'lucide-react'
 import { Badge, PageHeader } from '#/components/shared'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '#/components/ui/accordion'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
 import type { MembershipTierView } from '#/server/repositories/membership.repo'
 import type { ReactElement } from 'react'
+
+const membershipFaqs = [
+  {
+    question: 'Kapan membership mulai terasa worth it?',
+    answer:
+      'Saat kamu punya target trip, rencana transfer poin, atau sedang memilih kartu dengan annual fee besar. Kalau masih eksplorasi dasar, tier Free sudah cukup.',
+  },
+  {
+    question: 'Apakah Plus cukup untuk membuka premium guide?',
+    answer:
+      'Plus ditujukan untuk akses premium pilihan dan alert promo. Pro lebih cocok kalau kamu ingin akses semua konten premium dan strategy briefing rutin.',
+  },
+  {
+    question: 'Apakah Concierge sama dengan konsultasi personal?',
+    answer:
+      'Concierge adalah level dengan dukungan paling personal. Untuk kebutuhan sekali jalan, paket consulting tetap akan tersedia sebagai opsi terpisah.',
+  },
+  {
+    question: 'Apakah membership menggantikan kalkulator?',
+    answer:
+      'Tidak. Kalkulator tetap menjadi alat validasi value. Membership memberi konteks keputusan: kapan transfer, kartu apa dipakai, dan redemption mana yang diprioritaskan.',
+  },
+] as const
 
 const getMembershipData = createServerFn({ method: 'GET' }).handler(
   async () => {
@@ -121,6 +150,32 @@ function MembershipPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="page-wrap mt-8 grid gap-5 rounded-3xl border border-border bg-card p-5 text-card-foreground shadow-xs md:p-6">
+        <div>
+          <p className="island-kicker">FAQ</p>
+          <h2 className="font-display text-2xl font-bold text-primary">
+            Pertanyaan sebelum upgrade
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+            Jawaban ringkas untuk memastikan membership dipakai pada konteks
+            yang tepat, bukan sekadar karena fitur terlihat lengkap.
+          </p>
+        </div>
+
+        <Accordion type="single" collapsible className="w-full">
+          {membershipFaqs.map((faq) => (
+            <AccordionItem key={faq.question} value={faq.question}>
+              <AccordionTrigger className="text-base text-primary hover:text-accent hover:no-underline">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-sm leading-7 text-muted-foreground">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </section>
     </main>
   )
