@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as CreditCardsIndexRouteImport } from './routes/credit-cards/index'
+import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
@@ -30,6 +32,16 @@ const IndexRoute = IndexRouteImport.update({
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditCardsIndexRoute = CreditCardsIndexRouteImport.update({
+  id: '/credit-cards/',
+  path: '/credit-cards/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditCardsSlugRoute = CreditCardsSlugRouteImport.update({
+  id: '/credit-cards/$slug',
+  path: '/credit-cards/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -67,6 +81,8 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/credit-cards': typeof CreditCardsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -77,6 +93,8 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -88,6 +106,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth/login'
     | '/auth/register'
+    | '/credit-cards/$slug'
+    | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -97,6 +117,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth/login'
     | '/auth/register'
+    | '/credit-cards/$slug'
+    | '/credit-cards'
     | '/dashboard'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -106,6 +128,8 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth/login'
     | '/auth/register'
+    | '/credit-cards/$slug'
+    | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -116,6 +140,8 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  CreditCardsSlugRoute: typeof CreditCardsSlugRoute
+  CreditCardsIndexRoute: typeof CreditCardsIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
@@ -142,6 +168,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit-cards/': {
+      id: '/credit-cards/'
+      path: '/credit-cards'
+      fullPath: '/credit-cards/'
+      preLoaderRoute: typeof CreditCardsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit-cards/$slug': {
+      id: '/credit-cards/$slug'
+      path: '/credit-cards/$slug'
+      fullPath: '/credit-cards/$slug'
+      preLoaderRoute: typeof CreditCardsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -180,6 +220,8 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  CreditCardsSlugRoute: CreditCardsSlugRoute,
+  CreditCardsIndexRoute: CreditCardsIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,

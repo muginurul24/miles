@@ -1,0 +1,51 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { CardDetailHero } from '#/components/cards/CardDetailHero'
+import { CardKeyStats } from '#/components/cards/CardKeyStats'
+import { EarningRateTable } from '#/components/cards/EarningRateTable'
+import { Breadcrumb } from '#/components/shared'
+
+export const Route = createFileRoute('/credit-cards/$slug')({
+  loader: async ({ context, params }) => {
+    const card = await context.queryClient.ensureQueryData(
+      context.trpc.cards.getBySlug.queryOptions({ slug: params.slug }),
+    )
+
+    return { card }
+  },
+  head: ({ loaderData }) => ({
+    meta: [
+      {
+        title: `${loaderData.card.shortName} — JustMiles`,
+      },
+      {
+        name: 'description',
+        content:
+          loaderData.card.bestFor ??
+          `Review earning rate dan benefit ${loaderData.card.shortName}.`,
+      },
+    ],
+  }),
+  component: CardDetailPage,
+})
+
+function CardDetailPage() {
+  const { card } = Route.useLoaderData()
+
+  return (
+    <main className="page-wrap grid gap-6 py-8 lg:py-12">
+      <Breadcrumb
+        items={[
+          { label: 'Home', to: '/' },
+          { label: 'Credit Cards', to: '/credit-cards' },
+          { label: card.shortName },
+        ]}
+      />
+
+      <div className="grid gap-6">
+        <CardDetailHero card={card} />
+        <CardKeyStats card={card} />
+        <EarningRateTable card={card} />
+      </div>
+    </main>
+  )
+}

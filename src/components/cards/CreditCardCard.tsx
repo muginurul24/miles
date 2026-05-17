@@ -1,5 +1,7 @@
+import { Link } from '@tanstack/react-router'
 import { CreditCard, PlaneTakeoff } from 'lucide-react'
 import { Badge } from '#/components/shared'
+import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
@@ -76,6 +78,16 @@ export function CreditCardCard({
             ))}
           </div>
         </div>
+
+        <Button asChild variant="outline" className="w-full">
+          <Link
+            to="/credit-cards/$slug"
+            params={{ slug: card.id }}
+            className="no-underline"
+          >
+            Lihat detail
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   )
