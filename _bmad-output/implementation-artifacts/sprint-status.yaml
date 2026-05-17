@@ -64,9 +64,9 @@ phases:
 
   - id: phase-02
     name: "Public Shell (Layout + Theme + Fonts)"
-    status: in_progress
+    status: completed
     stories_total: 5
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "02.1"
         name: "Update __root.tsx — fonts, metadata, theme script"
@@ -82,7 +82,7 @@ phases:
         status: completed
       - id: "02.5"
         name: "styles.css — JustMiles theme tokens replacing starter theme"
-        status: pending
+        status: completed
 
   - id: phase-03
     name: "Auth System"
