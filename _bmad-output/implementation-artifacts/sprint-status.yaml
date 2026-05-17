@@ -41,7 +41,7 @@ phases:
     name: "Database & Seed Data"
     status: in_progress
     stories_total: 6
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "01.1"
         name: "Define Prisma schema — all tables"
@@ -51,7 +51,7 @@ phases:
         status: completed
       - id: "01.3"
         name: "Seed credit cards — 12 cards with earning rates + partners + pros/cons"
-        status: pending
+        status: completed
       - id: "01.4"
         name: "Seed articles — 20 articles across all categories"
         status: pending
