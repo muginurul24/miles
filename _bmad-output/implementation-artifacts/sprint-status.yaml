@@ -10,7 +10,7 @@ phases:
     name: "Bootstrap & Foundation"
     status: in_progress
     stories_total: 8
-    stories_completed: 6
+    stories_completed: 7
     stories:
       - id: "00.1"
         name: "Project cleanup — remove demo files"
@@ -32,7 +32,7 @@ phases:
         status: completed
       - id: "00.7"
         name: "Shared components — Breadcrumb, Badge, PageHeader, NewsletterCTA"
-        status: pending
+        status: completed
       - id: "00.8"
         name: "Install shadcn blocks — dashboard-01, login-01, signup-01"
         status: pending
