@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server'
 import {
   adminProcedure,
   createTRPCRouter,
@@ -10,6 +11,11 @@ import { cardsRouter } from './cards'
 import { consultingRouter } from './consulting'
 import { membershipRouter } from './membership'
 import { newsletterRouter } from './newsletter'
+import {
+  adminCardCreateInputSchema,
+  adminCardDeleteInputSchema,
+  adminCardUpdateInputSchema,
+} from '#/lib/schemas/admin-card'
 import { adminRepo } from '#/server/repositories/admin.repo'
 
 import type { TRPCRouterRecord } from '@trpc/server'
@@ -34,6 +40,49 @@ const adminRouter = {
     userId: ctx.user.id,
   })),
   overview: adminProcedure.query(() => adminRepo.getOverview()),
+  cards: adminProcedure.query(() => adminRepo.listCards()),
+  createCard: adminProcedure
+    .input(adminCardCreateInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminRepo.cardExists(input.id)
+
+      if (exists) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'ID kartu sudah digunakan.',
+        })
+      }
+
+      return adminRepo.createCard(input)
+    }),
+  updateCard: adminProcedure
+    .input(adminCardUpdateInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminRepo.cardExists(input.id)
+
+      if (!exists) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Kartu tidak ditemukan.',
+        })
+      }
+
+      return adminRepo.updateCard(input)
+    }),
+  deleteCard: adminProcedure
+    .input(adminCardDeleteInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminRepo.cardExists(input.id)
+
+      if (!exists) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Kartu tidak ditemukan.',
+        })
+      }
+
+      return adminRepo.deleteCard(input.id)
+    }),
 } satisfies TRPCRouterRecord
 
 export const trpcRouter = createTRPCRouter({
