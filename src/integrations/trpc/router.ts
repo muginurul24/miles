@@ -7,6 +7,8 @@ import {
 import { articlesRouter } from './articles'
 import { calculatorRouter } from './calculator'
 import { cardsRouter } from './cards'
+import { consultingRouter } from './consulting'
+import { membershipRouter } from './membership'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -38,5 +40,7 @@ export const trpcRouter = createTRPCRouter({
   cards: cardsRouter,
   calculator: calculatorRouter,
   articles: articlesRouter,
+  membership: membershipRouter,
+  consulting: consultingRouter,
 })
 export type TRPCRouter = typeof trpcRouter

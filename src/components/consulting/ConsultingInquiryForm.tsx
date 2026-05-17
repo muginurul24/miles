@@ -1,6 +1,6 @@
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { z } from 'zod'
-import { showToast } from '#/components/Toast'
+import { showErrorToast, showToast } from '#/components/Toast'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
@@ -13,9 +13,12 @@ import {
   SelectValue,
 } from '#/components/ui/select'
 import { Textarea } from '#/components/ui/textarea'
+import { useTRPC } from '#/integrations/trpc/react'
+import { consultingInquiryInputSchema } from '#/lib/schemas/consulting'
 
 import type { ConsultingPackageView } from '#/server/repositories/consulting.repo'
 import type { FormEvent, ReactElement, ReactNode } from 'react'
+import type { ZodIssue } from 'zod'
 
 export interface ConsultingInquiryFormProps {
   packages: ConsultingPackageView[]
@@ -42,19 +45,6 @@ const fieldNames = [
   'needs',
 ] as const satisfies ConsultingInquiryField[]
 
-const inquirySchema = z.object({
-  name: z.string().trim().min(2, 'Nama minimal 2 karakter.'),
-  email: z.string().trim().email('Email belum valid.'),
-  phone: z.string().trim().optional(),
-  packageId: z.string().trim().min(1, 'Pilih paket konsultasi.'),
-  currentCards: z.string().trim().optional(),
-  needs: z
-    .string()
-    .trim()
-    .min(20, 'Jelaskan kebutuhan minimal 20 karakter.')
-    .max(1200, 'Kebutuhan maksimal 1200 karakter.'),
-})
-
 const initialValue: ConsultingInquiryFormValue = {
   name: '',
   email: '',
@@ -71,7 +61,7 @@ function isInquiryField(value: unknown): value is ConsultingInquiryField {
   )
 }
 
-function getValidationErrors(issues: z.ZodIssue[]): ConsultingInquiryErrors {
+function getValidationErrors(issues: ZodIssue[]): ConsultingInquiryErrors {
   return issues.reduce<ConsultingInquiryErrors>((errors, issue) => {
     const field = issue.path.at(0)
 
@@ -86,8 +76,21 @@ function getValidationErrors(issues: z.ZodIssue[]): ConsultingInquiryErrors {
 export function ConsultingInquiryForm({
   packages,
 }: ConsultingInquiryFormProps): ReactElement {
+  const trpc = useTRPC()
   const [value, setValue] = useState<ConsultingInquiryFormValue>(initialValue)
   const [errors, setErrors] = useState<ConsultingInquiryErrors>({})
+  const submitInquiry = useMutation(
+    trpc.consulting.submitInquiry.mutationOptions({
+      onSuccess: () => {
+        setErrors({})
+        setValue(initialValue)
+        showToast('Inquiry terkirim. Tim JustMiles akan meninjau detailnya.')
+      },
+      onError: () => {
+        showErrorToast('Inquiry gagal dikirim. Coba lagi beberapa saat lagi.')
+      },
+    }),
+  )
 
   function updateValue(nextValue: Partial<ConsultingInquiryFormValue>): void {
     setValue((currentValue) => ({ ...currentValue, ...nextValue }))
@@ -96,17 +99,13 @@ export function ConsultingInquiryForm({
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault()
 
-    const parsed = inquirySchema.safeParse(value)
+    const parsed = consultingInquiryInputSchema.safeParse(value)
     if (!parsed.success) {
       setErrors(getValidationErrors(parsed.error.issues))
       return
     }
 
-    setErrors({})
-    setValue(initialValue)
-    showToast(
-      'Inquiry tervalidasi. Pengiriman backend aktif di tahap berikutnya.',
-    )
+    submitInquiry.mutate(parsed.data)
   }
 
   return (
@@ -252,8 +251,12 @@ export function ConsultingInquiryForm({
                 Data ini akan dipakai untuk menyiapkan scope konsultasi yang
                 relevan.
               </p>
-              <Button type="submit" size="lg">
-                Validasi inquiry
+              <Button
+                type="submit"
+                size="lg"
+                disabled={submitInquiry.isPending}
+              >
+                {submitInquiry.isPending ? 'Mengirim...' : 'Kirim inquiry'}
               </Button>
             </div>
           </form>

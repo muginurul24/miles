@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
 import {
   ArrowRight,
   Building2,
@@ -17,18 +16,14 @@ import type { ConsultingPackageView } from '#/server/repositories/consulting.rep
 import type { LucideIcon } from 'lucide-react'
 import type { ReactElement } from 'react'
 
-const getConsultingData = createServerFn({ method: 'GET' }).handler(
-  async () => {
-    const { consultingRepo } =
-      await import('#/server/repositories/consulting.repo')
-    const packages = await consultingRepo.findPackages()
+export const Route = createFileRoute('/consulting')({
+  loader: async ({ context }) => {
+    const packages = await context.queryClient.ensureQueryData(
+      context.trpc.consulting.packages.queryOptions(),
+    )
 
     return { packages }
   },
-)
-
-export const Route = createFileRoute('/consulting')({
-  loader: async () => getConsultingData(),
   head: () => ({
     meta: [
       {

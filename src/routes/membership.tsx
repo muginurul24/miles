@@ -1,5 +1,4 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
 import { ArrowRight, Check, Crown, Sparkles } from 'lucide-react'
 import { Badge, PageHeader } from '#/components/shared'
 import {
@@ -38,18 +37,14 @@ const membershipFaqs = [
   },
 ] as const
 
-const getMembershipData = createServerFn({ method: 'GET' }).handler(
-  async () => {
-    const { membershipRepo } =
-      await import('#/server/repositories/membership.repo')
-    const tiers = await membershipRepo.findTiers()
+export const Route = createFileRoute('/membership')({
+  loader: async ({ context }) => {
+    const tiers = await context.queryClient.ensureQueryData(
+      context.trpc.membership.tiers.queryOptions(),
+    )
 
     return { tiers }
   },
-)
-
-export const Route = createFileRoute('/membership')({
-  loader: async () => getMembershipData(),
   head: () => ({
     meta: [
       {
