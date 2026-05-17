@@ -14,16 +14,21 @@ const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
       import('#/server/repositories/cards.repo'),
     ])
 
-  const [cards, latestNews, topCards] = await Promise.all([
-    calculatorRepo.getCards(),
-    articlesRepo.findAll({ category: 'News', limit: 3 }),
-    cardsRepo.findAll({ sort: 'earning_best' }),
-  ])
+  const [cards, latestNews, topCards, latestGuides, latestReviews] =
+    await Promise.all([
+      calculatorRepo.getCards(),
+      articlesRepo.findAll({ category: 'News', limit: 3 }),
+      cardsRepo.findAll({ sort: 'earning_best' }),
+      articlesRepo.findAll({ category: 'Guide', limit: 3 }),
+      articlesRepo.findAll({ category: 'Review', limit: 3 }),
+    ])
 
   return {
     cards,
     latestNews,
     topCards: topCards.slice(0, 3),
+    latestGuides,
+    latestReviews,
   }
 })
 
@@ -33,7 +38,8 @@ export const Route = createFileRoute('/')({
 })
 
 function HomePage() {
-  const { cards, latestNews, topCards } = Route.useLoaderData()
+  const { cards, latestNews, topCards, latestGuides, latestReviews } =
+    Route.useLoaderData()
 
   return (
     <main>
@@ -47,6 +53,18 @@ function HomePage() {
         articles={latestNews}
       />
       <TopCardsSection cards={topCards} />
+      <ArticleSection
+        eyebrow="Latest Guides"
+        title="Panduan yang bisa langsung dipakai"
+        description="Mulai dari dasar sampai strategi yang lebih lanjut untuk transfer poin, award chart, dan portfolio kartu."
+        articles={latestGuides}
+      />
+      <ArticleSection
+        eyebrow="Latest Reviews"
+        title="Review trip yang lebih transparan"
+        description="Lihat pengalaman nyata di flight, hotel, dan lounge sebelum kamu menukar poin untuk itinerary berikutnya."
+        articles={latestReviews}
+      />
     </main>
   )
 }
