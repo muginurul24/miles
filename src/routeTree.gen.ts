@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as MembershipRouteImport } from './routes/membership'
@@ -29,6 +30,11 @@ import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsletterRoute = NewsletterRouteImport.update({
   id: '/newsletter',
   path: '/newsletter',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
+  '/quiz': typeof QuizRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
+  '/quiz': typeof QuizRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
+  '/quiz': typeof QuizRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/news'
     | '/newsletter'
+    | '/quiz'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/news'
     | '/newsletter'
+    | '/quiz'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/news'
     | '/newsletter'
+    | '/quiz'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
@@ -266,6 +278,7 @@ export interface RootRouteChildren {
   MembershipRoute: typeof MembershipRoute
   NewsRoute: typeof NewsRoute
   NewsletterRoute: typeof NewsletterRoute
+  QuizRoute: typeof QuizRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -279,6 +292,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/newsletter': {
       id: '/newsletter'
       path: '/newsletter'
@@ -426,6 +446,7 @@ const rootRouteChildren: RootRouteChildren = {
   MembershipRoute: MembershipRoute,
   NewsRoute: NewsRoute,
   NewsletterRoute: NewsletterRoute,
+  QuizRoute: QuizRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
