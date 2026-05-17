@@ -289,9 +289,9 @@ phases:
 
   - id: phase-11
     name: "Advisor Quiz"
-    status: in_progress
+    status: completed
     stories_total: 4
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "11.1"
         name: "Quiz form — 8 question cards with radio options"
@@ -304,7 +304,7 @@ phases:
         status: completed
       - id: "11.4"
         name: "Quiz page layout + navigation"
-        status: pending
+        status: completed
 
   - id: phase-12
     name: "Admin Dashboard"
