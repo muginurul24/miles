@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as MembershipRouteImport } from './routes/membership'
@@ -38,6 +39,11 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 const QuizRoute = QuizRouteImport.update({
   id: '/quiz',
   path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NewsletterRoute = NewsletterRouteImport.update({
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
+  '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
+  '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
+  '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/news'
     | '/newsletter'
+    | '/privacy'
     | '/quiz'
     | '/articles/$slug'
     | '/auth/login'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/news'
     | '/newsletter'
+    | '/privacy'
     | '/quiz'
     | '/articles/$slug'
     | '/auth/login'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/news'
     | '/newsletter'
+    | '/privacy'
     | '/quiz'
     | '/articles/$slug'
     | '/auth/login'
@@ -337,6 +349,7 @@ export interface RootRouteChildren {
   MembershipRoute: typeof MembershipRoute
   NewsRoute: typeof NewsRoute
   NewsletterRoute: typeof NewsletterRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuizRoute: typeof QuizRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -355,6 +368,13 @@ declare module '@tanstack/react-router' {
       path: '/quiz'
       fullPath: '/quiz'
       preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/newsletter': {
@@ -560,6 +580,7 @@ const rootRouteChildren: RootRouteChildren = {
   MembershipRoute: MembershipRoute,
   NewsRoute: NewsRoute,
   NewsletterRoute: NewsletterRoute,
+  PrivacyRoute: PrivacyRoute,
   QuizRoute: QuizRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
