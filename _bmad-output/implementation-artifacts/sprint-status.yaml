@@ -10,7 +10,7 @@ phases:
     name: "Bootstrap & Foundation"
     status: in_progress
     stories_total: 8
-    stories_completed: 5
+    stories_completed: 6
     stories:
       - id: "00.1"
         name: "Project cleanup — remove demo files"
@@ -29,7 +29,7 @@ phases:
         status: completed
       - id: "00.6"
         name: "Toast system — reusable toast component"
-        status: pending
+        status: completed
       - id: "00.7"
         name: "Shared components — Breadcrumb, Badge, PageHeader, NewsletterCTA"
         status: pending
