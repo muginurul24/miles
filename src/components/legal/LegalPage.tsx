@@ -4,7 +4,7 @@ import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Separator } from '#/components/ui/separator'
 
-import type { LegalPageContent, LegalSection } from './legal-content'
+import type { LegalPageContent, LegalSection } from './legal-types'
 import type { ReactElement } from 'react'
 
 export interface LegalPageProps {
