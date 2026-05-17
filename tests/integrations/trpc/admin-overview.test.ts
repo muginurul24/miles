@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { trpcRouter } from '#/integrations/trpc/router'
-import { adminRepo } from '#/server/repositories/admin.repo'
+import { adminOverviewRepo } from '#/server/repositories/admin-overview.repo'
 
 import type { TRPCContext } from '#/integrations/trpc/init'
 
-vi.mock('#/server/repositories/admin.repo', () => ({
-  adminRepo: {
+vi.mock('#/server/repositories/admin-overview.repo', () => ({
+  adminOverviewRepo: {
     getOverview: vi.fn(),
   },
 }))
 
-const mockedAdminRepo = vi.mocked(adminRepo)
+const mockedOverviewRepo = vi.mocked(adminOverviewRepo)
 
 function createContext(role: 'admin' | 'user' = 'admin'): TRPCContext {
   return {
@@ -54,6 +54,7 @@ describe('admin overview router', () => {
         totalInquiries: 2,
         newInquiries: 1,
         premiumArticles: 7,
+        totalApplications: 4,
       },
       recentInquiries: [
         {
@@ -65,12 +66,18 @@ describe('admin overview router', () => {
           createdAt: new Date('2026-05-17T09:00:00.000Z'),
         },
       ],
+      applicationTrend: [
+        {
+          date: '2026-05-17',
+          applications: 4,
+        },
+      ],
     }
-    mockedAdminRepo.getOverview.mockResolvedValue(overview)
+    mockedOverviewRepo.getOverview.mockResolvedValue(overview)
     const caller = trpcRouter.createCaller(createContext('admin'))
 
     await expect(caller.admin.overview()).resolves.toEqual(overview)
-    expect(mockedAdminRepo.getOverview).toHaveBeenCalledOnce()
+    expect(mockedOverviewRepo.getOverview).toHaveBeenCalledOnce()
   })
 
   it('should reject overview when user is not admin', async () => {
@@ -80,6 +87,6 @@ describe('admin overview router', () => {
       code: 'FORBIDDEN',
       message: 'Akses admin diperlukan.',
     })
-    expect(mockedAdminRepo.getOverview).not.toHaveBeenCalled()
+    expect(mockedOverviewRepo.getOverview).not.toHaveBeenCalled()
   })
 })

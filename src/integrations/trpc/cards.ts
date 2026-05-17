@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
+import { cardApplicationsRepo } from '#/server/repositories/card-applications.repo'
 import { cardsRepo } from '#/server/repositories/cards.repo'
 import { publicProcedure } from './init'
 
@@ -57,6 +58,25 @@ const cardsRouter = {
 
     return { banks, partners }
   }),
+
+  recordApplication: publicProcedure
+    .input(
+      z.object({
+        cardId: z.string().trim().min(1, 'ID kartu wajib diisi.'),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const card = await cardsRepo.findBySlug(input.cardId)
+
+      if (!card) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Kartu tidak ditemukan.',
+        })
+      }
+
+      return cardApplicationsRepo.create(input.cardId)
+    }),
 } satisfies TRPCRouterRecord
 
 export { cardsRouter }

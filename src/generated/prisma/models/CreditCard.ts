@@ -312,6 +312,7 @@ export type CreditCardWhereInput = {
   transferPartners?: Prisma.TransferPartnerListRelationFilter
   pros?: Prisma.CardProListRelationFilter
   cons?: Prisma.CardConListRelationFilter
+  applications?: Prisma.CardApplicationListRelationFilter
 }
 
 export type CreditCardOrderByWithRelationInput = {
@@ -335,6 +336,7 @@ export type CreditCardOrderByWithRelationInput = {
   transferPartners?: Prisma.TransferPartnerOrderByRelationAggregateInput
   pros?: Prisma.CardProOrderByRelationAggregateInput
   cons?: Prisma.CardConOrderByRelationAggregateInput
+  applications?: Prisma.CardApplicationOrderByRelationAggregateInput
 }
 
 export type CreditCardWhereUniqueInput = Prisma.AtLeast<{
@@ -361,6 +363,7 @@ export type CreditCardWhereUniqueInput = Prisma.AtLeast<{
   transferPartners?: Prisma.TransferPartnerListRelationFilter
   pros?: Prisma.CardProListRelationFilter
   cons?: Prisma.CardConListRelationFilter
+  applications?: Prisma.CardApplicationListRelationFilter
 }, "id">
 
 export type CreditCardOrderByWithAggregationInput = {
@@ -430,6 +433,7 @@ export type CreditCardCreateInput = {
   transferPartners?: Prisma.TransferPartnerCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardUncheckedCreateInput = {
@@ -453,6 +457,7 @@ export type CreditCardUncheckedCreateInput = {
   transferPartners?: Prisma.TransferPartnerUncheckedCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProUncheckedCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConUncheckedCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardUpdateInput = {
@@ -476,6 +481,7 @@ export type CreditCardUpdateInput = {
   transferPartners?: Prisma.TransferPartnerUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardUncheckedUpdateInput = {
@@ -499,6 +505,7 @@ export type CreditCardUncheckedUpdateInput = {
   transferPartners?: Prisma.TransferPartnerUncheckedUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUncheckedUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUncheckedUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUncheckedUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardCreateManyInput = {
@@ -654,6 +661,20 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type CreditCardCreateNestedOneWithoutApplicationsInput = {
+  create?: Prisma.XOR<Prisma.CreditCardCreateWithoutApplicationsInput, Prisma.CreditCardUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.CreditCardCreateOrConnectWithoutApplicationsInput
+  connect?: Prisma.CreditCardWhereUniqueInput
+}
+
+export type CreditCardUpdateOneRequiredWithoutApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreditCardCreateWithoutApplicationsInput, Prisma.CreditCardUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.CreditCardCreateOrConnectWithoutApplicationsInput
+  upsert?: Prisma.CreditCardUpsertWithoutApplicationsInput
+  connect?: Prisma.CreditCardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreditCardUpdateToOneWithWhereWithoutApplicationsInput, Prisma.CreditCardUpdateWithoutApplicationsInput>, Prisma.CreditCardUncheckedUpdateWithoutApplicationsInput>
+}
+
 export type CreditCardCreateNestedOneWithoutEarningRatesInput = {
   create?: Prisma.XOR<Prisma.CreditCardCreateWithoutEarningRatesInput, Prisma.CreditCardUncheckedCreateWithoutEarningRatesInput>
   connectOrCreate?: Prisma.CreditCardCreateOrConnectWithoutEarningRatesInput
@@ -710,6 +731,114 @@ export type CreditCardUpdateOneRequiredWithoutConsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreditCardUpdateToOneWithWhereWithoutConsInput, Prisma.CreditCardUpdateWithoutConsInput>, Prisma.CreditCardUncheckedUpdateWithoutConsInput>
 }
 
+export type CreditCardCreateWithoutApplicationsInput = {
+  id: string
+  name: string
+  shortName: string
+  bank: string
+  network: string
+  tier: string
+  annualFee: number
+  minIncome: number
+  imageUrl?: string | null
+  bestFor?: string | null
+  notIdealFor?: string | null
+  loungeAccess?: boolean
+  travelInsurance?: boolean
+  airportTransfer?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  earningRates?: Prisma.EarningRateCreateNestedManyWithoutCardInput
+  transferPartners?: Prisma.TransferPartnerCreateNestedManyWithoutCardInput
+  pros?: Prisma.CardProCreateNestedManyWithoutCardInput
+  cons?: Prisma.CardConCreateNestedManyWithoutCardInput
+}
+
+export type CreditCardUncheckedCreateWithoutApplicationsInput = {
+  id: string
+  name: string
+  shortName: string
+  bank: string
+  network: string
+  tier: string
+  annualFee: number
+  minIncome: number
+  imageUrl?: string | null
+  bestFor?: string | null
+  notIdealFor?: string | null
+  loungeAccess?: boolean
+  travelInsurance?: boolean
+  airportTransfer?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  earningRates?: Prisma.EarningRateUncheckedCreateNestedManyWithoutCardInput
+  transferPartners?: Prisma.TransferPartnerUncheckedCreateNestedManyWithoutCardInput
+  pros?: Prisma.CardProUncheckedCreateNestedManyWithoutCardInput
+  cons?: Prisma.CardConUncheckedCreateNestedManyWithoutCardInput
+}
+
+export type CreditCardCreateOrConnectWithoutApplicationsInput = {
+  where: Prisma.CreditCardWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreditCardCreateWithoutApplicationsInput, Prisma.CreditCardUncheckedCreateWithoutApplicationsInput>
+}
+
+export type CreditCardUpsertWithoutApplicationsInput = {
+  update: Prisma.XOR<Prisma.CreditCardUpdateWithoutApplicationsInput, Prisma.CreditCardUncheckedUpdateWithoutApplicationsInput>
+  create: Prisma.XOR<Prisma.CreditCardCreateWithoutApplicationsInput, Prisma.CreditCardUncheckedCreateWithoutApplicationsInput>
+  where?: Prisma.CreditCardWhereInput
+}
+
+export type CreditCardUpdateToOneWithWhereWithoutApplicationsInput = {
+  where?: Prisma.CreditCardWhereInput
+  data: Prisma.XOR<Prisma.CreditCardUpdateWithoutApplicationsInput, Prisma.CreditCardUncheckedUpdateWithoutApplicationsInput>
+}
+
+export type CreditCardUpdateWithoutApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  shortName?: Prisma.StringFieldUpdateOperationsInput | string
+  bank?: Prisma.StringFieldUpdateOperationsInput | string
+  network?: Prisma.StringFieldUpdateOperationsInput | string
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  annualFee?: Prisma.IntFieldUpdateOperationsInput | number
+  minIncome?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bestFor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notIdealFor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loungeAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  travelInsurance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  airportTransfer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  earningRates?: Prisma.EarningRateUpdateManyWithoutCardNestedInput
+  transferPartners?: Prisma.TransferPartnerUpdateManyWithoutCardNestedInput
+  pros?: Prisma.CardProUpdateManyWithoutCardNestedInput
+  cons?: Prisma.CardConUpdateManyWithoutCardNestedInput
+}
+
+export type CreditCardUncheckedUpdateWithoutApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  shortName?: Prisma.StringFieldUpdateOperationsInput | string
+  bank?: Prisma.StringFieldUpdateOperationsInput | string
+  network?: Prisma.StringFieldUpdateOperationsInput | string
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  annualFee?: Prisma.IntFieldUpdateOperationsInput | number
+  minIncome?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bestFor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notIdealFor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loungeAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  travelInsurance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  airportTransfer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  earningRates?: Prisma.EarningRateUncheckedUpdateManyWithoutCardNestedInput
+  transferPartners?: Prisma.TransferPartnerUncheckedUpdateManyWithoutCardNestedInput
+  pros?: Prisma.CardProUncheckedUpdateManyWithoutCardNestedInput
+  cons?: Prisma.CardConUncheckedUpdateManyWithoutCardNestedInput
+}
+
 export type CreditCardCreateWithoutEarningRatesInput = {
   id: string
   name: string
@@ -730,6 +859,7 @@ export type CreditCardCreateWithoutEarningRatesInput = {
   transferPartners?: Prisma.TransferPartnerCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardUncheckedCreateWithoutEarningRatesInput = {
@@ -752,6 +882,7 @@ export type CreditCardUncheckedCreateWithoutEarningRatesInput = {
   transferPartners?: Prisma.TransferPartnerUncheckedCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProUncheckedCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConUncheckedCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardCreateOrConnectWithoutEarningRatesInput = {
@@ -790,6 +921,7 @@ export type CreditCardUpdateWithoutEarningRatesInput = {
   transferPartners?: Prisma.TransferPartnerUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardUncheckedUpdateWithoutEarningRatesInput = {
@@ -812,6 +944,7 @@ export type CreditCardUncheckedUpdateWithoutEarningRatesInput = {
   transferPartners?: Prisma.TransferPartnerUncheckedUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUncheckedUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUncheckedUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUncheckedUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardCreateWithoutTransferPartnersInput = {
@@ -834,6 +967,7 @@ export type CreditCardCreateWithoutTransferPartnersInput = {
   earningRates?: Prisma.EarningRateCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardUncheckedCreateWithoutTransferPartnersInput = {
@@ -856,6 +990,7 @@ export type CreditCardUncheckedCreateWithoutTransferPartnersInput = {
   earningRates?: Prisma.EarningRateUncheckedCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProUncheckedCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConUncheckedCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardCreateOrConnectWithoutTransferPartnersInput = {
@@ -894,6 +1029,7 @@ export type CreditCardUpdateWithoutTransferPartnersInput = {
   earningRates?: Prisma.EarningRateUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardUncheckedUpdateWithoutTransferPartnersInput = {
@@ -916,6 +1052,7 @@ export type CreditCardUncheckedUpdateWithoutTransferPartnersInput = {
   earningRates?: Prisma.EarningRateUncheckedUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUncheckedUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUncheckedUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUncheckedUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardCreateWithoutProsInput = {
@@ -938,6 +1075,7 @@ export type CreditCardCreateWithoutProsInput = {
   earningRates?: Prisma.EarningRateCreateNestedManyWithoutCardInput
   transferPartners?: Prisma.TransferPartnerCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardUncheckedCreateWithoutProsInput = {
@@ -960,6 +1098,7 @@ export type CreditCardUncheckedCreateWithoutProsInput = {
   earningRates?: Prisma.EarningRateUncheckedCreateNestedManyWithoutCardInput
   transferPartners?: Prisma.TransferPartnerUncheckedCreateNestedManyWithoutCardInput
   cons?: Prisma.CardConUncheckedCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardCreateOrConnectWithoutProsInput = {
@@ -998,6 +1137,7 @@ export type CreditCardUpdateWithoutProsInput = {
   earningRates?: Prisma.EarningRateUpdateManyWithoutCardNestedInput
   transferPartners?: Prisma.TransferPartnerUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardUncheckedUpdateWithoutProsInput = {
@@ -1020,6 +1160,7 @@ export type CreditCardUncheckedUpdateWithoutProsInput = {
   earningRates?: Prisma.EarningRateUncheckedUpdateManyWithoutCardNestedInput
   transferPartners?: Prisma.TransferPartnerUncheckedUpdateManyWithoutCardNestedInput
   cons?: Prisma.CardConUncheckedUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUncheckedUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardCreateWithoutConsInput = {
@@ -1042,6 +1183,7 @@ export type CreditCardCreateWithoutConsInput = {
   earningRates?: Prisma.EarningRateCreateNestedManyWithoutCardInput
   transferPartners?: Prisma.TransferPartnerCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardUncheckedCreateWithoutConsInput = {
@@ -1064,6 +1206,7 @@ export type CreditCardUncheckedCreateWithoutConsInput = {
   earningRates?: Prisma.EarningRateUncheckedCreateNestedManyWithoutCardInput
   transferPartners?: Prisma.TransferPartnerUncheckedCreateNestedManyWithoutCardInput
   pros?: Prisma.CardProUncheckedCreateNestedManyWithoutCardInput
+  applications?: Prisma.CardApplicationUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CreditCardCreateOrConnectWithoutConsInput = {
@@ -1102,6 +1245,7 @@ export type CreditCardUpdateWithoutConsInput = {
   earningRates?: Prisma.EarningRateUpdateManyWithoutCardNestedInput
   transferPartners?: Prisma.TransferPartnerUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUpdateManyWithoutCardNestedInput
 }
 
 export type CreditCardUncheckedUpdateWithoutConsInput = {
@@ -1124,6 +1268,7 @@ export type CreditCardUncheckedUpdateWithoutConsInput = {
   earningRates?: Prisma.EarningRateUncheckedUpdateManyWithoutCardNestedInput
   transferPartners?: Prisma.TransferPartnerUncheckedUpdateManyWithoutCardNestedInput
   pros?: Prisma.CardProUncheckedUpdateManyWithoutCardNestedInput
+  applications?: Prisma.CardApplicationUncheckedUpdateManyWithoutCardNestedInput
 }
 
 
@@ -1136,6 +1281,7 @@ export type CreditCardCountOutputType = {
   transferPartners: number
   pros: number
   cons: number
+  applications: number
 }
 
 export type CreditCardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1143,6 +1289,7 @@ export type CreditCardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   transferPartners?: boolean | CreditCardCountOutputTypeCountTransferPartnersArgs
   pros?: boolean | CreditCardCountOutputTypeCountProsArgs
   cons?: boolean | CreditCardCountOutputTypeCountConsArgs
+  applications?: boolean | CreditCardCountOutputTypeCountApplicationsArgs
 }
 
 /**
@@ -1183,6 +1330,13 @@ export type CreditCardCountOutputTypeCountConsArgs<ExtArgs extends runtime.Types
   where?: Prisma.CardConWhereInput
 }
 
+/**
+ * CreditCardCountOutputType without action
+ */
+export type CreditCardCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardApplicationWhereInput
+}
+
 
 export type CreditCardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1205,6 +1359,7 @@ export type CreditCardSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   transferPartners?: boolean | Prisma.CreditCard$transferPartnersArgs<ExtArgs>
   pros?: boolean | Prisma.CreditCard$prosArgs<ExtArgs>
   cons?: boolean | Prisma.CreditCard$consArgs<ExtArgs>
+  applications?: boolean | Prisma.CreditCard$applicationsArgs<ExtArgs>
   _count?: boolean | Prisma.CreditCardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creditCard"]>
 
@@ -1271,6 +1426,7 @@ export type CreditCardInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   transferPartners?: boolean | Prisma.CreditCard$transferPartnersArgs<ExtArgs>
   pros?: boolean | Prisma.CreditCard$prosArgs<ExtArgs>
   cons?: boolean | Prisma.CreditCard$consArgs<ExtArgs>
+  applications?: boolean | Prisma.CreditCard$applicationsArgs<ExtArgs>
   _count?: boolean | Prisma.CreditCardCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CreditCardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1283,6 +1439,7 @@ export type $CreditCardPayload<ExtArgs extends runtime.Types.Extensions.Internal
     transferPartners: Prisma.$TransferPartnerPayload<ExtArgs>[]
     pros: Prisma.$CardProPayload<ExtArgs>[]
     cons: Prisma.$CardConPayload<ExtArgs>[]
+    applications: Prisma.$CardApplicationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1699,6 +1856,7 @@ export interface Prisma__CreditCardClient<T, Null = never, ExtArgs extends runti
   transferPartners<T extends Prisma.CreditCard$transferPartnersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditCard$transferPartnersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPartnerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pros<T extends Prisma.CreditCard$prosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditCard$prosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardProPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cons<T extends Prisma.CreditCard$consArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditCard$consArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardConPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  applications<T extends Prisma.CreditCard$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditCard$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2230,6 +2388,30 @@ export type CreditCard$consArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.CardConScalarFieldEnum | Prisma.CardConScalarFieldEnum[]
+}
+
+/**
+ * CreditCard.applications
+ */
+export type CreditCard$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CardApplication
+   */
+  select?: Prisma.CardApplicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CardApplication
+   */
+  omit?: Prisma.CardApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardApplicationInclude<ExtArgs> | null
+  where?: Prisma.CardApplicationWhereInput
+  orderBy?: Prisma.CardApplicationOrderByWithRelationInput | Prisma.CardApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.CardApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardApplicationScalarFieldEnum | Prisma.CardApplicationScalarFieldEnum[]
 }
 
 /**

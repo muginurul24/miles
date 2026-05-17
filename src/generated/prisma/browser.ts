@@ -23,6 +23,11 @@ export * from './enums.ts';
  */
 export type CreditCard = Prisma.CreditCardModel
 /**
+ * Model CardApplication
+ * 
+ */
+export type CardApplication = Prisma.CardApplicationModel
+/**
  * Model EarningRate
  * 
  */

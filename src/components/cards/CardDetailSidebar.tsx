@@ -1,9 +1,10 @@
 'use client'
 
+import { useMutation } from '@tanstack/react-query'
 import { Calculator, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 import { RatingBadge } from '#/components/shared'
-import { showToast } from '#/components/Toast'
+import { showErrorToast, showToast } from '#/components/Toast'
 import { Button } from '#/components/ui/button'
 import {
   Card,
@@ -21,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
+import { useTRPC } from '#/integrations/trpc/react'
 import { calculateMiles, getRating } from '#/lib/calculator'
 
 import type { CardWithRelations } from '#/server/repositories/cards.repo'
@@ -65,6 +67,7 @@ function isTransactionType(value: string): value is TransactionType {
 export function CardDetailSidebar({
   card,
 }: CardDetailSidebarProps): ReactElement {
+  const trpc = useTRPC()
   const [transactionType, setTransactionType] = useState<TransactionType>(
     getInitialTransactionType(card),
   )
@@ -93,13 +96,23 @@ export function CardDetailSidebar({
     calculation?.idrPerMile === null || calculation?.idrPerMile === undefined
       ? null
       : getRating(calculation.idrPerMile)
+  const recordApplication = useMutation(
+    trpc.cards.recordApplication.mutationOptions({
+      onSuccess: () => {
+        showToast('Minat pengajuan kartu tercatat.')
+      },
+      onError: () => {
+        showErrorToast('Minat pengajuan gagal dicatat. Coba lagi nanti.')
+      },
+    }),
+  )
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>): void {
     setAmount(Number(event.target.value))
   }
 
   function handleApplyClick(): void {
-    showToast('Fitur apply akan segera tersedia.')
+    recordApplication.mutate({ cardId: card.id })
   }
 
   return (
@@ -217,9 +230,10 @@ export function CardDetailSidebar({
             type="button"
             variant="secondary"
             className="w-full"
+            disabled={recordApplication.isPending}
             onClick={handleApplyClick}
           >
-            Ajukan Kartu Ini
+            {recordApplication.isPending ? 'Mencatat...' : 'Ajukan Kartu Ini'}
             <ExternalLink className="h-4 w-4" aria-hidden="true" />
           </Button>
           <p className="text-xs leading-5 text-accent-foreground/60">

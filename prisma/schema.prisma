@@ -29,10 +29,24 @@ model CreditCard {
   transferPartners TransferPartner[]
   pros             CardPro[]
   cons             CardCon[]
+  applications     CardApplication[]
 
   @@index([bank], map: "idx_cards_bank")
   @@index([tier], map: "idx_cards_tier")
   @@map("credit_cards")
+}
+
+model CardApplication {
+  id        String   @id @default(uuid()) @db.Uuid
+  cardId    String   @map("card_id")
+  source    String   @default("card_detail")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  card CreditCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId], map: "idx_card_applications_card")
+  @@index([createdAt(sort: Desc)], map: "idx_card_applications_created")
+  @@map("card_applications")
 }
 
 model EarningRate {

@@ -15,6 +15,7 @@ import {
   adminInquiryUpdateStatusInputSchema,
 } from '#/lib/schemas/admin-inquiry'
 import { adminInquiriesRepo } from '#/server/repositories/admin-inquiries.repo'
+import { adminOverviewRepo } from '#/server/repositories/admin-overview.repo'
 import { adminRepo } from '#/server/repositories/admin.repo'
 import { adminSubscribersRepo } from '#/server/repositories/admin-subscribers.repo'
 
@@ -25,7 +26,7 @@ const adminRouter = {
     ok: true,
     userId: ctx.user.id,
   })),
-  overview: adminProcedure.query(() => adminRepo.getOverview()),
+  overview: adminProcedure.query(() => adminOverviewRepo.getOverview()),
   cards: adminProcedure.query(() => adminRepo.listCards()),
   createCard: adminProcedure
     .input(adminCardCreateInputSchema)
