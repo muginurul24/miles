@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as CreditCardsIndexRouteImport } from './routes/credit-cards/index'
+import { Route as ReviewsSubCategoryRouteImport } from './routes/reviews/$subCategory'
 import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
@@ -69,6 +70,11 @@ const CreditCardsIndexRoute = CreditCardsIndexRouteImport.update({
   path: '/credit-cards/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReviewsSubCategoryRoute = ReviewsSubCategoryRouteImport.update({
+  id: '/reviews/$subCategory',
+  path: '/reviews/$subCategory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreditCardsSlugRoute = CreditCardsSlugRouteImport.update({
   id: '/credit-cards/$slug',
   path: '/credit-cards/$slug',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards': typeof CreditCardsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/reviews/$subCategory'
     | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/reviews/$subCategory'
     | '/credit-cards'
     | '/dashboard'
     | '/api/auth/$'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/reviews/$subCategory'
     | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
@@ -206,6 +218,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   CreditCardsSlugRoute: typeof CreditCardsSlugRoute
+  ReviewsSubCategoryRoute: typeof ReviewsSubCategoryRoute
   CreditCardsIndexRoute: typeof CreditCardsIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -277,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreditCardsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reviews/$subCategory': {
+      id: '/reviews/$subCategory'
+      path: '/reviews/$subCategory'
+      fullPath: '/reviews/$subCategory'
+      preLoaderRoute: typeof ReviewsSubCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/credit-cards/$slug': {
       id: '/credit-cards/$slug'
       path: '/credit-cards/$slug'
@@ -326,6 +346,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   CreditCardsSlugRoute: CreditCardsSlugRoute,
+  ReviewsSubCategoryRoute: ReviewsSubCategoryRoute,
   CreditCardsIndexRoute: CreditCardsIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
