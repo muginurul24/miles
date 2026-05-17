@@ -7,7 +7,11 @@ export function HeroSection() {
       <img
         src="/images/hero-airport.jpg"
         alt=""
+        width={2200}
+        height={2933}
         className="absolute inset-0 -z-20 h-full w-full object-cover"
+        decoding="async"
+        fetchPriority="high"
         aria-hidden="true"
       />
       <div className="absolute inset-0 -z-10 bg-primary/70 dark:bg-background/75" />

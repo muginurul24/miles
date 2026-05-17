@@ -40,7 +40,15 @@ export const Route = createFileRoute('/')({
   loader: async () => getHomeData(),
   head: () => ({
     meta: buildSeoMeta(DEFAULT_SEO),
-    links: buildCanonicalLinks(DEFAULT_SEO.path),
+    links: [
+      ...buildCanonicalLinks(DEFAULT_SEO.path),
+      {
+        rel: 'preload',
+        as: 'image',
+        href: '/images/hero-airport.jpg',
+        fetchPriority: 'high',
+      },
+    ],
   }),
   component: HomePage,
 })

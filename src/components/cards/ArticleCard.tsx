@@ -42,7 +42,12 @@ export function ArticleCard({
           <img
             src={article.imageUrl}
             alt=""
+            width={640}
+            height={360}
             className="aspect-[16/9] w-full object-cover"
+            decoding="async"
+            loading="lazy"
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           />
         ) : (
           <div

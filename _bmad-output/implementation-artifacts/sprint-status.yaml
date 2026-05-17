@@ -388,7 +388,7 @@ phases:
     name: "Polish & Production Hardening"
     status: in_progress
     stories_total: 8
-    stories_completed: 5
+    stories_completed: 6
     stories:
       - id: "15.1"
         name: "Loading states — skeletons for all pages"
@@ -407,7 +407,7 @@ phases:
         status: completed
       - id: "15.6"
         name: "Performance — image optimization, bundle analysis"
-        status: pending
+        status: completed
       - id: "15.7"
         name: "Mobile responsive QA — all pages at 375/768/1280"
         status: pending
