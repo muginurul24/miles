@@ -12,6 +12,11 @@ import { consultingRouter } from './consulting'
 import { membershipRouter } from './membership'
 import { newsletterRouter } from './newsletter'
 import {
+  adminArticleCreateInputSchema,
+  adminArticleDeleteInputSchema,
+  adminArticleUpdateInputSchema,
+} from '#/lib/schemas/admin-article'
+import {
   adminCardCreateInputSchema,
   adminCardDeleteInputSchema,
   adminCardUpdateInputSchema,
@@ -82,6 +87,49 @@ const adminRouter = {
       }
 
       return adminRepo.deleteCard(input.id)
+    }),
+  articles: adminProcedure.query(() => adminRepo.listArticles()),
+  createArticle: adminProcedure
+    .input(adminArticleCreateInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminRepo.articleExists(input.id)
+
+      if (exists) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'ID artikel sudah digunakan.',
+        })
+      }
+
+      return adminRepo.createArticle(input)
+    }),
+  updateArticle: adminProcedure
+    .input(adminArticleUpdateInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminRepo.articleExists(input.id)
+
+      if (!exists) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Artikel tidak ditemukan.',
+        })
+      }
+
+      return adminRepo.updateArticle(input)
+    }),
+  deleteArticle: adminProcedure
+    .input(adminArticleDeleteInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminRepo.articleExists(input.id)
+
+      if (!exists) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Artikel tidak ditemukan.',
+        })
+      }
+
+      return adminRepo.deleteArticle(input.id)
     }),
 } satisfies TRPCRouterRecord
 

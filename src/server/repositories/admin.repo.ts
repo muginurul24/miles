@@ -2,6 +2,10 @@ import { prisma } from '#/db'
 
 import type { Prisma } from '#/generated/prisma/client'
 import type {
+  AdminArticleCreateInput,
+  AdminArticleUpdateInput,
+} from '#/lib/schemas/admin-article'
+import type {
   AdminCardCreateInput,
   AdminCardUpdateInput,
 } from '#/lib/schemas/admin-card'
@@ -33,6 +37,21 @@ const adminCardSelect = {
 type AdminCardRecord = Prisma.CreditCardGetPayload<{
   select: typeof adminCardSelect
 }>
+
+const adminArticleSelect = {
+  id: true,
+  title: true,
+  excerpt: true,
+  content: true,
+  category: true,
+  subCategory: true,
+  author: true,
+  imageUrl: true,
+  premium: true,
+  dealTag: true,
+  publishedAt: true,
+  updatedAt: true,
+} satisfies Prisma.ArticleSelect
 
 export interface AdminOverviewStats {
   totalCards: number
@@ -76,6 +95,10 @@ export interface AdminCardRow {
   earningRatesCount: number
   transferPartnersCount: number
 }
+
+export type AdminArticleRow = Prisma.ArticleGetPayload<{
+  select: typeof adminArticleSelect
+}>
 
 function toAdminCardRow(card: AdminCardRecord): AdminCardRow {
   return {
@@ -208,6 +231,50 @@ export const adminRepo = {
 
   async deleteCard(id: string): Promise<{ id: string }> {
     return prisma.creditCard.delete({
+      where: { id },
+      select: { id: true },
+    })
+  },
+
+  async listArticles(): Promise<AdminArticleRow[]> {
+    return prisma.article.findMany({
+      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
+      select: adminArticleSelect,
+    })
+  },
+
+  async articleExists(id: string): Promise<boolean> {
+    const article = await prisma.article.findUnique({
+      where: { id },
+      select: { id: true },
+    })
+
+    return article !== null
+  },
+
+  async createArticle(
+    input: AdminArticleCreateInput,
+  ): Promise<AdminArticleRow> {
+    return prisma.article.create({
+      data: input,
+      select: adminArticleSelect,
+    })
+  },
+
+  async updateArticle(
+    input: AdminArticleUpdateInput,
+  ): Promise<AdminArticleRow> {
+    const { id, ...data } = input
+
+    return prisma.article.update({
+      where: { id },
+      data,
+      select: adminArticleSelect,
+    })
+  },
+
+  async deleteArticle(id: string): Promise<{ id: string }> {
+    return prisma.article.delete({
       where: { id },
       select: { id: true },
     })

@@ -25,6 +25,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as CreditCardsIndexRouteImport } from './routes/credit-cards/index'
 import { Route as ReviewsSubCategoryRouteImport } from './routes/reviews/$subCategory'
 import { Route as DashboardCardsRouteImport } from './routes/dashboard/cards'
+import { Route as DashboardArticlesRouteImport } from './routes/dashboard/articles'
 import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
@@ -112,6 +113,11 @@ const DashboardCardsRoute = DashboardCardsRouteImport.update({
   path: '/cards',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardArticlesRoute = DashboardArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const CreditCardsSlugRoute = CreditCardsSlugRouteImport.update({
   id: '/credit-cards/$slug',
   path: '/credit-cards/$slug',
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/dashboard/articles': typeof DashboardArticlesRoute
   '/dashboard/cards': typeof DashboardCardsRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/dashboard/articles': typeof DashboardArticlesRoute
   '/dashboard/cards': typeof DashboardCardsRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards': typeof CreditCardsIndexRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/dashboard/articles': typeof DashboardArticlesRoute
   '/dashboard/cards': typeof DashboardCardsRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/dashboard/articles'
     | '/dashboard/cards'
     | '/reviews/$subCategory'
     | '/credit-cards/'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/dashboard/articles'
     | '/dashboard/cards'
     | '/reviews/$subCategory'
     | '/credit-cards'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/dashboard/articles'
     | '/dashboard/cards'
     | '/reviews/$subCategory'
     | '/credit-cards/'
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCardsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/articles': {
+      id: '/dashboard/articles'
+      path: '/articles'
+      fullPath: '/dashboard/articles'
+      preLoaderRoute: typeof DashboardArticlesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/credit-cards/$slug': {
       id: '/credit-cards/$slug'
       path: '/credit-cards/$slug'
@@ -472,11 +491,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardArticlesRoute: typeof DashboardArticlesRoute
   DashboardCardsRoute: typeof DashboardCardsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardArticlesRoute: DashboardArticlesRoute,
   DashboardCardsRoute: DashboardCardsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }

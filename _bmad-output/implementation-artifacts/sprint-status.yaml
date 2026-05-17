@@ -310,7 +310,7 @@ phases:
     name: "Admin Dashboard"
     status: in_progress
     stories_total: 10
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "12.1"
         name: "Dashboard layout — sidebar + header"
@@ -326,7 +326,7 @@ phases:
         status: completed
       - id: "12.5"
         name: "Manage articles — TanStack Table with editor"
-        status: pending
+        status: completed
       - id: "12.6"
         name: "Manage inquiries — table with status filters"
         status: pending
