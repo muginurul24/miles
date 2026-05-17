@@ -6,7 +6,7 @@
 /*
  * This file should be your main import to use Prisma-related types and utilities in a browser. 
  * Use it to get access to models, enums, and input types.
- * 
+ *
  * This file does not contain a `PrismaClient` class, nor several other helpers that are intended as server-side only.
  * See `client.ts` for the standard, server-side entry point.
  *
@@ -19,76 +19,86 @@ export * as $Enums from './enums.ts'
 export * from './enums.ts';
 /**
  * Model CreditCard
- * 
+ *
  */
 export type CreditCard = Prisma.CreditCardModel
 /**
  * Model CardApplication
- * 
+ *
  */
 export type CardApplication = Prisma.CardApplicationModel
 /**
  * Model EarningRate
- * 
+ *
  */
 export type EarningRate = Prisma.EarningRateModel
 /**
  * Model TransferPartner
- * 
+ *
  */
 export type TransferPartner = Prisma.TransferPartnerModel
 /**
  * Model CardPro
- * 
+ *
  */
 export type CardPro = Prisma.CardProModel
 /**
  * Model CardCon
- * 
+ *
  */
 export type CardCon = Prisma.CardConModel
 /**
  * Model Article
- * 
+ *
  */
 export type Article = Prisma.ArticleModel
 /**
  * Model MembershipTier
- * 
+ *
  */
 export type MembershipTier = Prisma.MembershipTierModel
 /**
  * Model ConsultingPackage
- * 
+ *
  */
 export type ConsultingPackage = Prisma.ConsultingPackageModel
 /**
  * Model ConsultingInquiry
- * 
+ *
  */
 export type ConsultingInquiry = Prisma.ConsultingInquiryModel
 /**
  * Model NewsletterSubscriber
- * 
+ *
  */
 export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
 /**
  * Model User
- * 
+ *
  */
 export type User = Prisma.UserModel
 /**
+ * Model PaymentOrder
+ *
+ */
+export type PaymentOrder = Prisma.PaymentOrderModel
+/**
+ * Model PaymentWebhookEvent
+ *
+ */
+export type PaymentWebhookEvent = Prisma.PaymentWebhookEventModel
+/**
  * Model Session
- * 
+ *
  */
 export type Session = Prisma.SessionModel
 /**
  * Model Account
- * 
+ *
  */
 export type Account = Prisma.AccountModel
 /**
  * Model Verification
- * 
+ *
  */
 export type Verification = Prisma.VerificationModel

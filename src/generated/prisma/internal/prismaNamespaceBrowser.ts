@@ -63,6 +63,8 @@ export const ModelName = {
   ConsultingInquiry: 'ConsultingInquiry',
   NewsletterSubscriber: 'NewsletterSubscriber',
   User: 'User',
+  PaymentOrder: 'PaymentOrder',
+  PaymentWebhookEvent: 'PaymentWebhookEvent',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -233,12 +235,49 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   membershipTier: 'membershipTier',
+  membershipExpiresAt: 'membershipExpiresAt',
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PaymentOrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tierId: 'tierId',
+  orderId: 'orderId',
+  gatewayTransactionId: 'gatewayTransactionId',
+  platformOrderId: 'platformOrderId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  paymentType: 'paymentType',
+  paymentMethod: 'paymentMethod',
+  customerEmail: 'customerEmail',
+  customerName: 'customerName',
+  gatewayPayload: 'gatewayPayload',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentOrderScalarFieldEnum = (typeof PaymentOrderScalarFieldEnum)[keyof typeof PaymentOrderScalarFieldEnum]
+
+
+export const PaymentWebhookEventScalarFieldEnum = {
+  id: 'id',
+  paymentOrderId: 'paymentOrderId',
+  event: 'event',
+  status: 'status',
+  signatureValid: 'signatureValid',
+  payload: 'payload',
+  receivedAt: 'receivedAt'
+} as const
+
+export type PaymentWebhookEventScalarFieldEnum = (typeof PaymentWebhookEventScalarFieldEnum)[keyof typeof PaymentWebhookEventScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

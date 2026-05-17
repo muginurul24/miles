@@ -55,6 +55,12 @@ export const auth = betterAuth({
         defaultValue: 'free',
         fieldName: 'membershipTier',
       },
+      membershipExpiresAt: {
+        type: 'date',
+        required: false,
+        input: false,
+        fieldName: 'membershipExpiresAt',
+      },
       role: {
         type: 'string',
         required: true,

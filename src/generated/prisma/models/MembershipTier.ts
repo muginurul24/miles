@@ -232,6 +232,7 @@ export type MembershipTierWhereInput = {
   features?: Prisma.JsonFilter<"MembershipTier">
   isHighlighted?: Prisma.BoolFilter<"MembershipTier"> | boolean
   sortOrder?: Prisma.IntNullableFilter<"MembershipTier"> | number | null
+  paymentOrders?: Prisma.PaymentOrderListRelationFilter
 }
 
 export type MembershipTierOrderByWithRelationInput = {
@@ -242,6 +243,7 @@ export type MembershipTierOrderByWithRelationInput = {
   features?: Prisma.SortOrder
   isHighlighted?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentOrders?: Prisma.PaymentOrderOrderByRelationAggregateInput
 }
 
 export type MembershipTierWhereUniqueInput = Prisma.AtLeast<{
@@ -255,6 +257,7 @@ export type MembershipTierWhereUniqueInput = Prisma.AtLeast<{
   features?: Prisma.JsonFilter<"MembershipTier">
   isHighlighted?: Prisma.BoolFilter<"MembershipTier"> | boolean
   sortOrder?: Prisma.IntNullableFilter<"MembershipTier"> | number | null
+  paymentOrders?: Prisma.PaymentOrderListRelationFilter
 }, "id">
 
 export type MembershipTierOrderByWithAggregationInput = {
@@ -293,6 +296,7 @@ export type MembershipTierCreateInput = {
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isHighlighted?: boolean
   sortOrder?: number | null
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutTierInput
 }
 
 export type MembershipTierUncheckedCreateInput = {
@@ -303,6 +307,7 @@ export type MembershipTierUncheckedCreateInput = {
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isHighlighted?: boolean
   sortOrder?: number | null
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutTierInput
 }
 
 export type MembershipTierUpdateInput = {
@@ -313,6 +318,7 @@ export type MembershipTierUpdateInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isHighlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutTierNestedInput
 }
 
 export type MembershipTierUncheckedUpdateInput = {
@@ -323,6 +329,7 @@ export type MembershipTierUncheckedUpdateInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isHighlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutTierNestedInput
 }
 
 export type MembershipTierCreateManyInput = {
@@ -393,6 +400,11 @@ export type MembershipTierSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
 }
 
+export type MembershipTierScalarRelationFilter = {
+  is?: Prisma.MembershipTierWhereInput
+  isNot?: Prisma.MembershipTierWhereInput
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -401,6 +413,105 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type MembershipTierCreateNestedOneWithoutPaymentOrdersInput = {
+  create?: Prisma.XOR<Prisma.MembershipTierCreateWithoutPaymentOrdersInput, Prisma.MembershipTierUncheckedCreateWithoutPaymentOrdersInput>
+  connectOrCreate?: Prisma.MembershipTierCreateOrConnectWithoutPaymentOrdersInput
+  connect?: Prisma.MembershipTierWhereUniqueInput
+}
+
+export type MembershipTierUpdateOneRequiredWithoutPaymentOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.MembershipTierCreateWithoutPaymentOrdersInput, Prisma.MembershipTierUncheckedCreateWithoutPaymentOrdersInput>
+  connectOrCreate?: Prisma.MembershipTierCreateOrConnectWithoutPaymentOrdersInput
+  upsert?: Prisma.MembershipTierUpsertWithoutPaymentOrdersInput
+  connect?: Prisma.MembershipTierWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MembershipTierUpdateToOneWithWhereWithoutPaymentOrdersInput, Prisma.MembershipTierUpdateWithoutPaymentOrdersInput>, Prisma.MembershipTierUncheckedUpdateWithoutPaymentOrdersInput>
+}
+
+export type MembershipTierCreateWithoutPaymentOrdersInput = {
+  id: string
+  name: string
+  priceIdr: number
+  period: string
+  features: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isHighlighted?: boolean
+  sortOrder?: number | null
+}
+
+export type MembershipTierUncheckedCreateWithoutPaymentOrdersInput = {
+  id: string
+  name: string
+  priceIdr: number
+  period: string
+  features: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isHighlighted?: boolean
+  sortOrder?: number | null
+}
+
+export type MembershipTierCreateOrConnectWithoutPaymentOrdersInput = {
+  where: Prisma.MembershipTierWhereUniqueInput
+  create: Prisma.XOR<Prisma.MembershipTierCreateWithoutPaymentOrdersInput, Prisma.MembershipTierUncheckedCreateWithoutPaymentOrdersInput>
+}
+
+export type MembershipTierUpsertWithoutPaymentOrdersInput = {
+  update: Prisma.XOR<Prisma.MembershipTierUpdateWithoutPaymentOrdersInput, Prisma.MembershipTierUncheckedUpdateWithoutPaymentOrdersInput>
+  create: Prisma.XOR<Prisma.MembershipTierCreateWithoutPaymentOrdersInput, Prisma.MembershipTierUncheckedCreateWithoutPaymentOrdersInput>
+  where?: Prisma.MembershipTierWhereInput
+}
+
+export type MembershipTierUpdateToOneWithWhereWithoutPaymentOrdersInput = {
+  where?: Prisma.MembershipTierWhereInput
+  data: Prisma.XOR<Prisma.MembershipTierUpdateWithoutPaymentOrdersInput, Prisma.MembershipTierUncheckedUpdateWithoutPaymentOrdersInput>
+}
+
+export type MembershipTierUpdateWithoutPaymentOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  priceIdr?: Prisma.IntFieldUpdateOperationsInput | number
+  period?: Prisma.StringFieldUpdateOperationsInput | string
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isHighlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type MembershipTierUncheckedUpdateWithoutPaymentOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  priceIdr?: Prisma.IntFieldUpdateOperationsInput | number
+  period?: Prisma.StringFieldUpdateOperationsInput | string
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isHighlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+
+/**
+ * Count Type MembershipTierCountOutputType
+ */
+
+export type MembershipTierCountOutputType = {
+  paymentOrders: number
+}
+
+export type MembershipTierCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  paymentOrders?: boolean | MembershipTierCountOutputTypeCountPaymentOrdersArgs
+}
+
+/**
+ * MembershipTierCountOutputType without action
+ */
+export type MembershipTierCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MembershipTierCountOutputType
+   */
+  select?: Prisma.MembershipTierCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MembershipTierCountOutputType without action
+ */
+export type MembershipTierCountOutputTypeCountPaymentOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentOrderWhereInput
+}
 
 
 export type MembershipTierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -411,6 +522,8 @@ export type MembershipTierSelect<ExtArgs extends runtime.Types.Extensions.Intern
   features?: boolean
   isHighlighted?: boolean
   sortOrder?: boolean
+  paymentOrders?: boolean | Prisma.MembershipTier$paymentOrdersArgs<ExtArgs>
+  _count?: boolean | Prisma.MembershipTierCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["membershipTier"]>
 
 export type MembershipTierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -444,10 +557,18 @@ export type MembershipTierSelectScalar = {
 }
 
 export type MembershipTierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "priceIdr" | "period" | "features" | "isHighlighted" | "sortOrder", ExtArgs["result"]["membershipTier"]>
+export type MembershipTierInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  paymentOrders?: boolean | Prisma.MembershipTier$paymentOrdersArgs<ExtArgs>
+  _count?: boolean | Prisma.MembershipTierCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type MembershipTierIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type MembershipTierIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $MembershipTierPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MembershipTier"
-  objects: {}
+  objects: {
+    paymentOrders: Prisma.$PaymentOrderPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -850,6 +971,7 @@ readonly fields: MembershipTierFieldRefs;
  */
 export interface Prisma__MembershipTierClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  paymentOrders<T extends Prisma.MembershipTier$paymentOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MembershipTier$paymentOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -903,6 +1025,10 @@ export type MembershipTierFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
+  /**
    * Filter, which MembershipTier to fetch.
    */
   where: Prisma.MembershipTierWhereUniqueInput
@@ -921,6 +1047,10 @@ export type MembershipTierFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
+  /**
    * Filter, which MembershipTier to fetch.
    */
   where: Prisma.MembershipTierWhereUniqueInput
@@ -938,6 +1068,10 @@ export type MembershipTierFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the MembershipTier
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
   /**
    * Filter, which MembershipTier to fetch.
    */
@@ -987,6 +1121,10 @@ export type MembershipTierFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
+  /**
    * Filter, which MembershipTier to fetch.
    */
   where?: Prisma.MembershipTierWhereInput
@@ -1034,6 +1172,10 @@ export type MembershipTierFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the MembershipTier
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
   /**
    * Filter, which MembershipTiers to fetch.
    */
@@ -1083,6 +1225,10 @@ export type MembershipTierCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
+  /**
    * The data needed to create a MembershipTier.
    */
   data: Prisma.XOR<Prisma.MembershipTierCreateInput, Prisma.MembershipTierUncheckedCreateInput>
@@ -1130,6 +1276,10 @@ export type MembershipTierUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the MembershipTier
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
   /**
    * The data needed to update a MembershipTier.
    */
@@ -1197,6 +1347,10 @@ export type MembershipTierUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
+  /**
    * The filter to search for the MembershipTier to update in case it exists.
    */
   where: Prisma.MembershipTierWhereUniqueInput
@@ -1223,6 +1377,10 @@ export type MembershipTierDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
+  /**
    * Filter which MembershipTier to delete.
    */
   where: Prisma.MembershipTierWhereUniqueInput
@@ -1243,6 +1401,30 @@ export type MembershipTierDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * MembershipTier.paymentOrders
+ */
+export type MembershipTier$paymentOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentOrder
+   */
+  select?: Prisma.PaymentOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentOrder
+   */
+  omit?: Prisma.PaymentOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentOrderInclude<ExtArgs> | null
+  where?: Prisma.PaymentOrderWhereInput
+  orderBy?: Prisma.PaymentOrderOrderByWithRelationInput | Prisma.PaymentOrderOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentOrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentOrderScalarFieldEnum | Prisma.PaymentOrderScalarFieldEnum[]
+}
+
+/**
  * MembershipTier without action
  */
 export type MembershipTierDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1254,4 +1436,8 @@ export type MembershipTierDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the MembershipTier
    */
   omit?: Prisma.MembershipTierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipTierInclude<ExtArgs> | null
 }

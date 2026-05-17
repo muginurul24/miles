@@ -16,6 +16,7 @@ const articleListInputSchema = z
   .optional()
 
 interface PremiumAccessUser {
+  membershipExpiresAt?: Date | null
   membershipTier?: string | null
   role?: string | null
 }
@@ -31,7 +32,15 @@ function hasPremiumAccess(user: PremiumAccessUser | undefined): boolean {
     return true
   }
 
-  return premiumTiers.has(user.membershipTier ?? 'free')
+  if (!premiumTiers.has(user.membershipTier ?? 'free')) {
+    return false
+  }
+
+  if (!user.membershipExpiresAt) {
+    return user.membershipTier === 'concierge'
+  }
+
+  return user.membershipExpiresAt.getTime() > Date.now()
 }
 
 function applyPremiumGate(

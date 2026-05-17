@@ -24,7 +24,7 @@ export * as $Enums from './enums.ts'
 export * from "./enums.ts"
 /**
  * ## Prisma Client
- * 
+ *
  * Type-safe database client for TypeScript
  * @example
  * ```
@@ -34,7 +34,7 @@ export * from "./enums.ts"
  * // Fetch zero or more CreditCards
  * const creditCards = await prisma.creditCard.findMany()
  * ```
- * 
+ *
  * Read more in our [docs](https://pris.ly/d/client).
  */
 export const PrismaClient = $Class.getPrismaClientClass()
@@ -43,76 +43,86 @@ export { Prisma }
 
 /**
  * Model CreditCard
- * 
+ *
  */
 export type CreditCard = Prisma.CreditCardModel
 /**
  * Model CardApplication
- * 
+ *
  */
 export type CardApplication = Prisma.CardApplicationModel
 /**
  * Model EarningRate
- * 
+ *
  */
 export type EarningRate = Prisma.EarningRateModel
 /**
  * Model TransferPartner
- * 
+ *
  */
 export type TransferPartner = Prisma.TransferPartnerModel
 /**
  * Model CardPro
- * 
+ *
  */
 export type CardPro = Prisma.CardProModel
 /**
  * Model CardCon
- * 
+ *
  */
 export type CardCon = Prisma.CardConModel
 /**
  * Model Article
- * 
+ *
  */
 export type Article = Prisma.ArticleModel
 /**
  * Model MembershipTier
- * 
+ *
  */
 export type MembershipTier = Prisma.MembershipTierModel
 /**
  * Model ConsultingPackage
- * 
+ *
  */
 export type ConsultingPackage = Prisma.ConsultingPackageModel
 /**
  * Model ConsultingInquiry
- * 
+ *
  */
 export type ConsultingInquiry = Prisma.ConsultingInquiryModel
 /**
  * Model NewsletterSubscriber
- * 
+ *
  */
 export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
 /**
  * Model User
- * 
+ *
  */
 export type User = Prisma.UserModel
 /**
+ * Model PaymentOrder
+ *
+ */
+export type PaymentOrder = Prisma.PaymentOrderModel
+/**
+ * Model PaymentWebhookEvent
+ *
+ */
+export type PaymentWebhookEvent = Prisma.PaymentWebhookEventModel
+/**
  * Model Session
- * 
+ *
  */
 export type Session = Prisma.SessionModel
 /**
  * Model Account
- * 
+ *
  */
 export type Account = Prisma.AccountModel
 /**
  * Model Verification
- * 
+ *
  */
 export type Verification = Prisma.VerificationModel

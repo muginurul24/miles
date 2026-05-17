@@ -135,6 +135,8 @@ model MembershipTier {
   isHighlighted Boolean @default(false) @map("is_highlighted")
   sortOrder     Int?    @map("sort_order")
 
+  paymentOrders PaymentOrder[]
+
   @@index([sortOrder, priceIdr], map: "idx_membership_tiers_sort_price")
   @@map("membership_tiers")
 }
@@ -191,16 +193,63 @@ model User {
   emailVerified  Boolean  @default(false) @map("email_verified")
   image          String?
   membershipTier String   @default("free") @map("membership_tier")
+  membershipExpiresAt DateTime? @map("membership_expires_at")
   role           String   @default("user")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
   accounts Account[]
   sessions Session[]
+  paymentOrders PaymentOrder[]
 
   @@index([membershipTier], map: "idx_users_membership_tier")
   @@index([role], map: "idx_users_role")
   @@map("users")
+}
+
+model PaymentOrder {
+  id                   String    @id @default(uuid()) @db.Uuid
+  userId               String    @map("user_id")
+  tierId               String    @map("tier_id")
+  orderId              String    @unique(map: "idx_payment_orders_order_id") @map("order_id")
+  gatewayTransactionId String?   @map("gateway_transaction_id")
+  platformOrderId      String?   @unique(map: "idx_payment_orders_platform_order_id") @map("platform_order_id")
+  amount               Int
+  currency             String    @default("IDR")
+  status               String    @default("pending")
+  paymentType          String    @default("bank_transfer") @map("payment_type")
+  paymentMethod        String?   @map("payment_method")
+  customerEmail        String    @map("customer_email")
+  customerName         String    @map("customer_name")
+  gatewayPayload       Json      @map("gateway_payload")
+  paidAt               DateTime? @map("paid_at")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  user          User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tier          MembershipTier        @relation(fields: [tierId], references: [id], onDelete: Restrict)
+  webhookEvents PaymentWebhookEvent[]
+
+  @@index([userId, status], map: "idx_payment_orders_user_status")
+  @@index([tierId], map: "idx_payment_orders_tier")
+  @@index([status, createdAt(sort: Desc)], map: "idx_payment_orders_status_created")
+  @@map("payment_orders")
+}
+
+model PaymentWebhookEvent {
+  id             String   @id @db.Uuid
+  paymentOrderId String?  @map("payment_order_id") @db.Uuid
+  event          String
+  status         String
+  signatureValid Boolean  @map("signature_valid")
+  payload        Json
+  receivedAt     DateTime @default(now()) @map("received_at")
+
+  paymentOrder PaymentOrder? @relation(fields: [paymentOrderId], references: [id], onDelete: SetNull)
+
+  @@index([paymentOrderId], map: "idx_payment_webhook_events_order")
+  @@index([receivedAt(sort: Desc)], map: "idx_payment_webhook_events_received")
+  @@map("payment_webhook_events")
 }
 
 model Session {

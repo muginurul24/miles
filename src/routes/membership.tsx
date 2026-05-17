@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { ArrowRight, Check, Crown, Sparkles } from 'lucide-react'
 import { Badge, PageHeader } from '#/components/shared'
+import { MembershipCheckoutButton } from '#/components/membership/MembershipCheckoutButton'
 import {
   Accordion,
   AccordionContent,
@@ -137,7 +138,7 @@ function MembershipPage() {
                   Premium content siap
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Gating konten premium sudah aktif di article detail.
+                  Artikel exclusive sudah terbuka di halaman detail.
                 </p>
               </div>
             </div>
@@ -180,6 +181,7 @@ interface MembershipTierCardProps {
 
 function MembershipTierCard({ tier }: MembershipTierCardProps): ReactElement {
   const isConcierge = tier.period === 'custom'
+  const isPurchasable = tier.id === 'plus' || tier.id === 'pro'
   const ctaLabel =
     tier.id === 'free'
       ? 'Mulai gratis'
@@ -234,16 +236,24 @@ function MembershipTierCard({ tier }: MembershipTierCardProps): ReactElement {
       </CardContent>
 
       <CardFooter>
-        <Button
-          asChild
-          className="w-full"
-          variant={tier.isHighlighted ? 'default' : 'outline'}
-        >
-          <Link to="/auth/register">
-            {ctaLabel}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
+        {isPurchasable ? (
+          <MembershipCheckoutButton
+            tierId={tier.id}
+            label={ctaLabel}
+            highlighted={tier.isHighlighted}
+          />
+        ) : (
+          <Button
+            asChild
+            className="w-full"
+            variant={tier.isHighlighted ? 'default' : 'outline'}
+          >
+            <Link to={isConcierge ? '/consulting' : '/auth/register'}>
+              {ctaLabel}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   )
