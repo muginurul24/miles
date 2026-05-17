@@ -1,4 +1,5 @@
 import { prisma } from '#/db'
+import { DEFAULT_TTL, cached } from '#/lib/cache'
 
 export interface MembershipTierView {
   id: string
@@ -22,18 +23,24 @@ function normalizeFeatures(features: unknown): string[] {
 
 export const membershipRepo = {
   async findTiers(): Promise<MembershipTierView[]> {
-    const tiers = await prisma.membershipTier.findMany({
-      orderBy: [{ sortOrder: 'asc' }, { priceIdr: 'asc' }],
-    })
+    return cached(
+      'membership:tiers',
+      DEFAULT_TTL.MEMBERSHIP_TIERS,
+      async () => {
+        const tiers = await prisma.membershipTier.findMany({
+          orderBy: [{ sortOrder: 'asc' }, { priceIdr: 'asc' }],
+        })
 
-    return tiers.map((tier) => ({
-      id: tier.id,
-      name: tier.name,
-      priceIdr: tier.priceIdr,
-      period: tier.period,
-      features: normalizeFeatures(tier.features),
-      isHighlighted: tier.isHighlighted,
-      sortOrder: tier.sortOrder,
-    }))
+        return tiers.map((tier) => ({
+          id: tier.id,
+          name: tier.name,
+          priceIdr: tier.priceIdr,
+          period: tier.period,
+          features: normalizeFeatures(tier.features),
+          isHighlighted: tier.isHighlighted,
+          sortOrder: tier.sortOrder,
+        }))
+      },
+    )
   },
 }

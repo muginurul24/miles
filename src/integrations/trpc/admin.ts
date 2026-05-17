@@ -18,6 +18,7 @@ import { adminInquiriesRepo } from '#/server/repositories/admin-inquiries.repo'
 import { adminOverviewRepo } from '#/server/repositories/admin-overview.repo'
 import { adminRepo } from '#/server/repositories/admin.repo'
 import { adminSubscribersRepo } from '#/server/repositories/admin-subscribers.repo'
+import { invalidate } from '#/lib/cache'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -40,7 +41,9 @@ const adminRouter = {
         })
       }
 
-      return adminRepo.createCard(input)
+      const card = await adminRepo.createCard(input)
+      await invalidate('cards:')
+      return card
     }),
   updateCard: adminProcedure
     .input(adminCardUpdateInputSchema)
@@ -54,7 +57,9 @@ const adminRouter = {
         })
       }
 
-      return adminRepo.updateCard(input)
+      const card = await adminRepo.updateCard(input)
+      await invalidate('cards:')
+      return card
     }),
   deleteCard: adminProcedure
     .input(adminCardDeleteInputSchema)
@@ -68,7 +73,9 @@ const adminRouter = {
         })
       }
 
-      return adminRepo.deleteCard(input.id)
+      const card = await adminRepo.deleteCard(input.id)
+      await invalidate('cards:')
+      return card
     }),
   articles: adminProcedure.query(() => adminRepo.listArticles()),
   createArticle: adminProcedure
@@ -83,7 +90,9 @@ const adminRouter = {
         })
       }
 
-      return adminRepo.createArticle(input)
+      const article = await adminRepo.createArticle(input)
+      await invalidate('articles:')
+      return article
     }),
   updateArticle: adminProcedure
     .input(adminArticleUpdateInputSchema)
@@ -97,7 +106,9 @@ const adminRouter = {
         })
       }
 
-      return adminRepo.updateArticle(input)
+      const article = await adminRepo.updateArticle(input)
+      await invalidate('articles:')
+      return article
     }),
   deleteArticle: adminProcedure
     .input(adminArticleDeleteInputSchema)
@@ -111,7 +122,9 @@ const adminRouter = {
         })
       }
 
-      return adminRepo.deleteArticle(input.id)
+      const article = await adminRepo.deleteArticle(input.id)
+      await invalidate('articles:')
+      return article
     }),
   inquiries: adminProcedure
     .input(adminInquiryListInputSchema)

@@ -1,4 +1,5 @@
 import { prisma } from '#/db'
+import { DEFAULT_TTL, cached } from '#/lib/cache'
 
 import type { Article, Prisma } from '#/generated/prisma/client'
 
@@ -30,20 +31,33 @@ function withoutArticleContent(article: Article): Article {
 
 export const articlesRepo = {
   async findAll(filters: ArticleFilters = {}): Promise<Article[]> {
-    const articles = await prisma.article.findMany({
-      where: buildArticleWhere(filters),
-      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
-      take: normalizeLimit(filters.limit, 20),
-      skip: filters.offset ?? 0,
-    })
+    const limit = normalizeLimit(filters.limit, 20)
+    const offset = filters.offset ?? 0
+    const category = filters.category ?? 'all'
+    const subCategory = filters.subCategory ?? 'all'
 
-    return articles.map(withoutArticleContent)
+    return cached(
+      `articles:list:${category}:${subCategory}:${offset}:${limit}`,
+      DEFAULT_TTL.ARTICLES_LIST,
+      async () => {
+        const articles = await prisma.article.findMany({
+          where: buildArticleWhere(filters),
+          orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
+          take: limit,
+          skip: offset,
+        })
+
+        return articles.map(withoutArticleContent)
+      },
+    )
   },
 
   async findBySlug(slug: string): Promise<Article | null> {
-    return prisma.article.findUnique({
-      where: { id: slug },
-    })
+    return cached(`articles:detail:${slug}`, DEFAULT_TTL.ARTICLE_DETAIL, () =>
+      prisma.article.findUnique({
+        where: { id: slug },
+      }),
+    )
   },
 
   async findRelated(
@@ -51,24 +65,40 @@ export const articlesRepo = {
     category: string,
     limit = 3,
   ): Promise<Article[]> {
-    const articles = await prisma.article.findMany({
-      where: {
-        category,
-        id: { not: slug },
-      },
-      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
-      take: normalizeLimit(limit, 3),
-    })
+    const normalizedLimit = normalizeLimit(limit, 3)
 
-    return articles.map(withoutArticleContent)
+    return cached(
+      `articles:list:${category}:related:${slug}:${normalizedLimit}`,
+      DEFAULT_TTL.ARTICLES_LIST,
+      async () => {
+        const articles = await prisma.article.findMany({
+          where: {
+            category,
+            id: { not: slug },
+          },
+          orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
+          take: normalizedLimit,
+        })
+
+        return articles.map(withoutArticleContent)
+      },
+    )
   },
 
   async getLatest(limit = 3): Promise<Article[]> {
-    const articles = await prisma.article.findMany({
-      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
-      take: normalizeLimit(limit, 3),
-    })
+    const normalizedLimit = normalizeLimit(limit, 3)
 
-    return articles.map(withoutArticleContent)
+    return cached(
+      `articles:list:latest:${normalizedLimit}`,
+      DEFAULT_TTL.ARTICLES_LIST,
+      async () => {
+        const articles = await prisma.article.findMany({
+          orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
+          take: normalizedLimit,
+        })
+
+        return articles.map(withoutArticleContent)
+      },
+    )
   },
 }

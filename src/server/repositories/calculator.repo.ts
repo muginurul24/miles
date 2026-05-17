@@ -1,4 +1,5 @@
 import { prisma } from '#/db'
+import { DEFAULT_TTL, cached } from '#/lib/cache'
 
 import type { Prisma } from '#/generated/prisma/client'
 
@@ -25,16 +26,20 @@ export type CalculatorCard = Prisma.CreditCardGetPayload<{
 
 export const calculatorRepo = {
   async getCards(): Promise<CalculatorCard[]> {
-    return prisma.creditCard.findMany({
-      orderBy: [{ bank: 'asc' }, { name: 'asc' }],
-      select: calculatorCardSelect,
-    })
+    return cached('cards:calculator', DEFAULT_TTL.CARDS_LIST, () =>
+      prisma.creditCard.findMany({
+        orderBy: [{ bank: 'asc' }, { name: 'asc' }],
+        select: calculatorCardSelect,
+      }),
+    )
   },
 
   async getCard(cardId: string): Promise<CalculatorCard | null> {
-    return prisma.creditCard.findUnique({
-      where: { id: cardId },
-      select: calculatorCardSelect,
-    })
+    return cached(`cards:calculator:${cardId}`, DEFAULT_TTL.CARD_DETAIL, () =>
+      prisma.creditCard.findUnique({
+        where: { id: cardId },
+        select: calculatorCardSelect,
+      }),
+    )
   },
 }
