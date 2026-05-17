@@ -44,7 +44,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.bunny.net/css?family=andada-pro:400,400i,600,700|fira-mono:400,500,700|funnel-display:400,500,600,700|plus-jakarta-sans:400,500,600,700,800&display=swap',
+        href: 'https://fonts.bunny.net/css?family=andada-pro:400,400i,500,500i,600,600i,700,700i,800,800i|fira-mono:400,500,700|funnel-display:300,400,500,600,700,800|plus-jakarta-sans:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i&display=swap',
       },
       {
         rel: 'stylesheet',
