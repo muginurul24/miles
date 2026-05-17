@@ -36,7 +36,7 @@ export function LegalPage({ content }: LegalPageProps): ReactElement {
                 {content.summary}
               </p>
               <Separator />
-              <nav aria-label="Daftar bagian kebijakan privasi">
+              <nav aria-label="Daftar bagian dokumen legal">
                 <ul className="grid gap-2">
                   {content.sections.map((section) => (
                     <li key={section.id}>
@@ -61,9 +61,7 @@ export function LegalPage({ content }: LegalPageProps): ReactElement {
               aria-hidden="true"
             />
             <p className="m-0 text-sm leading-6 text-muted-foreground">
-              Halaman ini ditulis agar pengguna memahami tujuan pemrosesan data
-              dengan bahasa praktis. Jika ada perubahan material, tanggal
-              pembaruan akan diganti.
+              {content.notice}
             </p>
           </div>
 
@@ -89,13 +87,15 @@ export function LegalPage({ content }: LegalPageProps): ReactElement {
 
           <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-border bg-primary p-5 text-primary-foreground sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold">Privacy request</p>
+              <p className="text-sm font-semibold">{content.contact.title}</p>
               <p className="mt-1 text-sm text-primary-foreground/70">
-                Gunakan email khusus agar permintaan data mudah ditriage.
+                {content.contact.description}
               </p>
             </div>
             <Button asChild variant="secondary">
-              <a href="mailto:hello@justmiles.id?subject=Privacy%20Request">
+              <a
+                href={`mailto:hello@justmiles.id?subject=${encodeURIComponent(content.contact.subject)}`}
+              >
                 <Mail className="h-4 w-4" aria-hidden="true" />
                 hello@justmiles.id
               </a>
