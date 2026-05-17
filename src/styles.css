@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'nprogress/nprogress.css';
 @plugin '@tailwindcss/typography';
 @plugin '@tailwindcss/forms';
 
@@ -165,6 +166,22 @@ a:not([class*='text-']) {
 
 a:not([class*='text-']):hover {
   color: var(--justmiles-accent-hover);
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  z-index: 100;
+  height: 3px;
+  background: var(--accent);
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px var(--accent),
+    0 0 5px var(--accent);
 }
 
 code {
