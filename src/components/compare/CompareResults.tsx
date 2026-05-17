@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowRight, CircleDollarSign, Plane, Star } from 'lucide-react'
+import { ArrowRight, CircleDollarSign, Plane, Star, Trophy } from 'lucide-react'
 import { Badge, RatingBadge } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
@@ -112,6 +112,17 @@ export function CompareResults({
       return buildCompareResult(card, selection.partnerProgram, spending)
     })
     .filter((result): result is CompareResultCard => result !== null)
+  const bestResult =
+    [...results]
+      .filter((result) => result.idrPerMile !== null)
+      .sort((first, second) => {
+        if (first.idrPerMile === null || second.idrPerMile === null) {
+          return 0
+        }
+
+        return first.idrPerMile - second.idrPerMile
+      })
+      .at(0) ?? null
 
   if (results.length === 0) {
     return (
@@ -124,57 +135,89 @@ export function CompareResults({
   }
 
   return (
-    <section className="grid gap-4 lg:grid-cols-3">
-      {results.map((result) => (
-        <Card key={result.card.id} className="border-border bg-card shadow-sm">
-          <CardHeader>
-            <div className="flex items-start justify-between gap-3">
-              <div className="grid gap-2">
-                <Badge tone="accent">{result.card.bank}</Badge>
-                <CardTitle className="font-display text-xl text-primary">
-                  {result.card.shortName}
-                </CardTitle>
-                <p className="text-xs text-muted-foreground">
-                  Partner: {result.partnerProgram}
+    <section className="grid gap-4">
+      {bestResult ? (
+        <Card className="border-accent/30 bg-accent-light p-5 text-primary shadow-sm dark:bg-accent-light/70">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex gap-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+                <Trophy className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div className="grid gap-1">
+                <p className="island-kicker">Rekomendasi terbaik</p>
+                <h2 className="font-display text-xl font-bold">
+                  {bestResult.card.shortName}
+                </h2>
+                <p className="text-sm leading-6 text-muted-foreground">
+                  Memberi value terbaik untuk komposisi spending saat ini dengan
+                  estimasi {formatIdr(bestResult.idrPerMile)} per mile.
                 </p>
               </div>
-              {result.rating ? <RatingBadge rating={result.rating} /> : null}
             </div>
-          </CardHeader>
-
-          <CardContent className="grid gap-3">
-            <Metric
-              icon={Star}
-              label="Total poin"
-              value={numberFormatter.format(result.points)}
-            />
-            <Metric
-              icon={Plane}
-              label="Total miles"
-              value={numberFormatter.format(result.miles)}
-            />
-            <Metric
-              icon={CircleDollarSign}
-              label="IDR/Mile"
-              value={
-                result.idrPerMile === null ? '-' : formatIdr(result.idrPerMile)
-              }
-              emphasized
-            />
-
-            <Button asChild variant="outline" className="mt-1 w-full">
-              <Link
-                to="/credit-cards/$slug"
-                params={{ slug: result.card.id }}
-                className="no-underline"
-              >
-                Lihat detail kartu
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </Button>
-          </CardContent>
+            {bestResult.rating ? (
+              <RatingBadge rating={bestResult.rating} size="md" />
+            ) : null}
+          </div>
         </Card>
-      ))}
+      ) : null}
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        {results.map((result) => (
+          <Card
+            key={result.card.id}
+            className="border-border bg-card shadow-sm"
+          >
+            <CardHeader>
+              <div className="flex items-start justify-between gap-3">
+                <div className="grid gap-2">
+                  <Badge tone="accent">{result.card.bank}</Badge>
+                  <CardTitle className="font-display text-xl text-primary">
+                    {result.card.shortName}
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground">
+                    Partner: {result.partnerProgram}
+                  </p>
+                </div>
+                {result.rating ? <RatingBadge rating={result.rating} /> : null}
+              </div>
+            </CardHeader>
+
+            <CardContent className="grid gap-3">
+              <Metric
+                icon={Star}
+                label="Total poin"
+                value={numberFormatter.format(result.points)}
+              />
+              <Metric
+                icon={Plane}
+                label="Total miles"
+                value={numberFormatter.format(result.miles)}
+              />
+              <Metric
+                icon={CircleDollarSign}
+                label="IDR/Mile"
+                value={
+                  result.idrPerMile === null
+                    ? '-'
+                    : formatIdr(result.idrPerMile)
+                }
+                emphasized
+              />
+
+              <Button asChild variant="outline" className="mt-1 w-full">
+                <Link
+                  to="/credit-cards/$slug"
+                  params={{ slug: result.card.id }}
+                  className="no-underline"
+                >
+                  Lihat detail kartu
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </section>
   )
 }
