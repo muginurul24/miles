@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as GuidesRouteImport } from './routes/guides'
@@ -28,6 +29,11 @@ import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const NewsletterRoute = NewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
+  '/newsletter': typeof NewsletterRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
+  '/newsletter': typeof NewsletterRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
+  '/newsletter': typeof NewsletterRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/membership'
     | '/news'
+    | '/newsletter'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/membership'
     | '/news'
+    | '/newsletter'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/membership'
     | '/news'
+    | '/newsletter'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   GuidesRoute: typeof GuidesRoute
   MembershipRoute: typeof MembershipRoute
   NewsRoute: typeof NewsRoute
+  NewsletterRoute: typeof NewsletterRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -266,6 +279,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/newsletter': {
+      id: '/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/news': {
       id: '/news'
       path: '/news'
@@ -405,6 +425,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesRoute: GuidesRoute,
   MembershipRoute: MembershipRoute,
   NewsRoute: NewsRoute,
+  NewsletterRoute: NewsletterRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,

@@ -264,9 +264,9 @@ phases:
 
   - id: phase-10
     name: "Membership + Consulting"
-    status: in_progress
+    status: completed
     stories_total: 6
-    stories_completed: 5
+    stories_completed: 6
     stories:
       - id: "10.1"
         name: "Membership tiers page — 4 tier cards"
@@ -285,7 +285,7 @@ phases:
         status: completed
       - id: "10.6"
         name: "Newsletter subscription — multi-page + tRPC"
-        status: pending
+        status: completed
 
   - id: phase-11
     name: "Advisor Quiz"

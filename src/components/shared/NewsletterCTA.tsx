@@ -1,9 +1,11 @@
+import { useMutation } from '@tanstack/react-query'
 import { Send } from 'lucide-react'
 import { useId, useState } from 'react'
-import { z } from 'zod'
-import { showToast } from '#/components/Toast'
+import { showErrorToast, showToast } from '#/components/Toast'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
+import { useTRPC } from '#/integrations/trpc/react'
+import { newsletterSubscribeInputSchema } from '#/lib/schemas/newsletter'
 import { cn } from '#/lib/utils'
 
 import type { FormEvent, ReactElement } from 'react'
@@ -14,32 +16,39 @@ export interface NewsletterCTAProps {
   className?: string
 }
 
-const newsletterSchema = z.object({
-  email: z.string().trim().email('Masukkan email yang valid.'),
-})
-
 export function NewsletterCTA({
   title = 'Dapatkan update miles terbaik setiap minggu',
   description = 'Ringkasan promo kartu, sweet spot redemption, dan strategi poin yang relevan untuk traveler Indonesia.',
   className,
 }: NewsletterCTAProps): ReactElement {
+  const trpc = useTRPC()
   const inputId = useId()
   const errorId = useId()
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const subscribeNewsletter = useMutation(
+    trpc.newsletter.subscribe.mutationOptions({
+      onSuccess: (receipt) => {
+        setError(null)
+        setEmail('')
+        showToast(getSuccessMessage(receipt.status))
+      },
+      onError: () => {
+        showErrorToast('Newsletter gagal diproses. Coba lagi beberapa saat.')
+      },
+    }),
+  )
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault()
 
-    const parsed = newsletterSchema.safeParse({ email })
+    const parsed = newsletterSubscribeInputSchema.safeParse({ email })
     if (!parsed.success) {
       setError(parsed.error.issues[0]?.message ?? 'Email belum valid.')
       return
     }
 
-    setError(null)
-    setEmail('')
-    showToast('Email kamu masuk daftar tunggu JustMiles.')
+    subscribeNewsletter.mutate(parsed.data)
   }
 
   return (
@@ -76,9 +85,13 @@ export function NewsletterCTA({
               className="h-11 bg-background"
               onChange={(event) => setEmail(event.target.value)}
             />
-            <Button type="submit" className="h-11 shrink-0">
+            <Button
+              type="submit"
+              className="h-11 shrink-0"
+              disabled={subscribeNewsletter.isPending}
+            >
               <Send className="h-4 w-4" aria-hidden="true" />
-              Subscribe
+              {subscribeNewsletter.isPending ? 'Mendaftar...' : 'Subscribe'}
             </Button>
           </div>
           {error ? (
@@ -90,4 +103,16 @@ export function NewsletterCTA({
       </div>
     </section>
   )
+}
+
+function getSuccessMessage(status: string): string {
+  if (status === 'already_subscribed') {
+    return 'Email ini sudah aktif di newsletter JustMiles.'
+  }
+
+  if (status === 'resubscribed') {
+    return 'Email kamu aktif kembali di newsletter JustMiles.'
+  }
+
+  return 'Email kamu berhasil masuk newsletter JustMiles.'
 }
