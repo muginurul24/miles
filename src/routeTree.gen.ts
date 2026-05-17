@@ -9,14 +9,54 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as MembershipRouteImport } from './routes/membership'
+import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as DealsRouteImport } from './routes/deals'
+import { Route as CompareRouteImport } from './routes/compare'
+import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as CreditCardsIndexRouteImport } from './routes/credit-cards/index'
+import { Route as ReviewsSubCategoryRouteImport } from './routes/reviews/$subCategory'
+import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipRoute = MembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesRoute = GuidesRouteImport.update({
+  id: '/guides',
+  path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DealsRoute = DealsRouteImport.update({
+  id: '/deals',
+  path: '/deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -32,6 +72,21 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreditCardsIndexRoute = CreditCardsIndexRouteImport.update({
+  id: '/credit-cards/',
+  path: '/credit-cards/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsSubCategoryRoute = ReviewsSubCategoryRouteImport.update({
+  id: '/reviews/$subCategory',
+  path: '/reviews/$subCategory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditCardsSlugRoute = CreditCardsSlugRouteImport.update({
+  id: '/credit-cards/$slug',
+  path: '/credit-cards/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -40,6 +95,11 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
@@ -56,8 +116,18 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/compare': typeof CompareRoute
+  '/deals': typeof DealsRoute
+  '/guides': typeof GuidesRoute
+  '/membership': typeof MembershipRoute
+  '/news': typeof NewsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
+  '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -65,8 +135,18 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/compare': typeof CompareRoute
+  '/deals': typeof DealsRoute
+  '/guides': typeof GuidesRoute
+  '/membership': typeof MembershipRoute
+  '/news': typeof NewsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
+  '/credit-cards': typeof CreditCardsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -75,8 +155,18 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/compare': typeof CompareRoute
+  '/deals': typeof DealsRoute
+  '/guides': typeof GuidesRoute
+  '/membership': typeof MembershipRoute
+  '/news': typeof NewsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
+  '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -86,8 +176,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/calculator'
+    | '/compare'
+    | '/deals'
+    | '/guides'
+    | '/membership'
+    | '/news'
+    | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
+    | '/credit-cards/$slug'
+    | '/reviews/$subCategory'
+    | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -95,8 +195,18 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/calculator'
+    | '/compare'
+    | '/deals'
+    | '/guides'
+    | '/membership'
+    | '/news'
+    | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
+    | '/credit-cards/$slug'
+    | '/reviews/$subCategory'
+    | '/credit-cards'
     | '/dashboard'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -104,8 +214,18 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/calculator'
+    | '/compare'
+    | '/deals'
+    | '/guides'
+    | '/membership'
+    | '/news'
+    | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
+    | '/credit-cards/$slug'
+    | '/reviews/$subCategory'
+    | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -114,8 +234,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CalculatorRoute: typeof CalculatorRoute
+  CompareRoute: typeof CompareRoute
+  DealsRoute: typeof DealsRoute
+  GuidesRoute: typeof GuidesRoute
+  MembershipRoute: typeof MembershipRoute
+  NewsRoute: typeof NewsRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  CreditCardsSlugRoute: typeof CreditCardsSlugRoute
+  ReviewsSubCategoryRoute: typeof ReviewsSubCategoryRoute
+  CreditCardsIndexRoute: typeof CreditCardsIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
@@ -123,6 +253,48 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membership': {
+      id: '/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof MembershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides': {
+      id: '/guides'
+      path: '/guides'
+      fullPath: '/guides'
+      preLoaderRoute: typeof GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deals': {
+      id: '/deals'
+      path: '/deals'
+      fullPath: '/deals'
+      preLoaderRoute: typeof DealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -144,6 +316,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/credit-cards/': {
+      id: '/credit-cards/'
+      path: '/credit-cards'
+      fullPath: '/credit-cards/'
+      preLoaderRoute: typeof CreditCardsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews/$subCategory': {
+      id: '/reviews/$subCategory'
+      path: '/reviews/$subCategory'
+      fullPath: '/reviews/$subCategory'
+      preLoaderRoute: typeof ReviewsSubCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit-cards/$slug': {
+      id: '/credit-cards/$slug'
+      path: '/credit-cards/$slug'
+      fullPath: '/credit-cards/$slug'
+      preLoaderRoute: typeof CreditCardsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/register': {
       id: '/auth/register'
       path: '/auth/register'
@@ -156,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/trpc/$': {
@@ -178,8 +378,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CalculatorRoute: CalculatorRoute,
+  CompareRoute: CompareRoute,
+  DealsRoute: DealsRoute,
+  GuidesRoute: GuidesRoute,
+  MembershipRoute: MembershipRoute,
+  NewsRoute: NewsRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  CreditCardsSlugRoute: CreditCardsSlugRoute,
+  ReviewsSubCategoryRoute: ReviewsSubCategoryRoute,
+  CreditCardsIndexRoute: CreditCardsIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,

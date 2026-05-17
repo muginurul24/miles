@@ -108,172 +108,172 @@ phases:
 
   - id: phase-04
     name: "Home Page"
-    status: in_progress
+    status: completed
     stories_total: 8
-    stories_completed: 1
+    stories_completed: 8
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
         status: completed
       - id: "04.2"
         name: "Stats bar — 4 stat cards"
-        status: pending
+        status: completed
       - id: "04.3"
         name: "Calculator preview — mini calculator on homepage"
-        status: pending
+        status: completed
       - id: "04.4"
         name: "Latest news section — 3 article cards"
-        status: pending
+        status: completed
       - id: "04.5"
         name: "Top credit cards section — 3 card previews"
-        status: pending
+        status: completed
       - id: "04.6"
         name: "Latest guides + reviews sections"
-        status: pending
+        status: completed
       - id: "04.7"
         name: "Newsletter CTA section"
-        status: pending
+        status: completed
       - id: "04.8"
         name: "Membership banner + bottom CTAs"
-        status: pending
+        status: completed
 
   - id: phase-05
     name: "Credit Cards Directory + Detail"
-    status: pending
+    status: completed
     stories_total: 8
-    stories_completed: 0
+    stories_completed: 8
     stories:
       - id: "05.1"
         name: "tRPC card router — list, getBySlug, filter procedures"
-        status: pending
+        status: completed
       - id: "05.2"
         name: "Card grid component with CreditCardCard"
-        status: pending
+        status: completed
       - id: "05.3"
         name: "Filter bar — search, bank, partner, sort"
-        status: pending
+        status: completed
       - id: "05.4"
         name: "Credit cards directory page"
-        status: pending
+        status: completed
       - id: "05.5"
         name: "Card detail — hero, stats, earning rate table"
-        status: pending
+        status: completed
       - id: "05.6"
         name: "Card detail — transfer partners, pros/cons, benefits"
-        status: pending
+        status: completed
       - id: "05.7"
         name: "Card detail — sidebar calculator + apply CTA"
-        status: pending
+        status: completed
       - id: "05.8"
         name: "Card detail — similar cards + breadcrumb"
-        status: pending
+        status: completed
 
   - id: phase-06
     name: "Calculator"
-    status: pending
+    status: completed
     stories_total: 6
-    stories_completed: 0
+    stories_completed: 6
     stories:
       - id: "06.1"
         name: "Calculator engine — pure functions in lib/calculator.ts"
-        status: pending
+        status: completed
       - id: "06.2"
         name: "Calculator form — card, tx type, partner, amount inputs"
-        status: pending
+        status: completed
       - id: "06.3"
         name: "Calculator result display — rating badge + stat cards"
-        status: pending
+        status: completed
       - id: "06.4"
         name: "Compare all table — all cards ranked by earning rate"
-        status: pending
+        status: completed
       - id: "06.5"
         name: "Calculator page layout + formula explanation"
-        status: pending
+        status: completed
       - id: "06.6"
         name: "Calculator unit tests — all edge cases"
-        status: pending
+        status: completed
 
   - id: phase-07
     name: "Compare Tool"
-    status: pending
+    status: completed
     stories_total: 5
-    stories_completed: 0
+    stories_completed: 5
     stories:
       - id: "07.1"
         name: "Compare form — 3 card selectors with partner dropdowns"
-        status: pending
+        status: completed
       - id: "07.2"
         name: "Spending composition inputs per transaction type"
-        status: pending
+        status: completed
       - id: "07.3"
         name: "Compare results — side-by-side cards with metrics"
-        status: pending
+        status: completed
       - id: "07.4"
         name: "Best recommendation banner"
-        status: pending
+        status: completed
       - id: "07.5"
         name: "Compare page layout + disclaimer"
-        status: pending
+        status: completed
 
   - id: phase-08
     name: "Content Pages (News/Guides/Deals/Reviews)"
-    status: pending
+    status: completed
     stories_total: 7
-    stories_completed: 0
+    stories_completed: 7
     stories:
       - id: "08.1"
         name: "tRPC article router — list, getBySlug, filter by category"
-        status: pending
+        status: completed
       - id: "08.2"
         name: "ArticleCard component"
-        status: pending
+        status: completed
       - id: "08.3"
         name: "News listing page"
-        status: pending
+        status: completed
       - id: "08.4"
         name: "Guides listing page (with premium badges)"
-        status: pending
+        status: completed
       - id: "08.5"
         name: "Deals listing page (with deal tag badges)"
-        status: pending
+        status: completed
       - id: "08.6"
         name: "Reviews sub-navigation + listing pages (Flight/Hotel/Lounge)"
-        status: pending
+        status: completed
       - id: "08.7"
         name: "Premium content CTA banner"
-        status: pending
+        status: completed
 
   - id: phase-09
     name: "Article Detail"
-    status: pending
+    status: completed
     stories_total: 4
-    stories_completed: 0
+    stories_completed: 4
     stories:
       - id: "09.1"
         name: "Article detail page — hero, metadata, content"
-        status: pending
+        status: completed
       - id: "09.2"
         name: "Premium gating — lock overlay + CTA for non-subscribers"
-        status: pending
+        status: completed
       - id: "09.3"
         name: "Related articles section"
-        status: pending
+        status: completed
       - id: "09.4"
         name: "Breadcrumb navigation"
-        status: pending
+        status: completed
 
   - id: phase-10
     name: "Membership + Consulting"
-    status: pending
+    status: in_progress
     stories_total: 6
-    stories_completed: 0
+    stories_completed: 2
     stories:
       - id: "10.1"
         name: "Membership tiers page — 4 tier cards"
-        status: pending
+        status: completed
       - id: "10.2"
         name: "Membership FAQ accordion"
-        status: pending
+        status: completed
       - id: "10.3"
         name: "Consulting packages page"
         status: pending

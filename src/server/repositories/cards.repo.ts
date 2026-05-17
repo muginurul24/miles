@@ -18,8 +18,17 @@ const cardRelations = {
   cons: true,
 } satisfies Prisma.CreditCardInclude
 
+const cardPreviewRelations = {
+  earningRates: true,
+  transferPartners: true,
+} satisfies Prisma.CreditCardInclude
+
 export type CardWithRelations = Prisma.CreditCardGetPayload<{
   include: typeof cardRelations
+}>
+
+export type CardPreview = Prisma.CreditCardGetPayload<{
+  include: typeof cardPreviewRelations
 }>
 
 function buildCardWhere(filters: CardFilters): Prisma.CreditCardWhereInput {
@@ -57,7 +66,7 @@ function getCardOrderBy(
   return [{ name: 'asc' }]
 }
 
-function getBestSpendPerPoint(card: CardWithRelations): number {
+function getBestSpendPerPoint(card: CardPreview): number {
   if (card.earningRates.length === 0) {
     return Number.POSITIVE_INFINITY
   }
@@ -65,7 +74,7 @@ function getBestSpendPerPoint(card: CardWithRelations): number {
   return Math.min(...card.earningRates.map((rate) => rate.spendPerPoint))
 }
 
-function sortByEarningBest(cards: CardWithRelations[]): CardWithRelations[] {
+function sortByEarningBest<T extends CardPreview>(cards: T[]): T[] {
   return [...cards].sort((first, second) => {
     const spendDelta =
       getBestSpendPerPoint(first) - getBestSpendPerPoint(second)
@@ -90,10 +99,51 @@ export const cardsRepo = {
     return sort === 'earning_best' ? sortByEarningBest(cards) : cards
   },
 
+  async findTopByEarning(limit = 3): Promise<CardPreview[]> {
+    const cards = await prisma.creditCard.findMany({
+      include: cardPreviewRelations,
+      orderBy: [{ name: 'asc' }],
+    })
+
+    return sortByEarningBest(cards).slice(0, limit)
+  },
+
   async findBySlug(slug: string): Promise<CardWithRelations | null> {
     return prisma.creditCard.findUnique({
       where: { id: slug },
       include: cardRelations,
+    })
+  },
+
+  async findSimilar(slug: string, limit = 3): Promise<CardPreview[]> {
+    const card = await prisma.creditCard.findUnique({
+      where: { id: slug },
+      include: { transferPartners: true },
+    })
+
+    if (!card) {
+      return []
+    }
+
+    const partnerPrograms = card.transferPartners.map(
+      (partner) => partner.program,
+    )
+
+    return prisma.creditCard.findMany({
+      where: {
+        id: { not: slug },
+        OR: [
+          { bank: card.bank },
+          {
+            transferPartners: {
+              some: { program: { in: partnerPrograms } },
+            },
+          },
+        ],
+      },
+      include: cardPreviewRelations,
+      orderBy: [{ bank: 'asc' }, { name: 'asc' }],
+      take: limit,
     })
   },
 
