@@ -345,13 +345,13 @@ phases:
 
   - id: phase-13
     name: "Legal Pages + Newsletter"
-    status: pending
+    status: in_progress
     stories_total: 4
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "13.1"
         name: "About page"
-        status: pending
+        status: completed
       - id: "13.2"
         name: "Privacy Policy page"
         status: pending
