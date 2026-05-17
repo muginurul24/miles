@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { ChevronDown, LogIn, Plane, UserPlus } from 'lucide-react'
+import { ChevronDown, Plane } from 'lucide-react'
+import { AuthActions } from './AuthActions'
 import MobileMenu from './MobileMenu'
 import ThemeToggle from './ThemeToggle'
 import { Button } from '#/components/ui/button'
@@ -34,11 +35,6 @@ const mainNavItems: NavItem[] = [
   { label: 'Deals', href: '/deals' },
   { label: 'Membership', href: '/membership' },
   { label: 'Consulting', href: '/consulting' },
-]
-
-const authNavItems: NavItem[] = [
-  { label: 'Masuk', href: '/auth/login' },
-  { label: 'Daftar', href: '/auth/register', highlighted: true },
 ]
 
 const reviewGroups: NavGroup[] = [
@@ -146,24 +142,9 @@ export default function Header() {
             <ThemeToggle />
           </div>
           <div className="hidden items-center gap-2 lg:flex">
-            <Button variant="ghost" size="sm" asChild>
-              <a href="/auth/login" className="gap-2 no-underline">
-                <LogIn className="h-4 w-4" aria-hidden="true" />
-                Masuk
-              </a>
-            </Button>
-            <Button size="sm" asChild>
-              <a href="/auth/register" className="gap-2 no-underline">
-                <UserPlus className="h-4 w-4" aria-hidden="true" />
-                Daftar
-              </a>
-            </Button>
+            <AuthActions variant="desktop" />
           </div>
-          <MobileMenu
-            navItems={mainNavItems}
-            reviewGroups={reviewGroups}
-            authItems={authNavItems}
-          />
+          <MobileMenu navItems={mainNavItems} reviewGroups={reviewGroups} />
         </div>
       </nav>
     </header>

@@ -86,9 +86,9 @@ phases:
 
   - id: phase-03
     name: "Auth System"
-    status: in_progress
+    status: completed
     stories_total: 5
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "03.1"
         name: "Better Auth configuration — email/password + session"
@@ -104,7 +104,7 @@ phases:
         status: completed
       - id: "03.5"
         name: "User menu dropdown in navbar"
-        status: pending
+        status: completed
 
   - id: phase-04
     name: "Home Page"

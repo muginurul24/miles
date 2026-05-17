@@ -1,6 +1,7 @@
-import { LogIn, Menu, Plane, UserPlus } from 'lucide-react'
+import { Menu, Plane } from 'lucide-react'
+import { AuthActions } from './AuthActions'
 import ThemeToggle from './ThemeToggle'
-import { Button, buttonVariants } from '#/components/ui/button'
+import { Button } from '#/components/ui/button'
 import {
   Sheet,
   SheetClose,
@@ -17,7 +18,6 @@ import type { NavGroup, NavItem } from './Header'
 interface MobileMenuProps {
   navItems: NavItem[]
   reviewGroups: NavGroup[]
-  authItems: NavItem[]
 }
 
 function MobileNavLink({
@@ -46,7 +46,6 @@ function MobileNavLink({
 export default function MobileMenu({
   navItems,
   reviewGroups,
-  authItems,
 }: MobileMenuProps) {
   return (
     <Sheet>
@@ -79,29 +78,7 @@ export default function MobileMenu({
             <ThemeToggle />
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            <SheetClose asChild>
-              <a
-                href={authItems[0]?.href ?? '/auth/login'}
-                className={buttonVariants({
-                  variant: 'outline',
-                  className: 'no-underline',
-                })}
-              >
-                <LogIn className="h-4 w-4" aria-hidden="true" />
-                {authItems[0]?.label ?? 'Masuk'}
-              </a>
-            </SheetClose>
-            <SheetClose asChild>
-              <a
-                href={authItems[1]?.href ?? '/auth/register'}
-                className={buttonVariants({ className: 'no-underline' })}
-              >
-                <UserPlus className="h-4 w-4" aria-hidden="true" />
-                {authItems[1]?.label ?? 'Daftar'}
-              </a>
-            </SheetClose>
-          </div>
+          <AuthActions variant="mobile" />
 
           <nav className="flex flex-col gap-1">
             <SheetClose asChild>
