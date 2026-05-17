@@ -66,7 +66,7 @@ phases:
     name: "Public Shell (Layout + Theme + Fonts)"
     status: in_progress
     stories_total: 5
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "02.1"
         name: "Update __root.tsx — fonts, metadata, theme script"
@@ -76,7 +76,7 @@ phases:
         status: completed
       - id: "02.3"
         name: "Footer — logo, link columns, social icons, copyright"
-        status: pending
+        status: completed
       - id: "02.4"
         name: "Responsive mobile menu — slide drawer"
         status: pending
