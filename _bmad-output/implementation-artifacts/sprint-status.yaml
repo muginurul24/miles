@@ -219,7 +219,7 @@ phases:
     name: "Content Pages (News/Guides/Deals/Reviews)"
     status: in_progress
     stories_total: 7
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "08.1"
         name: "tRPC article router — list, getBySlug, filter by category"
@@ -232,7 +232,7 @@ phases:
         status: completed
       - id: "08.4"
         name: "Guides listing page (with premium badges)"
-        status: pending
+        status: completed
       - id: "08.5"
         name: "Deals listing page (with deal tag badges)"
         status: pending
