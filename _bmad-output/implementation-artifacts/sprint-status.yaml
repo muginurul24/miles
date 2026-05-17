@@ -110,7 +110,7 @@ phases:
     name: "Home Page"
     status: in_progress
     stories_total: 8
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
@@ -123,7 +123,7 @@ phases:
         status: completed
       - id: "04.4"
         name: "Latest news section — 3 article cards"
-        status: pending
+        status: completed
       - id: "04.5"
         name: "Top credit cards section — 3 card previews"
         status: pending
@@ -217,16 +217,16 @@ phases:
 
   - id: phase-08
     name: "Content Pages (News/Guides/Deals/Reviews)"
-    status: pending
+    status: in_progress
     stories_total: 7
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "08.1"
         name: "tRPC article router — list, getBySlug, filter by category"
         status: pending
       - id: "08.2"
         name: "ArticleCard component"
-        status: pending
+        status: completed
       - id: "08.3"
         name: "News listing page"
         status: pending
