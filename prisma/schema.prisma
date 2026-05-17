@@ -101,9 +101,9 @@ model Article {
   updatedAt   DateTime  @updatedAt @map("updated_at")
 
   @@index([category], map: "idx_articles_category")
-  @@index([publishedAt], map: "idx_articles_published")
+  @@index([publishedAt(sort: Desc)], map: "idx_articles_published")
   @@index([premium], map: "idx_articles_premium")
-  @@index([category, publishedAt], map: "idx_articles_category_published")
+  @@index([category, publishedAt(sort: Desc)], map: "idx_articles_category_published")
   @@map("articles")
 }
 
@@ -147,13 +147,13 @@ model ConsultingInquiry {
   package ConsultingPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
 
   @@index([status], map: "idx_inquiries_status")
-  @@index([createdAt], map: "idx_inquiries_created")
+  @@index([createdAt(sort: Desc)], map: "idx_inquiries_created")
   @@map("consulting_inquiries")
 }
 
 model NewsletterSubscriber {
   id             String    @id @default(uuid()) @db.Uuid
-  email          String    @unique
+  email          String    @unique(map: "idx_newsletter_email")
   subscribedAt   DateTime  @default(now()) @map("subscribed_at")
   unsubscribedAt DateTime? @map("unsubscribed_at")
 
