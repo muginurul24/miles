@@ -1,3 +1,6 @@
+import { useNavigate } from '@tanstack/react-router'
+import { Loader2, LogIn } from 'lucide-react'
+import { useState } from 'react'
 import { cn } from '#/lib/utils.ts'
 import { Button } from '#/components/ui/button.tsx'
 import {
@@ -10,55 +13,104 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from '#/components/ui/field.tsx'
 import { Input } from '#/components/ui/input.tsx'
+import { authClient } from '#/lib/auth-client.ts'
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+import type { ComponentProps, FormEvent } from 'react'
+
+export function LoginForm({ className, ...props }: ComponentProps<'div'>) {
+  const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ): Promise<void> {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const email = String(formData.get('email') ?? '').trim()
+    const password = String(formData.get('password') ?? '')
+
+    if (!email || !password) {
+      setFormError('Email dan password wajib diisi.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setFormError(null)
+
+    try {
+      const result = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe: true,
+      })
+
+      if (result.error) {
+        setFormError(result.error.message ?? 'Email atau password tidak valid.')
+        return
+      }
+
+      await navigate({ to: '/' })
+    } catch {
+      setFormError('Login gagal diproses. Coba lagi beberapa saat.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Card>
+      <Card className="border-border bg-card shadow-sm">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle className="font-display text-2xl">Masuk</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Kelola membership, konsultasi, dan preferensi kartu JustMiles.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  autoComplete="email"
+                  placeholder="nama@email.com"
+                  aria-invalid={Boolean(formError)}
                   required
                 />
               </Field>
               <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input id="password" type="password" required />
+                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  aria-invalid={Boolean(formError)}
+                  required
+                />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
+                <FieldError>{formError}</FieldError>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <LogIn className="h-4 w-4" />
+                  )}
+                  Masuk
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Belum punya akun? <a href="/auth/register">Daftar</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

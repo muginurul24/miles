@@ -88,14 +88,14 @@ phases:
     name: "Auth System"
     status: in_progress
     stories_total: 5
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "03.1"
         name: "Better Auth configuration — email/password + session"
         status: completed
       - id: "03.2"
         name: "Login page — shadcn login-01 block"
-        status: pending
+        status: completed
       - id: "03.3"
         name: "Register page — shadcn signup-01 block"
         status: pending
