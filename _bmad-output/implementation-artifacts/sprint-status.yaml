@@ -386,9 +386,9 @@ phases:
 
   - id: phase-15
     name: "Polish & Production Hardening"
-    status: in_progress
+    status: completed
     stories_total: 8
-    stories_completed: 7
+    stories_completed: 8
     stories:
       - id: "15.1"
         name: "Loading states — skeletons for all pages"
@@ -413,4 +413,4 @@ phases:
         status: completed
       - id: "15.8"
         name: "Final code review + cleanup"
-        status: pending
+        status: completed

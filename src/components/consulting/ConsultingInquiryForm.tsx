@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { showErrorToast, showToast } from '#/components/Toast'
+import { ConsultingFormField } from '#/components/consulting/ConsultingFormField'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
-import { Label } from '#/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import { getFieldErrorId } from '#/lib/accessibility'
 import { consultingInquiryInputSchema } from '#/lib/schemas/consulting'
 
 import type { ConsultingPackageView } from '#/server/repositories/consulting.repo'
-import type { FormEvent, ReactElement, ReactNode } from 'react'
+import type { FormEvent, ReactElement } from 'react'
 import type { ZodIssue } from 'zod'
 
 export interface ConsultingInquiryFormProps {
@@ -133,7 +133,7 @@ export function ConsultingInquiryForm({
         <CardContent>
           <form className="grid gap-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 md:grid-cols-2">
-              <FormField
+              <ConsultingFormField
                 label="Nama"
                 htmlFor="consulting-name"
                 error={errors.name}
@@ -150,9 +150,9 @@ export function ConsultingInquiryForm({
                     updateValue({ name: event.target.value })
                   }
                 />
-              </FormField>
+              </ConsultingFormField>
 
-              <FormField
+              <ConsultingFormField
                 label="Email"
                 htmlFor="consulting-email"
                 error={errors.email}
@@ -172,11 +172,11 @@ export function ConsultingInquiryForm({
                     updateValue({ email: event.target.value })
                   }
                 />
-              </FormField>
+              </ConsultingFormField>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <FormField
+              <ConsultingFormField
                 label="WhatsApp"
                 htmlFor="consulting-phone"
                 error={errors.phone}
@@ -197,9 +197,9 @@ export function ConsultingInquiryForm({
                     updateValue({ phone: event.target.value })
                   }
                 />
-              </FormField>
+              </ConsultingFormField>
 
-              <FormField
+              <ConsultingFormField
                 label="Paket"
                 htmlFor="consulting-package"
                 error={errors.packageId}
@@ -231,10 +231,10 @@ export function ConsultingInquiryForm({
                     ))}
                   </SelectContent>
                 </Select>
-              </FormField>
+              </ConsultingFormField>
             </div>
 
-            <FormField
+            <ConsultingFormField
               label="Kartu yang sekarang dipakai"
               htmlFor="consulting-current-cards"
               error={errors.currentCards}
@@ -253,9 +253,9 @@ export function ConsultingInquiryForm({
                   updateValue({ currentCards: event.target.value })
                 }
               />
-            </FormField>
+            </ConsultingFormField>
 
-            <FormField
+            <ConsultingFormField
               label="Kebutuhan utama"
               htmlFor="consulting-needs"
               error={errors.needs}
@@ -271,7 +271,7 @@ export function ConsultingInquiryForm({
                 }
                 onChange={(event) => updateValue({ needs: event.target.value })}
               />
-            </FormField>
+            </ConsultingFormField>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs leading-5 text-muted-foreground">
@@ -290,35 +290,5 @@ export function ConsultingInquiryForm({
         </CardContent>
       </Card>
     </section>
-  )
-}
-
-interface FormFieldProps {
-  label: string
-  htmlFor: string
-  error?: string
-  children: ReactNode
-}
-
-function FormField({
-  label,
-  htmlFor,
-  error,
-  children,
-}: FormFieldProps): ReactElement {
-  return (
-    <div className="grid gap-2">
-      <Label htmlFor={htmlFor}>{label}</Label>
-      {children}
-      {error ? (
-        <p
-          id={getFieldErrorId(htmlFor)}
-          role="alert"
-          className="text-sm text-destructive"
-        >
-          {error}
-        </p>
-      ) : null}
-    </div>
   )
 }
