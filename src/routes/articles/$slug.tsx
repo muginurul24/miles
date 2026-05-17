@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ArticleBody } from '#/components/content/ArticleBody'
+import { ArticleBreadcrumb } from '#/components/content/ArticleBreadcrumb'
 import { ArticleDetailHero } from '#/components/content/ArticleDetailHero'
 import { PremiumArticleGate } from '#/components/content/PremiumArticleGate'
 import { RelatedArticlesSection } from '#/components/content/RelatedArticlesSection'
@@ -41,6 +42,7 @@ function ArticleDetailPage() {
 
   return (
     <main className="page-wrap grid gap-10 py-8 lg:py-12">
+      <ArticleBreadcrumb article={article} />
       <ArticleDetailHero article={article} />
 
       <div className="mx-auto w-full max-w-3xl">

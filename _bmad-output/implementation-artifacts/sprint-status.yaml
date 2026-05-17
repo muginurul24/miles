@@ -245,9 +245,9 @@ phases:
 
   - id: phase-09
     name: "Article Detail"
-    status: in_progress
+    status: completed
     stories_total: 4
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "09.1"
         name: "Article detail page — hero, metadata, content"
@@ -260,7 +260,7 @@ phases:
         status: completed
       - id: "09.4"
         name: "Breadcrumb navigation"
-        status: pending
+        status: completed
 
   - id: phase-10
     name: "Membership + Consulting"
