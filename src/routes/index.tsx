@@ -5,6 +5,7 @@ import { CalculatorPreview } from '#/components/home/CalculatorPreview'
 import { HeroSection } from '#/components/home/HeroSection'
 import { StatsBar } from '#/components/home/StatsBar'
 import { TopCardsSection } from '#/components/home/TopCardsSection'
+import { NewsletterCTA } from '#/components/shared'
 
 const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
   const [{ articlesRepo }, { calculatorRepo }, { cardsRepo }] =
@@ -65,6 +66,7 @@ function HomePage() {
         description="Lihat pengalaman nyata di flight, hotel, dan lounge sebelum kamu menukar poin untuk itinerary berikutnya."
         articles={latestReviews}
       />
+      <NewsletterCTA />
     </main>
   )
 }

@@ -110,7 +110,7 @@ phases:
     name: "Home Page"
     status: in_progress
     stories_total: 8
-    stories_completed: 6
+    stories_completed: 7
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
@@ -132,7 +132,7 @@ phases:
         status: completed
       - id: "04.7"
         name: "Newsletter CTA section"
-        status: pending
+        status: completed
       - id: "04.8"
         name: "Membership banner + bottom CTAs"
         status: pending
