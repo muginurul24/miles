@@ -4,6 +4,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from './init'
+import { cardsRouter } from './cards'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -32,5 +33,6 @@ export const trpcRouter = createTRPCRouter({
   health: healthRouter,
   viewer: viewerRouter,
   admin: adminRouter,
+  cards: cardsRouter,
 })
 export type TRPCRouter = typeof trpcRouter
