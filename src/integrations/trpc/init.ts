@@ -7,15 +7,22 @@ interface CreateTRPCContextOptions {
   req: Request
 }
 
-export async function createTRPCContext({ req }: CreateTRPCContextOptions) {
+type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>
+
+export interface TRPCContext {
+  clientIp?: string
+  session: AuthSession
+}
+
+export async function createTRPCContext({
+  req,
+}: CreateTRPCContextOptions): Promise<TRPCContext> {
   const session = await auth.api.getSession({
     headers: req.headers,
   })
 
   return { clientIp: getClientIp(req.headers), session }
 }
-
-export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>
 
 const t = initTRPC.context<TRPCContext>().create({
   transformer: superjson,
@@ -41,14 +48,29 @@ const requireUser = t.middleware(({ ctx, next }) => {
 })
 
 const requireAdmin = t.middleware(({ ctx, next }) => {
-  if (ctx.user.role !== 'admin') {
+  const { session } = ctx
+
+  if (!session) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Login diperlukan.',
+    })
+  }
+
+  if (session.user.role !== 'admin') {
     throw new TRPCError({
       code: 'FORBIDDEN',
       message: 'Akses admin diperlukan.',
     })
   }
 
-  return next({ ctx })
+  return next({
+    ctx: {
+      ...ctx,
+      session,
+      user: session.user,
+    },
+  })
 })
 
 function getClientIp(headers: Headers): string {
@@ -68,8 +90,20 @@ function rateLimitedProcedure(
   windowMs: number,
 ) {
   return publicProcedure.use(async ({ ctx, next }) => {
-    const identifier = encodeURIComponent(ctx.session?.user.id ?? ctx.clientIp)
-    await rateLimit(`rate-limit:${keyPrefix}:${identifier}`, limit, windowMs)
+    const identifier = encodeURIComponent(
+      ctx.session?.user.id ?? ctx.clientIp ?? 'anonymous',
+    )
+
+    try {
+      await rateLimit(`rate-limit:${keyPrefix}:${identifier}`, limit, windowMs)
+    } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error
+      }
+
+      console.warn(`Redis rate limit failed for ${keyPrefix}.`, error)
+    }
+
     return next()
   })
 }

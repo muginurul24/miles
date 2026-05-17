@@ -25,14 +25,26 @@ export async function cached<T>(
   ttl: number,
   fn: () => Promise<T>,
 ): Promise<T> {
-  const cachedValue = await redis.get(key)
+  let cachedValue: string | null = null
+
+  try {
+    cachedValue = await redis.get(key)
+  } catch (error) {
+    console.warn(`Redis cache read failed for ${key}.`, error)
+  }
 
   if (cachedValue) {
     return superjson.parse<T>(cachedValue)
   }
 
   const data = await fn()
-  await redis.setex(key, ttl, superjson.stringify(data))
+
+  try {
+    await redis.setex(key, ttl, superjson.stringify(data))
+  } catch (error) {
+    console.warn(`Redis cache write failed for ${key}.`, error)
+  }
+
   return data
 }
 
@@ -40,21 +52,25 @@ export async function invalidate(pattern: string): Promise<void> {
   const matchPattern = pattern.includes('*') ? pattern : `${pattern}*`
   let cursor = '0'
 
-  do {
-    const [nextCursor, keys] = await redis.scan(
-      cursor,
-      'MATCH',
-      matchPattern,
-      'COUNT',
-      100,
-    )
+  try {
+    do {
+      const [nextCursor, keys] = await redis.scan(
+        cursor,
+        'MATCH',
+        matchPattern,
+        'COUNT',
+        100,
+      )
 
-    if (keys.length > 0) {
-      await redis.del(...keys)
-    }
+      if (keys.length > 0) {
+        await redis.del(...keys)
+      }
 
-    cursor = nextCursor
-  } while (cursor !== '0')
+      cursor = nextCursor
+    } while (cursor !== '0')
+  } catch (error) {
+    console.warn(`Redis cache invalidation failed for ${matchPattern}.`, error)
+  }
 }
 
 function stableStringify(value: unknown): string {

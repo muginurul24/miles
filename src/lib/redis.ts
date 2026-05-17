@@ -17,6 +17,8 @@ function getRedisUrl(): string {
 export const redis =
   globalThis.__redis ||
   new Redis(getRedisUrl(), {
+    connectTimeout: 1000,
+    enableOfflineQueue: false,
     lazyConnect: true,
     maxRetriesPerRequest: 2,
   })
