@@ -66,14 +66,14 @@ phases:
     name: "Public Shell (Layout + Theme + Fonts)"
     status: in_progress
     stories_total: 5
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "02.1"
         name: "Update __root.tsx — fonts, metadata, theme script"
         status: completed
       - id: "02.2"
         name: "Header/Navbar — logo, nav links, theme toggle, auth buttons, mobile"
-        status: pending
+        status: completed
       - id: "02.3"
         name: "Footer — logo, link columns, social icons, copyright"
         status: pending
