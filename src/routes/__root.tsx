@@ -23,6 +23,9 @@ interface MyRouterContext {
 }
 
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='system'||stored==='auto')?stored:'system';if(mode==='auto'){mode='system'}var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='system'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);root.setAttribute('data-theme',mode);root.style.colorScheme=resolved;}catch(e){}})();`
+const SITE_TITLE = 'JustMiles | Indonesia Points & Miles Advisor'
+const SITE_DESCRIPTION =
+  "Indonesia's points and miles advisor for credit cards, travel deals, redemption guides, and premium trip planning."
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
@@ -35,7 +38,39 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'JustMiles',
+        title: SITE_TITLE,
+      },
+      {
+        name: 'description',
+        content: SITE_DESCRIPTION,
+      },
+      {
+        property: 'og:title',
+        content: SITE_TITLE,
+      },
+      {
+        property: 'og:description',
+        content: SITE_DESCRIPTION,
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:locale',
+        content: 'id_ID',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: SITE_TITLE,
+      },
+      {
+        name: 'twitter:description',
+        content: SITE_DESCRIPTION,
       },
     ],
     links: [
