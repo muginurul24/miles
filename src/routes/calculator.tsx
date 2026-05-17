@@ -4,8 +4,8 @@ import {
   CalculatorForm,
   getInitialCalculatorFormValue,
 } from '#/components/calculator/CalculatorForm'
+import { CalculatorResult } from '#/components/calculator/CalculatorResult'
 import { PageHeader } from '#/components/shared'
-import { Card, CardContent } from '#/components/ui/card'
 
 export const Route = createFileRoute('/calculator')({
   loader: async ({ context }) => {
@@ -51,18 +51,7 @@ function CalculatorPage() {
           onValueChange={setFormValue}
         />
 
-        <Card className="border-border bg-card shadow-sm">
-          <CardContent className="grid gap-3 p-6">
-            <p className="island-kicker">Next</p>
-            <h2 className="font-display text-xl font-bold text-primary">
-              Result panel sedang disiapkan
-            </h2>
-            <p className="text-sm leading-7 text-muted-foreground">
-              Form inti sudah siap; story berikutnya akan menampilkan rating,
-              poin, miles, dan IDR per mile secara real-time.
-            </p>
-          </CardContent>
-        </Card>
+        <CalculatorResult cards={cards} value={formValue} />
       </section>
     </main>
   )
