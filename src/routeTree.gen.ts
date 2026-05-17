@@ -13,6 +13,7 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as DealsRouteImport } from './routes/deals'
+import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AboutRouteImport } from './routes/about'
@@ -45,6 +46,11 @@ const GuidesRoute = GuidesRouteImport.update({
 const DealsRoute = DealsRouteImport.update({
   id: '/deals',
   path: '/deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultingRoute = ConsultingRouteImport.update({
+  id: '/consulting',
+  path: '/consulting',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/consulting': typeof ConsultingRoute
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/consulting': typeof ConsultingRoute
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/consulting': typeof ConsultingRoute
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/consulting'
     | '/deals'
     | '/guides'
     | '/membership'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/consulting'
     | '/deals'
     | '/guides'
     | '/membership'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/consulting'
     | '/deals'
     | '/guides'
     | '/membership'
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CalculatorRoute: typeof CalculatorRoute
   CompareRoute: typeof CompareRoute
+  ConsultingRoute: typeof ConsultingRoute
   DealsRoute: typeof DealsRoute
   GuidesRoute: typeof GuidesRoute
   MembershipRoute: typeof MembershipRoute
@@ -279,6 +292,13 @@ declare module '@tanstack/react-router' {
       path: '/deals'
       fullPath: '/deals'
       preLoaderRoute: typeof DealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consulting': {
+      id: '/consulting'
+      path: '/consulting'
+      fullPath: '/consulting'
+      preLoaderRoute: typeof ConsultingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -380,6 +400,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CalculatorRoute: CalculatorRoute,
   CompareRoute: CompareRoute,
+  ConsultingRoute: ConsultingRoute,
   DealsRoute: DealsRoute,
   GuidesRoute: GuidesRoute,
   MembershipRoute: MembershipRoute,
