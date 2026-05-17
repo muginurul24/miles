@@ -195,13 +195,13 @@ phases:
 
   - id: phase-07
     name: "Compare Tool"
-    status: pending
+    status: in_progress
     stories_total: 5
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "07.1"
         name: "Compare form — 3 card selectors with partner dropdowns"
-        status: pending
+        status: completed
       - id: "07.2"
         name: "Spending composition inputs per transaction type"
         status: pending
