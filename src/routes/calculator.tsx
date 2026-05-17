@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { CalculatorCompareTable } from '#/components/calculator/CalculatorCompareTable'
 import {
   CalculatorForm,
   getInitialCalculatorFormValue,
@@ -52,6 +53,10 @@ function CalculatorPage() {
         />
 
         <CalculatorResult cards={cards} value={formValue} />
+      </section>
+
+      <section className="page-wrap mt-6">
+        <CalculatorCompareTable cards={cards} value={formValue} />
       </section>
     </main>
   )

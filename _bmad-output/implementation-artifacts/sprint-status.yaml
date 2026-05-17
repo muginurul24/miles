@@ -172,7 +172,7 @@ phases:
     name: "Calculator"
     status: in_progress
     stories_total: 6
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "06.1"
         name: "Calculator engine — pure functions in lib/calculator.ts"
@@ -185,7 +185,7 @@ phases:
         status: completed
       - id: "06.4"
         name: "Compare all table — all cards ranked by earning rate"
-        status: pending
+        status: completed
       - id: "06.5"
         name: "Calculator page layout + formula explanation"
         status: pending
