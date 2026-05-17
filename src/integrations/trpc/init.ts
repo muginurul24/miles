@@ -1,6 +1,7 @@
 import { TRPCError, initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { auth } from '#/lib/auth'
+import { rateLimit } from '#/lib/rate-limit'
 
 interface CreateTRPCContextOptions {
   req: Request
@@ -11,7 +12,7 @@ export async function createTRPCContext({ req }: CreateTRPCContextOptions) {
     headers: req.headers,
   })
 
-  return { session }
+  return { clientIp: getClientIp(req.headers), session }
 }
 
 export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>
@@ -50,7 +51,40 @@ const requireAdmin = t.middleware(({ ctx, next }) => {
   return next({ ctx })
 })
 
+function getClientIp(headers: Headers): string {
+  const forwardedFor = headers.get('x-forwarded-for')?.split(',').at(0)?.trim()
+
+  return (
+    forwardedFor ||
+    headers.get('cf-connecting-ip') ||
+    headers.get('x-real-ip') ||
+    'anonymous'
+  )
+}
+
+function rateLimitedProcedure(
+  keyPrefix: string,
+  limit: number,
+  windowMs: number,
+) {
+  return publicProcedure.use(async ({ ctx, next }) => {
+    const identifier = encodeURIComponent(ctx.session?.user.id ?? ctx.clientIp)
+    await rateLimit(`rate-limit:${keyPrefix}:${identifier}`, limit, windowMs)
+    return next()
+  })
+}
+
 export const createTRPCRouter = t.router
 export const publicProcedure = t.procedure
 export const protectedProcedure = t.procedure.use(requireUser)
 export const adminProcedure = protectedProcedure.use(requireAdmin)
+export const newsletterProcedure = rateLimitedProcedure(
+  'newsletter:subscribe',
+  3,
+  60 * 60 * 1000,
+)
+export const consultingProcedure = rateLimitedProcedure(
+  'consulting:submit',
+  5,
+  60 * 60 * 1000,
+)

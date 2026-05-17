@@ -1,13 +1,13 @@
 import { TRPCError } from '@trpc/server'
 import { consultingInquiryInputSchema } from '#/lib/schemas/consulting'
 import { consultingRepo } from '#/server/repositories/consulting.repo'
-import { publicProcedure } from './init'
+import { consultingProcedure, publicProcedure } from './init'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
 const consultingRouter = {
   packages: publicProcedure.query(() => consultingRepo.findPackages()),
-  submitInquiry: publicProcedure
+  submitInquiry: consultingProcedure
     .input(consultingInquiryInputSchema)
     .mutation(async ({ input }) => {
       const packageExists = await consultingRepo.packageExists(input.packageId)
