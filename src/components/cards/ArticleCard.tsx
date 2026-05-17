@@ -4,6 +4,7 @@ import { Card, CardContent } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
 import type { Article } from '#/generated/prisma/client'
+import type { BadgeTone } from '#/components/shared'
 import type { ReactElement } from 'react'
 
 export interface ArticleCardProps {
@@ -20,6 +21,22 @@ const dateFormatter = new Intl.DateTimeFormat('id-ID', {
 function formatPublishedDate(article: Article): string {
   const date = article.publishedAt ?? article.createdAt
   return dateFormatter.format(date)
+}
+
+function getDealTagTone(dealTag: string): BadgeTone {
+  if (dealTag === 'HOT') {
+    return 'danger'
+  }
+
+  if (dealTag === 'SWEET SPOT') {
+    return 'success'
+  }
+
+  if (dealTag === 'PROMO') {
+    return 'info'
+  }
+
+  return 'warning'
 }
 
 export function ArticleCard({
@@ -45,6 +62,11 @@ export function ArticleCard({
       <CardContent className="grid gap-3 p-4 sm:p-5">
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone="accent">{article.category}</Badge>
+          {article.dealTag ? (
+            <Badge tone={getDealTagTone(article.dealTag)}>
+              {article.dealTag}
+            </Badge>
+          ) : null}
           {article.premium ? (
             <Badge tone="warning" className="inline-flex items-center gap-1">
               <LockKeyhole className="h-3 w-3" aria-hidden="true" />
