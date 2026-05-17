@@ -1,10 +1,9 @@
-import { LockKeyhole } from 'lucide-react'
-import { Badge } from '#/components/shared'
+import { Link } from '@tanstack/react-router'
+import { ArticleBadges } from '#/components/content/ArticleBadges'
 import { Card, CardContent } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
 import type { Article } from '#/generated/prisma/client'
-import type { BadgeTone } from '#/components/shared'
 import type { ReactElement } from 'react'
 
 export interface ArticleCardProps {
@@ -23,74 +22,54 @@ function formatPublishedDate(article: Article): string {
   return dateFormatter.format(date)
 }
 
-function getDealTagTone(dealTag: string): BadgeTone {
-  if (dealTag === 'HOT') {
-    return 'danger'
-  }
-
-  if (dealTag === 'SWEET SPOT') {
-    return 'success'
-  }
-
-  if (dealTag === 'PROMO') {
-    return 'info'
-  }
-
-  return 'warning'
-}
-
 export function ArticleCard({
   article,
   className,
 }: ArticleCardProps): ReactElement {
   return (
-    <Card
-      className={cn(
-        'overflow-hidden border-border bg-card py-0 shadow-xs',
-        className,
-      )}
+    <Link
+      to="/articles/$slug"
+      params={{ slug: article.id }}
+      className="group block h-full no-underline"
     >
-      {article.imageUrl ? (
-        <img
-          src={article.imageUrl}
-          alt=""
-          className="aspect-[16/9] w-full object-cover"
-        />
-      ) : (
-        <div className="aspect-[16/9] w-full bg-secondary" aria-hidden="true" />
-      )}
-      <CardContent className="grid gap-3 p-4 sm:p-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge tone="accent">{article.category}</Badge>
-          {article.dealTag ? (
-            <Badge tone={getDealTagTone(article.dealTag)}>
-              {article.dealTag}
-            </Badge>
-          ) : null}
-          {article.premium ? (
-            <Badge tone="warning" className="inline-flex items-center gap-1">
-              <LockKeyhole className="h-3 w-3" aria-hidden="true" />
-              Premium
-            </Badge>
-          ) : null}
-        </div>
+      <Card
+        className={cn(
+          'h-full overflow-hidden border-border bg-card py-0 shadow-xs transition duration-200 group-hover:-translate-y-0.5 group-hover:border-accent/45',
+          className,
+        )}
+      >
+        {article.imageUrl ? (
+          <img
+            src={article.imageUrl}
+            alt=""
+            className="aspect-[16/9] w-full object-cover"
+          />
+        ) : (
+          <div
+            className="aspect-[16/9] w-full bg-secondary"
+            aria-hidden="true"
+          />
+        )}
+        <CardContent className="grid gap-3 p-4 sm:p-5">
+          <ArticleBadges article={article} />
 
-        <div className="grid gap-2">
-          <h3 className="font-display text-lg leading-6 font-bold text-primary">
-            {article.title}
-          </h3>
-          {article.excerpt ? (
-            <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
-              {article.excerpt}
-            </p>
-          ) : null}
-        </div>
+          <div className="grid gap-2">
+            <h3 className="font-display text-lg leading-6 font-bold text-primary group-hover:text-accent">
+              {article.title}
+            </h3>
+            {article.excerpt ? (
+              <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
+                {article.excerpt}
+              </p>
+            ) : null}
+          </div>
 
-        <p className="text-xs font-medium text-muted-foreground">
-          {formatPublishedDate(article)}
-          {article.author ? ` · ${article.author}` : ''}
-        </p>
-      </CardContent>
-    </Card>
+          <p className="text-xs font-medium text-muted-foreground">
+            {formatPublishedDate(article)}
+            {article.author ? ` · ${article.author}` : ''}
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }

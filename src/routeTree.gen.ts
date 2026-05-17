@@ -22,6 +22,7 @@ import { Route as ReviewsSubCategoryRouteImport } from './routes/reviews/$subCat
 import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
@@ -90,6 +91,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
   id: '/api/trpc/$',
   path: '/api/trpc/$',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/news': typeof NewsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/news': typeof NewsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/news': typeof NewsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/guides'
     | '/news'
+    | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/guides'
     | '/news'
+    | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/guides'
     | '/news'
+    | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
@@ -215,6 +227,7 @@ export interface RootRouteChildren {
   DealsRoute: typeof DealsRoute
   GuidesRoute: typeof GuidesRoute
   NewsRoute: typeof NewsRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   CreditCardsSlugRoute: typeof CreditCardsSlugRoute
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/trpc/$': {
       id: '/api/trpc/$'
       path: '/api/trpc/$'
@@ -343,6 +363,7 @@ const rootRouteChildren: RootRouteChildren = {
   DealsRoute: DealsRoute,
   GuidesRoute: GuidesRoute,
   NewsRoute: NewsRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   CreditCardsSlugRoute: CreditCardsSlugRoute,

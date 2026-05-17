@@ -245,13 +245,13 @@ phases:
 
   - id: phase-09
     name: "Article Detail"
-    status: pending
+    status: in_progress
     stories_total: 4
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "09.1"
         name: "Article detail page — hero, metadata, content"
-        status: pending
+        status: completed
       - id: "09.2"
         name: "Premium gating — lock overlay + CTA for non-subscribers"
         status: pending
