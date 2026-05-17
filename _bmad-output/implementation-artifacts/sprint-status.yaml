@@ -8,9 +8,9 @@ total_stories: 99
 phases:
   - id: phase-00
     name: "Bootstrap & Foundation"
-    status: in_progress
+    status: completed
     stories_total: 8
-    stories_completed: 7
+    stories_completed: 8
     stories:
       - id: "00.1"
         name: "Project cleanup — remove demo files"
@@ -35,7 +35,7 @@ phases:
         status: completed
       - id: "00.8"
         name: "Install shadcn blocks — dashboard-01, login-01, signup-01"
-        status: pending
+        status: completed
 
   - id: phase-01
     name: "Database & Seed Data"
