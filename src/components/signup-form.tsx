@@ -2,6 +2,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { Loader2, UserPlus } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '#/components/ui/button.tsx'
+import { showToast } from '#/components/Toast.tsx'
 import {
   Card,
   CardContent,
@@ -16,6 +17,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from '#/components/ui/field.tsx'
+import { Checkbox } from '#/components/ui/checkbox.tsx'
 import { Input } from '#/components/ui/input.tsx'
 import { authClient } from '#/lib/auth-client.ts'
 import { cn } from '#/lib/utils.ts'
@@ -29,6 +31,7 @@ export function SignupForm({
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [acceptedTerms, setAcceptedTerms] = useState(false)
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -56,6 +59,11 @@ export function SignupForm({
       return
     }
 
+    if (!acceptedTerms) {
+      setFormError('Syarat layanan dan kebijakan privasi wajib disetujui.')
+      return
+    }
+
     setIsSubmitting(true)
     setFormError(null)
 
@@ -71,6 +79,7 @@ export function SignupForm({
         return
       }
 
+      showToast('Akun JustMiles berhasil dibuat.')
       await navigate({ to: '/' })
     } catch {
       setFormError('Pendaftaran gagal diproses. Coba lagi beberapa saat.')
@@ -139,6 +148,22 @@ export function SignupForm({
                 aria-invalid={Boolean(formError)}
                 required
               />
+            </Field>
+            <Field orientation="horizontal" className="items-start">
+              <Checkbox
+                id="terms"
+                checked={acceptedTerms}
+                onCheckedChange={(checked) =>
+                  setAcceptedTerms(checked === true)
+                }
+                aria-invalid={Boolean(formError) && !acceptedTerms}
+              />
+              <FieldLabel
+                htmlFor="terms"
+                className="w-auto text-sm leading-6 font-normal text-muted-foreground"
+              >
+                Saya menyetujui syarat layanan dan kebijakan privasi JustMiles.
+              </FieldLabel>
             </Field>
             <FieldGroup>
               <Field>
