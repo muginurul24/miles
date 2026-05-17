@@ -21,13 +21,13 @@ export interface CalculatorPreviewProps {
 }
 
 const currencyFormatter = new Intl.NumberFormat('id-ID')
-const transactionLabels = {
+const transactionLabels: Record<string, string> = {
   dining: 'Dining',
   local: 'Lokal',
   online: 'Online',
   overseas: 'Overseas',
   travel: 'Travel',
-} as const
+}
 
 function formatNumber(value: number): string {
   return currencyFormatter.format(value)
@@ -35,6 +35,10 @@ function formatNumber(value: number): string {
 
 function getDefaultAmount(): number {
   return 1_000_000
+}
+
+function formatTransactionType(transactionType: string): string {
+  return transactionLabels[transactionType] ?? transactionType
 }
 
 export function CalculatorPreview({
@@ -153,11 +157,7 @@ export function CalculatorPreview({
                         key={rate.transactionType}
                         value={rate.transactionType}
                       >
-                        {
-                          transactionLabels[
-                            rate.transactionType as keyof typeof transactionLabels
-                          ]
-                        }
+                        {formatTransactionType(rate.transactionType)}
                       </SelectItem>
                     ))}
                   </SelectContent>

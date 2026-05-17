@@ -30,11 +30,17 @@ export function ArticleSection({
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
-        ))}
-      </div>
+      {articles.length > 0 ? (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {articles.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
+        </div>
+      ) : (
+        <p className="rounded-md border border-border bg-card p-4 text-sm text-muted-foreground">
+          Belum ada artikel untuk ditampilkan.
+        </p>
+      )}
     </section>
   )
 }

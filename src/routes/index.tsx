@@ -21,7 +21,7 @@ const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
     await Promise.all([
       calculatorRepo.getCards(),
       articlesRepo.findAll({ category: 'News', limit: 3 }),
-      cardsRepo.findAll({ sort: 'earning_best' }),
+      cardsRepo.findTopByEarning(3),
       articlesRepo.findAll({ category: 'Guide', limit: 3 }),
       articlesRepo.findAll({ category: 'Review', limit: 3 }),
     ])
@@ -29,7 +29,7 @@ const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
   return {
     cards,
     latestNews,
-    topCards: topCards.slice(0, 3),
+    topCards,
     latestGuides,
     latestReviews,
   }

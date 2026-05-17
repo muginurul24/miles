@@ -1,10 +1,10 @@
 import { CreditCardCard } from '#/components/cards/CreditCardCard'
 
-import type { CardWithRelations } from '#/server/repositories/cards.repo'
+import type { CardPreview } from '#/server/repositories/cards.repo'
 import type { ReactElement } from 'react'
 
 export interface TopCardsSectionProps {
-  cards: CardWithRelations[]
+  cards: CardPreview[]
 }
 
 export function TopCardsSection({ cards }: TopCardsSectionProps): ReactElement {
@@ -23,11 +23,17 @@ export function TopCardsSection({ cards }: TopCardsSectionProps): ReactElement {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card) => (
-          <CreditCardCard key={card.id} card={card} />
-        ))}
-      </div>
+      {cards.length > 0 ? (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card) => (
+            <CreditCardCard key={card.id} card={card} />
+          ))}
+        </div>
+      ) : (
+        <p className="rounded-md border border-border bg-card p-4 text-sm text-muted-foreground">
+          Belum ada kartu unggulan untuk ditampilkan.
+        </p>
+      )}
     </section>
   )
 }

@@ -3,17 +3,17 @@ import { Badge } from '#/components/shared'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { cn } from '#/lib/utils'
 
-import type { CardWithRelations } from '#/server/repositories/cards.repo'
+import type { CardPreview } from '#/server/repositories/cards.repo'
 import type { ReactElement } from 'react'
 
 export interface CreditCardCardProps {
-  card: CardWithRelations
+  card: CardPreview
   className?: string
 }
 
 const numberFormatter = new Intl.NumberFormat('id-ID')
 
-function getBestSpendPerPoint(card: CardWithRelations): number | null {
+function getBestSpendPerPoint(card: CardPreview): number | null {
   if (card.earningRates.length === 0) {
     return null
   }

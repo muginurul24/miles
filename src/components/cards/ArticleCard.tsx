@@ -33,11 +33,15 @@ export function ArticleCard({
         className,
       )}
     >
-      <img
-        src={article.imageUrl ?? '/images/article-placeholder.jpg'}
-        alt=""
-        className="aspect-[16/9] w-full object-cover"
-      />
+      {article.imageUrl ? (
+        <img
+          src={article.imageUrl}
+          alt=""
+          className="aspect-[16/9] w-full object-cover"
+        />
+      ) : (
+        <div className="aspect-[16/9] w-full bg-secondary" aria-hidden="true" />
+      )}
       <CardContent className="grid gap-3 p-4 sm:p-5">
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone="accent">{article.category}</Badge>
