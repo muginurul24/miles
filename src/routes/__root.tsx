@@ -39,6 +39,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
     links: [
       {
+        rel: 'preconnect',
+        href: 'https://fonts.bunny.net',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.bunny.net/css?family=andada-pro:400,400i,600,700|fira-mono:400,500,700|funnel-display:400,500,600,700|plus-jakarta-sans:400,500,600,700,800&display=swap',
+      },
+      {
         rel: 'stylesheet',
         href: appCss,
       },
