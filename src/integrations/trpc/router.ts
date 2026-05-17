@@ -21,6 +21,11 @@ import {
   adminCardDeleteInputSchema,
   adminCardUpdateInputSchema,
 } from '#/lib/schemas/admin-card'
+import {
+  adminInquiryListInputSchema,
+  adminInquiryUpdateStatusInputSchema,
+} from '#/lib/schemas/admin-inquiry'
+import { adminInquiriesRepo } from '#/server/repositories/admin-inquiries.repo'
 import { adminRepo } from '#/server/repositories/admin.repo'
 
 import type { TRPCRouterRecord } from '@trpc/server'
@@ -130,6 +135,23 @@ const adminRouter = {
       }
 
       return adminRepo.deleteArticle(input.id)
+    }),
+  inquiries: adminProcedure
+    .input(adminInquiryListInputSchema)
+    .query(({ input }) => adminInquiriesRepo.list(input?.status)),
+  updateInquiryStatus: adminProcedure
+    .input(adminInquiryUpdateStatusInputSchema)
+    .mutation(async ({ input }) => {
+      const exists = await adminInquiriesRepo.exists(input.id)
+
+      if (!exists) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Inquiry tidak ditemukan.',
+        })
+      }
+
+      return adminInquiriesRepo.updateStatus(input.id, input.status)
     }),
 } satisfies TRPCRouterRecord
 

@@ -24,6 +24,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as CreditCardsIndexRouteImport } from './routes/credit-cards/index'
 import { Route as ReviewsSubCategoryRouteImport } from './routes/reviews/$subCategory'
+import { Route as DashboardInquiriesRouteImport } from './routes/dashboard/inquiries'
 import { Route as DashboardCardsRouteImport } from './routes/dashboard/cards'
 import { Route as DashboardArticlesRouteImport } from './routes/dashboard/articles'
 import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
@@ -108,6 +109,11 @@ const ReviewsSubCategoryRoute = ReviewsSubCategoryRouteImport.update({
   path: '/reviews/$subCategory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardCardsRoute = DashboardCardsRouteImport.update({
   id: '/cards',
   path: '/cards',
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
   '/dashboard/articles': typeof DashboardArticlesRoute
   '/dashboard/cards': typeof DashboardCardsRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
   '/dashboard/articles': typeof DashboardArticlesRoute
   '/dashboard/cards': typeof DashboardCardsRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards': typeof CreditCardsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
   '/dashboard/articles': typeof DashboardArticlesRoute
   '/dashboard/cards': typeof DashboardCardsRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/credit-cards/$slug'
     | '/dashboard/articles'
     | '/dashboard/cards'
+    | '/dashboard/inquiries'
     | '/reviews/$subCategory'
     | '/credit-cards/'
     | '/dashboard/'
@@ -269,6 +279,7 @@ export interface FileRouteTypes {
     | '/credit-cards/$slug'
     | '/dashboard/articles'
     | '/dashboard/cards'
+    | '/dashboard/inquiries'
     | '/reviews/$subCategory'
     | '/credit-cards'
     | '/dashboard'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/credit-cards/$slug'
     | '/dashboard/articles'
     | '/dashboard/cards'
+    | '/dashboard/inquiries'
     | '/reviews/$subCategory'
     | '/credit-cards/'
     | '/dashboard/'
@@ -431,6 +443,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReviewsSubCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/inquiries': {
+      id: '/dashboard/inquiries'
+      path: '/inquiries'
+      fullPath: '/dashboard/inquiries'
+      preLoaderRoute: typeof DashboardInquiriesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/cards': {
       id: '/dashboard/cards'
       path: '/cards'
@@ -493,12 +512,14 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardArticlesRoute: typeof DashboardArticlesRoute
   DashboardCardsRoute: typeof DashboardCardsRoute
+  DashboardInquiriesRoute: typeof DashboardInquiriesRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardArticlesRoute: DashboardArticlesRoute,
   DashboardCardsRoute: DashboardCardsRoute,
+  DashboardInquiriesRoute: DashboardInquiriesRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
