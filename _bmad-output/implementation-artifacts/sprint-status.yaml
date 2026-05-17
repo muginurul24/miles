@@ -310,7 +310,7 @@ phases:
     name: "Admin Dashboard"
     status: in_progress
     stories_total: 10
-    stories_completed: 6
+    stories_completed: 7
     stories:
       - id: "12.1"
         name: "Dashboard layout — sidebar + header"
@@ -332,7 +332,7 @@ phases:
         status: completed
       - id: "12.7"
         name: "Manage subscribers — table + CSV export"
-        status: pending
+        status: completed
       - id: "12.8"
         name: "Dashboard theme toggle"
         status: pending

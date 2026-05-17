@@ -27,6 +27,7 @@ import {
 } from '#/lib/schemas/admin-inquiry'
 import { adminInquiriesRepo } from '#/server/repositories/admin-inquiries.repo'
 import { adminRepo } from '#/server/repositories/admin.repo'
+import { adminSubscribersRepo } from '#/server/repositories/admin-subscribers.repo'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -153,6 +154,7 @@ const adminRouter = {
 
       return adminInquiriesRepo.updateStatus(input.id, input.status)
     }),
+  subscribers: adminProcedure.query(() => adminSubscribersRepo.list()),
 } satisfies TRPCRouterRecord
 
 export const trpcRouter = createTRPCRouter({
