@@ -1,9 +1,8 @@
 import { betterAuth } from 'better-auth'
-import { redisStorage } from '@better-auth/redis-storage'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { prisma } from '#/db'
-import { redis } from '#/lib/redis'
+import { authSecondaryStorage } from '#/lib/auth-secondary-storage'
 
 function getAuthSecret(): string | undefined {
   const secret = process.env.BETTER_AUTH_SECRET
@@ -22,10 +21,7 @@ export const auth = betterAuth({
     provider: 'postgresql',
     transaction: true,
   }),
-  secondaryStorage: redisStorage({
-    client: redis,
-    keyPrefix: 'justmiles:auth:',
-  }),
+  secondaryStorage: authSecondaryStorage,
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
