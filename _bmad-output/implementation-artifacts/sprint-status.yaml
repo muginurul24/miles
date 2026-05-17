@@ -141,14 +141,14 @@ phases:
     name: "Credit Cards Directory + Detail"
     status: in_progress
     stories_total: 8
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "05.1"
         name: "tRPC card router — list, getBySlug, filter procedures"
         status: completed
       - id: "05.2"
         name: "Card grid component with CreditCardCard"
-        status: pending
+        status: completed
       - id: "05.3"
         name: "Filter bar — search, bank, partner, sort"
         status: pending
