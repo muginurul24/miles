@@ -10,7 +10,7 @@ phases:
     name: "Bootstrap & Foundation"
     status: in_progress
     stories_total: 8
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "00.1"
         name: "Project cleanup — remove demo files"
@@ -26,7 +26,7 @@ phases:
         status: completed
       - id: "00.5"
         name: "Layout shell — header, footer, navbar with responsive mobile menu"
-        status: pending
+        status: completed
       - id: "00.6"
         name: "Toast system — reusable toast component"
         status: pending

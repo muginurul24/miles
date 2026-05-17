@@ -52,8 +52,25 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
+  notFoundComponent: NotFoundPage,
   shellComponent: RootDocument,
 })
+
+function NotFoundPage() {
+  return (
+    <main className="page-wrap py-16">
+      <section className="island-shell rounded-2xl p-6 sm:p-8">
+        <p className="island-kicker mb-2">404</p>
+        <h1 className="font-display text-3xl font-bold text-primary sm:text-4xl">
+          Halaman tidak ditemukan
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
+          Halaman ini belum tersedia atau URL yang dibuka tidak valid.
+        </p>
+      </section>
+    </main>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
