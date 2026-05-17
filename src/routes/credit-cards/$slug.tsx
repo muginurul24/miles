@@ -1,7 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { BenefitsGrid } from '#/components/cards/BenefitsGrid'
+import { CardFitSummary } from '#/components/cards/CardFitSummary'
 import { CardDetailHero } from '#/components/cards/CardDetailHero'
 import { CardKeyStats } from '#/components/cards/CardKeyStats'
 import { EarningRateTable } from '#/components/cards/EarningRateTable'
+import { ProsConsPanel } from '#/components/cards/ProsConsPanel'
+import { TransferPartnerTable } from '#/components/cards/TransferPartnerTable'
 import { Breadcrumb } from '#/components/shared'
 
 export const Route = createFileRoute('/credit-cards/$slug')({
@@ -45,6 +49,10 @@ function CardDetailPage() {
         <CardDetailHero card={card} />
         <CardKeyStats card={card} />
         <EarningRateTable card={card} />
+        <TransferPartnerTable card={card} />
+        <ProsConsPanel card={card} />
+        <BenefitsGrid card={card} />
+        <CardFitSummary card={card} />
       </div>
     </main>
   )
