@@ -24,10 +24,22 @@ export interface AdminApplicationTrendPoint {
   applications: number
 }
 
+export interface AdminArticleCategoryPoint {
+  category: string
+  articles: number
+}
+
+export interface AdminMembershipDistributionPoint {
+  tier: string
+  users: number
+}
+
 export interface AdminOverview {
   stats: AdminOverviewStats
   recentInquiries: AdminRecentInquiry[]
   applicationTrend: AdminApplicationTrendPoint[]
+  articleCategories: AdminArticleCategoryPoint[]
+  membershipDistribution: AdminMembershipDistributionPoint[]
 }
 
 interface ApplicationRecord {
@@ -48,6 +60,8 @@ export const adminOverviewRepo = {
       premiumArticles,
       totalApplications,
       applicationRecords,
+      articleCategories,
+      users,
       recentInquiries,
     ] = await Promise.all([
       prisma.creditCard.count(),
@@ -80,6 +94,16 @@ export const adminOverviewRepo = {
         },
         orderBy: {
           createdAt: 'asc',
+        },
+      }),
+      prisma.article.findMany({
+        select: {
+          category: true,
+        },
+      }),
+      prisma.user.findMany({
+        select: {
+          membershipTier: true,
         },
       }),
       prisma.consultingInquiry.findMany({
@@ -121,6 +145,8 @@ export const adminOverviewRepo = {
         createdAt: inquiry.createdAt,
       })),
       applicationTrend: buildApplicationTrend(applicationRecords),
+      articleCategories: buildArticleCategories(articleCategories),
+      membershipDistribution: buildMembershipDistribution(users),
     }
   },
 }
@@ -159,4 +185,39 @@ function getStartOfUtcDay(date: Date): Date {
 
 function toDateKey(date: Date): string {
   return getStartOfUtcDay(date).toISOString().slice(0, 10)
+}
+
+function buildArticleCategories(
+  articles: { category: string }[],
+): AdminArticleCategoryPoint[] {
+  return buildCountMap(articles.map((article) => article.category)).map(
+    ([category, articlesCount]) => ({
+      category,
+      articles: articlesCount,
+    }),
+  )
+}
+
+function buildMembershipDistribution(
+  users: { membershipTier: string }[],
+): AdminMembershipDistributionPoint[] {
+  return buildCountMap(users.map((user) => user.membershipTier)).map(
+    ([tier, usersCount]) => ({
+      tier,
+      users: usersCount,
+    }),
+  )
+}
+
+function buildCountMap(values: string[]): [string, number][] {
+  const counts = new Map<string, number>()
+
+  for (const value of values) {
+    counts.set(value, (counts.get(value) ?? 0) + 1)
+  }
+
+  return [...counts.entries()].sort((first, second) => {
+    const countDelta = second[1] - first[1]
+    return countDelta === 0 ? first[0].localeCompare(second[0]) : countDelta
+  })
 }

@@ -1,5 +1,6 @@
 import { AlertCircle, CreditCard, FileText, Inbox, Mail } from 'lucide-react'
 import { DashboardApplicationTrend } from '#/components/dashboard/DashboardApplicationTrend'
+import { DashboardDistributionCharts } from '#/components/dashboard/DashboardDistributionCharts'
 import { DashboardOperationalSnapshot } from '#/components/dashboard/DashboardOperationalSnapshot'
 import { Badge } from '#/components/shared'
 import {
@@ -73,6 +74,11 @@ export function DashboardOverview({
         <DashboardApplicationTrend trend={overview.applicationTrend} />
         <DashboardOperationalSnapshot overview={overview} />
       </div>
+
+      <DashboardDistributionCharts
+        articleCategories={overview.articleCategories}
+        membershipDistribution={overview.membershipDistribution}
+      />
 
       <RecentInquiries inquiries={overview.recentInquiries} />
     </section>

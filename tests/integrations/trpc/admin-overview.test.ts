@@ -72,6 +72,18 @@ describe('admin overview router', () => {
           applications: 4,
         },
       ],
+      articleCategories: [
+        {
+          category: 'guides',
+          articles: 8,
+        },
+      ],
+      membershipDistribution: [
+        {
+          tier: 'free',
+          users: 3,
+        },
+      ],
     }
     mockedOverviewRepo.getOverview.mockResolvedValue(overview)
     const caller = trpcRouter.createCaller(createContext('admin'))

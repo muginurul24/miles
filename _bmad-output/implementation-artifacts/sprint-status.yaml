@@ -366,7 +366,7 @@ phases:
     name: "Charts Integration"
     status: in_progress
     stories_total: 5
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "14.1"
         name: "Install shadcn chart components — area, bar, line, pie, radar, radial, tooltip"
@@ -376,7 +376,7 @@ phases:
         status: completed
       - id: "14.3"
         name: "Bar + Pie charts — articles + membership distribution"
-        status: pending
+        status: completed
       - id: "14.4"
         name: "Radar chart — card feature comparison"
         status: pending
