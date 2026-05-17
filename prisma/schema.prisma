@@ -167,6 +167,7 @@ model User {
   emailVerified  Boolean  @default(false) @map("email_verified")
   image          String?
   membershipTier String   @default("free") @map("membership_tier")
+  role           String   @default("user")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 

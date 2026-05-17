@@ -88,7 +88,7 @@ phases:
     name: "Auth System"
     status: in_progress
     stories_total: 5
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "03.1"
         name: "Better Auth configuration — email/password + session"
@@ -101,7 +101,7 @@ phases:
         status: completed
       - id: "03.4"
         name: "Auth guards — tRPC middleware + route beforeLoad"
-        status: pending
+        status: completed
       - id: "03.5"
         name: "User menu dropdown in navbar"
         status: pending

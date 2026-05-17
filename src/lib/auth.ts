@@ -34,6 +34,12 @@ export const auth = betterAuth({
         defaultValue: 'free',
         fieldName: 'membershipTier',
       },
+      role: {
+        type: 'string',
+        required: true,
+        input: false,
+        defaultValue: 'user',
+      },
     },
   },
   plugins: [tanstackStartCookies()],
