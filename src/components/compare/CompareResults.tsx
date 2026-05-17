@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { ArrowRight, CircleDollarSign, Plane, Star, Trophy } from 'lucide-react'
+import { CardFeatureRadar } from '#/components/compare/CardFeatureRadar'
 import { Badge, RatingBadge } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
@@ -160,6 +161,8 @@ export function CompareResults({
           </div>
         </Card>
       ) : null}
+
+      <CardFeatureRadar results={results} />
 
       <div className="grid gap-4 lg:grid-cols-3">
         {results.map((result) => (

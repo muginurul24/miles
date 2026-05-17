@@ -198,6 +198,7 @@ export function RadarComparisonChart({
         <PolarGrid />
         <PolarAngleAxis dataKey={categoryKey} />
         <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartLegend content={<ChartLegendContent />} />
         {series.map((item) => (
           <Radar
             key={item.key}
