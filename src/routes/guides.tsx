@@ -8,6 +8,7 @@ import {
   PremiumContentCTA,
 } from '#/components/shared'
 import { Button } from '#/components/ui/button'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/guides')({
   loader: async ({ context }) => {
@@ -21,16 +22,13 @@ export const Route = createFileRoute('/guides')({
     return { guides }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Guides Points & Miles — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Panduan points, miles, kartu kredit, award chart, transfer partner, dan strategi redemption untuk traveler Indonesia.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Guides Points & Miles — JustMiles',
+      description:
+        'Panduan points, miles, kartu kredit, award chart, transfer partner, dan strategi redemption untuk traveler Indonesia.',
+      path: '/guides',
+    }),
+    links: buildCanonicalLinks('/guides'),
   }),
   component: GuidesPage,
 })

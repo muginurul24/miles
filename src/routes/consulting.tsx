@@ -11,6 +11,7 @@ import { ConsultingInquiryForm } from '#/components/consulting/ConsultingInquiry
 import { Badge, PageHeader } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '#/components/ui/card'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 import type { ConsultingPackageView } from '#/server/repositories/consulting.repo'
 import type { LucideIcon } from 'lucide-react'
@@ -25,16 +26,13 @@ export const Route = createFileRoute('/consulting')({
     return { packages }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Consulting — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Paket konsultasi JustMiles untuk audit kartu kredit, rencana redemption, strategi miles end-to-end, dan kebutuhan corporate travel.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Consulting — JustMiles',
+      description:
+        'Paket konsultasi JustMiles untuk audit kartu kredit, rencana redemption, strategi miles end-to-end, dan kebutuhan corporate travel.',
+      path: '/consulting',
+    }),
+    links: buildCanonicalLinks('/consulting'),
   }),
   component: ConsultingPage,
 })

@@ -9,6 +9,7 @@ import { ProsConsPanel } from '#/components/cards/ProsConsPanel'
 import { SimilarCardsSection } from '#/components/cards/SimilarCardsSection'
 import { TransferPartnerTable } from '#/components/cards/TransferPartnerTable'
 import { Breadcrumb } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/credit-cards/$slug')({
   loader: async ({ context, params }) => {
@@ -27,17 +28,15 @@ export const Route = createFileRoute('/credit-cards/$slug')({
     return { card, similarCards }
   },
   head: ({ loaderData }) => ({
-    meta: [
-      {
-        title: `${loaderData.card.shortName} — JustMiles`,
-      },
-      {
-        name: 'description',
-        content:
-          loaderData.card.bestFor ??
-          `Review earning rate dan benefit ${loaderData.card.shortName}.`,
-      },
-    ],
+    meta: buildSeoMeta({
+      title: `${loaderData.card.shortName} — JustMiles`,
+      description:
+        loaderData.card.bestFor ??
+        `Review earning rate dan benefit ${loaderData.card.shortName}.`,
+      path: `/credit-cards/${loaderData.card.id}`,
+      image: loaderData.card.imageUrl ?? undefined,
+    }),
+    links: buildCanonicalLinks(`/credit-cards/${loaderData.card.id}`),
   }),
   component: CardDetailPage,
 })

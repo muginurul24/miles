@@ -2,22 +2,20 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Bell, MailCheck, ShieldCheck, Sparkles } from 'lucide-react'
 import { NewsletterCTA, PageHeader } from '#/components/shared'
 import { Card, CardContent } from '#/components/ui/card'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 import type { LucideIcon } from 'lucide-react'
 import type { ReactElement } from 'react'
 
 export const Route = createFileRoute('/newsletter')({
   head: () => ({
-    meta: [
-      {
-        title: 'Newsletter — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Subscribe newsletter JustMiles untuk update promo kartu, sweet spot redemption, dan strategi points and miles mingguan.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Newsletter — JustMiles',
+      description:
+        'Subscribe newsletter JustMiles untuk update promo kartu, sweet spot redemption, dan strategi points and miles mingguan.',
+      path: '/newsletter',
+    }),
+    links: buildCanonicalLinks('/newsletter'),
   }),
   component: NewsletterPage,
 })

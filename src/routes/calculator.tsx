@@ -8,6 +8,7 @@ import {
 } from '#/components/calculator/CalculatorForm'
 import { CalculatorResult } from '#/components/calculator/CalculatorResult'
 import { PageHeader } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/calculator')({
   loader: async ({ context }) => {
@@ -18,16 +19,13 @@ export const Route = createFileRoute('/calculator')({
     return { cards }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Kalkulator Miles — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Hitung estimasi poin, miles, dan IDR per mile dari transaksi kartu kredit di Indonesia.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Kalkulator Miles — JustMiles',
+      description:
+        'Hitung estimasi poin, miles, dan IDR per mile dari transaksi kartu kredit di Indonesia.',
+      path: '/calculator',
+    }),
+    links: buildCanonicalLinks('/calculator'),
   }),
   component: CalculatorPage,
 })

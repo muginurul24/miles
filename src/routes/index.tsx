@@ -8,6 +8,7 @@ import { MembershipBanner } from '#/components/home/MembershipBanner'
 import { StatsBar } from '#/components/home/StatsBar'
 import { TopCardsSection } from '#/components/home/TopCardsSection'
 import { NewsletterCTA } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta, DEFAULT_SEO } from '#/lib/seo'
 
 const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
   const [{ articlesRepo }, { calculatorRepo }, { cardsRepo }] =
@@ -37,6 +38,10 @@ const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
 
 export const Route = createFileRoute('/')({
   loader: async () => getHomeData(),
+  head: () => ({
+    meta: buildSeoMeta(DEFAULT_SEO),
+    links: buildCanonicalLinks(DEFAULT_SEO.path),
+  }),
   component: HomePage,
 })
 

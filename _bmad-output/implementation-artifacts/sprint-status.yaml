@@ -388,7 +388,7 @@ phases:
     name: "Polish & Production Hardening"
     status: in_progress
     stories_total: 8
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "15.1"
         name: "Loading states — skeletons for all pages"
@@ -401,7 +401,7 @@ phases:
         status: completed
       - id: "15.4"
         name: "SEO — meta tags, OG images, sitemap"
-        status: pending
+        status: completed
       - id: "15.5"
         name: "Accessibility audit — keyboard nav, ARIA, contrast"
         status: pending

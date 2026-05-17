@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
@@ -41,6 +42,11 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizRoute = QuizRouteImport.update({
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/newsletter': typeof NewsletterRoute
   '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/newsletter': typeof NewsletterRoute
   '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/newsletter': typeof NewsletterRoute
   '/privacy': typeof PrivacyRoute
   '/quiz': typeof QuizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -286,6 +295,7 @@ export interface FileRouteTypes {
     | '/newsletter'
     | '/privacy'
     | '/quiz'
+    | '/sitemap.xml'
     | '/terms'
     | '/articles/$slug'
     | '/auth/login'
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/newsletter'
     | '/privacy'
     | '/quiz'
+    | '/sitemap.xml'
     | '/terms'
     | '/articles/$slug'
     | '/auth/login'
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/newsletter'
     | '/privacy'
     | '/quiz'
+    | '/sitemap.xml'
     | '/terms'
     | '/articles/$slug'
     | '/auth/login'
@@ -376,6 +388,7 @@ export interface RootRouteChildren {
   NewsletterRoute: typeof NewsletterRoute
   PrivacyRoute: typeof PrivacyRoute
   QuizRoute: typeof QuizRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -394,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz': {
@@ -623,6 +643,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewsletterRoute: NewsletterRoute,
   PrivacyRoute: PrivacyRoute,
   QuizRoute: QuizRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,

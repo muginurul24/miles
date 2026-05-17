@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { AdminCardsManager } from '#/components/dashboard/AdminCardsManager'
 import { DashboardShell } from '#/components/dashboard/DashboardShell'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/dashboard/cards')({
   loader: async ({ context }) => {
@@ -11,15 +12,13 @@ export const Route = createFileRoute('/dashboard/cards')({
     return { cards }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Manage Cards | JustMiles',
-      },
-      {
-        name: 'description',
-        content: 'Admin cards manager untuk kartu kredit JustMiles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Manage Cards | JustMiles',
+      description: 'Admin cards manager untuk kartu kredit JustMiles.',
+      path: '/dashboard/cards',
+      noIndex: true,
+    }),
+    links: buildCanonicalLinks('/dashboard/cards'),
   }),
   component: DashboardCardsPage,
 })

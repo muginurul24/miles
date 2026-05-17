@@ -9,6 +9,7 @@ import {
 } from '#/components/ui/accordion'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '#/components/ui/card'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 import { cn } from '#/lib/utils'
 
 import type { MembershipTierView } from '#/server/repositories/membership.repo'
@@ -46,16 +47,13 @@ export const Route = createFileRoute('/membership')({
     return { tiers }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Membership — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Pilih membership JustMiles untuk membuka premium guides, review mendalam, dan strategy briefing points and miles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Membership — JustMiles',
+      description:
+        'Pilih membership JustMiles untuk membuka premium guides, review mendalam, dan strategy briefing points and miles.',
+      path: '/membership',
+    }),
+    links: buildCanonicalLinks('/membership'),
   }),
   component: MembershipPage,
 })

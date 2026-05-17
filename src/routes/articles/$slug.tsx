@@ -5,6 +5,7 @@ import { ArticleDetailHero } from '#/components/content/ArticleDetailHero'
 import { PremiumArticleGate } from '#/components/content/PremiumArticleGate'
 import { RelatedArticlesSection } from '#/components/content/RelatedArticlesSection'
 import { NewsletterCTA } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/articles/$slug')({
   loader: async ({ context, params }) => {
@@ -22,17 +23,16 @@ export const Route = createFileRoute('/articles/$slug')({
     return { article, relatedArticles }
   },
   head: ({ loaderData }) => ({
-    meta: [
-      {
-        title: `${loaderData.article.title} — JustMiles`,
-      },
-      {
-        name: 'description',
-        content:
-          loaderData.article.excerpt ??
-          'Artikel JustMiles tentang points, miles, kartu kredit, dan travel strategy.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: `${loaderData.article.title} — JustMiles`,
+      description:
+        loaderData.article.excerpt ??
+        'Artikel JustMiles tentang points, miles, kartu kredit, dan travel strategy.',
+      path: `/articles/${loaderData.article.id}`,
+      image: loaderData.article.imageUrl ?? undefined,
+      type: 'article',
+    }),
+    links: buildCanonicalLinks(`/articles/${loaderData.article.id}`),
   }),
   component: ArticleDetailPage,
 })

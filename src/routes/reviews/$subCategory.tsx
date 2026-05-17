@@ -8,6 +8,7 @@ import {
   PremiumContentCTA,
 } from '#/components/shared'
 import { Button } from '#/components/ui/button'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 import { cn } from '#/lib/utils'
 
 import type { LucideIcon } from 'lucide-react'
@@ -73,17 +74,14 @@ export const Route = createFileRoute('/reviews/$subCategory')({
     const label = section?.label ?? 'Reviews'
 
     return {
-      meta: [
-        {
-          title: `${label} Reviews — JustMiles`,
-        },
-        {
-          name: 'description',
-          content:
-            section?.description ??
-            'Review flight, hotel, dan lounge dengan konteks points and miles untuk traveler Indonesia.',
-        },
-      ],
+      meta: buildSeoMeta({
+        title: `${label} Reviews — JustMiles`,
+        description:
+          section?.description ??
+          'Review flight, hotel, dan lounge dengan konteks points and miles untuk traveler Indonesia.',
+        path: `/reviews/${loaderData.subCategory}`,
+      }),
+      links: buildCanonicalLinks(`/reviews/${loaderData.subCategory}`),
     }
   },
   component: ReviewsPage,

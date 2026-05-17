@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { CardFilterBar } from '#/components/cards/CardFilterBar'
 import { CreditCardGrid } from '#/components/cards/CreditCardGrid'
 import { PageHeader } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 import type { CardDirectoryFilters } from '#/components/cards/CardFilterBar'
 import type { CardFilters, CardSort } from '#/server/repositories/cards.repo'
@@ -47,6 +48,15 @@ export const Route = createFileRoute('/credit-cards/')({
 
     return { cards, filterOptions }
   },
+  head: () => ({
+    meta: buildSeoMeta({
+      title: 'Direktori Kartu Kredit Miles — JustMiles',
+      description:
+        'Bandingkan kartu kredit miles Indonesia berdasarkan bank, transfer partner, annual fee, dan earning rate.',
+      path: '/credit-cards',
+    }),
+    links: buildCanonicalLinks('/credit-cards'),
+  }),
   component: CreditCardsPage,
 })
 

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { AdminArticlesManager } from '#/components/dashboard/AdminArticlesManager'
 import { DashboardShell } from '#/components/dashboard/DashboardShell'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/dashboard/articles')({
   loader: async ({ context }) => {
@@ -11,15 +12,13 @@ export const Route = createFileRoute('/dashboard/articles')({
     return { articles }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Manage Articles | JustMiles',
-      },
-      {
-        name: 'description',
-        content: 'Admin article manager untuk konten JustMiles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Manage Articles | JustMiles',
+      description: 'Admin article manager untuk konten JustMiles.',
+      path: '/dashboard/articles',
+      noIndex: true,
+    }),
+    links: buildCanonicalLinks('/dashboard/articles'),
   }),
   component: DashboardArticlesPage,
 })

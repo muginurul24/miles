@@ -1,0 +1,12 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0A0F26"/>
+  <circle cx="1000" cy="80" r="260" fill="#4F46E5" fill-opacity="0.28"/>
+  <circle cx="170" cy="560" r="220" fill="#F59E0B" fill-opacity="0.18"/>
+  <path d="M120 170C265 94 417 84 576 140C717 190 843 176 1040 90" stroke="#F8FAFC" stroke-opacity="0.18" stroke-width="2"/>
+  <path d="M142 486C311 405 472 398 630 454C777 506 895 485 1065 398" stroke="#F8FAFC" stroke-opacity="0.14" stroke-width="2"/>
+  <text x="120" y="244" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800">JustMiles</text>
+  <text x="123" y="314" fill="#A5B4FC" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" letter-spacing="6">INDONESIA POINTS &amp; MILES ADVISOR</text>
+  <text x="123" y="398" fill="#E2E8F0" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="600">Credit cards, miles calculators, travel deals, and strategy guides.</text>
+  <rect x="120" y="456" width="330" height="58" rx="29" fill="#F8FAFC"/>
+  <text x="152" y="494" fill="#0A0F26" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="800">justmiles.id</text>
+</svg>

@@ -9,6 +9,7 @@ import { AdvisorQuizForm } from '#/components/quiz/AdvisorQuizForm'
 import { Badge, PageHeader } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent } from '#/components/ui/card'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 import type { LucideIcon } from 'lucide-react'
 import type { ReactElement } from 'react'
@@ -24,16 +25,13 @@ export const Route = createFileRoute('/quiz')({
     return { cards }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Advisor Quiz — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Quiz JustMiles untuk mengumpulkan preferensi spending, travel, airline, lounge, annual fee, dan target redemption sebelum rekomendasi kartu.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Advisor Quiz — JustMiles',
+      description:
+        'Quiz JustMiles untuk mengumpulkan preferensi spending, travel, airline, lounge, annual fee, dan target redemption sebelum rekomendasi kartu.',
+      path: '/quiz',
+    }),
+    links: buildCanonicalLinks('/quiz'),
   }),
   component: QuizPage,
 })

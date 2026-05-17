@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { DashboardShell } from '#/components/dashboard/DashboardShell'
 import { DashboardOverview } from '#/components/dashboard/DashboardOverview'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/dashboard/')({
   loader: async ({ context }) => {
@@ -11,15 +12,13 @@ export const Route = createFileRoute('/dashboard/')({
     return { overview }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Dashboard | JustMiles',
-      },
-      {
-        name: 'description',
-        content: 'Admin dashboard JustMiles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Dashboard | JustMiles',
+      description: 'Admin dashboard JustMiles.',
+      path: '/dashboard',
+      noIndex: true,
+    }),
+    links: buildCanonicalLinks('/dashboard'),
   }),
   component: DashboardPage,
 })

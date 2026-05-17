@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { AdminInquiriesManager } from '#/components/dashboard/AdminInquiriesManager'
 import { DashboardShell } from '#/components/dashboard/DashboardShell'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/dashboard/inquiries')({
   loader: async ({ context }) => {
@@ -11,15 +12,13 @@ export const Route = createFileRoute('/dashboard/inquiries')({
     return { inquiries }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Manage Inquiries | JustMiles',
-      },
-      {
-        name: 'description',
-        content: 'Admin inquiry manager untuk consulting JustMiles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Manage Inquiries | JustMiles',
+      description: 'Admin inquiry manager untuk consulting JustMiles.',
+      path: '/dashboard/inquiries',
+      noIndex: true,
+    }),
+    links: buildCanonicalLinks('/dashboard/inquiries'),
   }),
   component: DashboardInquiriesPage,
 })

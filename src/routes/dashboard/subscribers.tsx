@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { AdminSubscribersManager } from '#/components/dashboard/AdminSubscribersManager'
 import { DashboardShell } from '#/components/dashboard/DashboardShell'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/dashboard/subscribers')({
   loader: async ({ context }) => {
@@ -11,15 +12,13 @@ export const Route = createFileRoute('/dashboard/subscribers')({
     return { subscribers }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Manage Subscribers | JustMiles',
-      },
-      {
-        name: 'description',
-        content: 'Admin subscriber manager untuk newsletter JustMiles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Manage Subscribers | JustMiles',
+      description: 'Admin subscriber manager untuk newsletter JustMiles.',
+      path: '/dashboard/subscribers',
+      noIndex: true,
+    }),
+    links: buildCanonicalLinks('/dashboard/subscribers'),
   }),
   component: DashboardSubscribersPage,
 })
