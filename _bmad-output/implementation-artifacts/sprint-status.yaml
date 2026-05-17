@@ -197,14 +197,14 @@ phases:
     name: "Compare Tool"
     status: in_progress
     stories_total: 5
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "07.1"
         name: "Compare form — 3 card selectors with partner dropdowns"
         status: completed
       - id: "07.2"
         name: "Spending composition inputs per transaction type"
-        status: pending
+        status: completed
       - id: "07.3"
         name: "Compare results — side-by-side cards with metrics"
         status: pending

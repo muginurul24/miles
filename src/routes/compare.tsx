@@ -4,6 +4,10 @@ import {
   CompareForm,
   getInitialCompareFormValue,
 } from '#/components/compare/CompareForm'
+import {
+  CompareSpendingInputs,
+  getInitialCompareSpendingValue,
+} from '#/components/compare/CompareSpendingInputs'
 import { PageHeader } from '#/components/shared'
 import { Card, CardContent } from '#/components/ui/card'
 
@@ -35,6 +39,9 @@ function ComparePage() {
   const [formValue, setFormValue] = useState(() =>
     getInitialCompareFormValue(cards),
   )
+  const [spendingValue, setSpendingValue] = useState(() =>
+    getInitialCompareSpendingValue(),
+  )
 
   return (
     <main className="pb-12">
@@ -51,16 +58,20 @@ function ComparePage() {
           onValueChange={setFormValue}
         />
 
+        <CompareSpendingInputs
+          value={spendingValue}
+          onValueChange={setSpendingValue}
+        />
+
         <Card className="border-border bg-card shadow-sm">
           <CardContent className="grid gap-3 p-6">
             <p className="island-kicker">Next</p>
             <h2 className="font-display text-xl font-bold text-primary">
-              Spending composition menyusul
+              Results panel menyusul
             </h2>
             <p className="text-sm leading-7 text-muted-foreground">
-              Story berikutnya akan menambahkan komposisi spending per
-              transaction type agar perbandingan bisa membaca pola belanja yang
-              lebih realistis.
+              Story berikutnya akan mengubah pilihan kartu dan komposisi
+              spending menjadi side-by-side metrics.
             </p>
           </CardContent>
         </Card>
