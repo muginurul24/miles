@@ -108,9 +108,9 @@ phases:
 
   - id: phase-04
     name: "Home Page"
-    status: in_progress
+    status: completed
     stories_total: 8
-    stories_completed: 7
+    stories_completed: 8
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
@@ -135,7 +135,7 @@ phases:
         status: completed
       - id: "04.8"
         name: "Membership banner + bottom CTAs"
-        status: pending
+        status: completed
 
   - id: phase-05
     name: "Credit Cards Directory + Detail"

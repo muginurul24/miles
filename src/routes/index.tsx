@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { ArticleSection } from '#/components/home/ArticleSection'
+import { BottomCtas } from '#/components/home/BottomCtas'
 import { CalculatorPreview } from '#/components/home/CalculatorPreview'
 import { HeroSection } from '#/components/home/HeroSection'
+import { MembershipBanner } from '#/components/home/MembershipBanner'
 import { StatsBar } from '#/components/home/StatsBar'
 import { TopCardsSection } from '#/components/home/TopCardsSection'
 import { NewsletterCTA } from '#/components/shared'
@@ -67,6 +69,8 @@ function HomePage() {
         articles={latestReviews}
       />
       <NewsletterCTA />
+      <MembershipBanner />
+      <BottomCtas />
     </main>
   )
 }
