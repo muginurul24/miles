@@ -1,3 +1,8 @@
+---
+name: justmiles-review
+description: Adversarial code review checklist — 40+ items covering architecture, TypeScript, dark mode, mobile, shadcn, performance, a11y, JustMiles-specific rules
+---
+
 # Skill: justmiles-review
 
 ## Purpose

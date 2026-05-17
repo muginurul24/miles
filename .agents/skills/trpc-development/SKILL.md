@@ -1,3 +1,8 @@
+---
+name: trpc-development
+description: tRPC API development — routers, procedures, middleware, client usage, error handling, Zod validation
+---
+
 # Skill: trpc-development
 
 ## Purpose

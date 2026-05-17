@@ -1,3 +1,8 @@
+---
+name: prisma-development
+description: Prisma ORM patterns — schema, migrations, seeding, repository layer
+---
+
 # Skill: prisma-development
 
 ## Purpose

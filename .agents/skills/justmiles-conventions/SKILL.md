@@ -1,3 +1,8 @@
+---
+name: justmiles-conventions
+description: Never-forget rules — tRPC only, shadcn only, dark mode always, mobile-first, RTK, file router, fonts, design tokens
+---
+
 # Skill: justmiles-conventions
 
 ## Purpose

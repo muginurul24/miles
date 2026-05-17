@@ -1,3 +1,8 @@
+---
+name: tanstack-start-development
+description: Deep TanStack Start patterns — file routing, loaders, links, server functions, SSR/streaming conventions
+---
+
 # Skill: tanstack-start-development
 
 ## Purpose

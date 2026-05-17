@@ -1,3 +1,8 @@
+---
+name: shadcn-development
+description: shadcn/ui component usage — installation, theming, dark mode, block integration, business component patterns
+---
+
 # Skill: shadcn-development
 
 ## Purpose
