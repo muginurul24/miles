@@ -56,3 +56,23 @@ export interface ArticleSeed {
   premium: boolean
   dealTag?: string
 }
+
+export interface MembershipTierSeed {
+  id: string
+  name: string
+  priceIdr: number
+  period: string
+  features: string[]
+  isHighlighted: boolean
+  sortOrder: number
+}
+
+export interface ConsultingPackageSeed {
+  id: string
+  name: string
+  description: string
+  priceIdr: number | null
+  priceLabel: string
+  outputs: string[]
+  icon: string
+}

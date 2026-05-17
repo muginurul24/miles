@@ -3,7 +3,9 @@ import { PrismaClient } from '../src/generated/prisma/client.js'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 import { articles } from './seeds/articles'
+import { consultingPackages } from './seeds/consulting-packages'
 import { creditCards } from './seeds/credit-cards'
+import { membershipTiers } from './seeds/membership-tiers'
 import { transactionTypes } from './seeds/types'
 import type { ArticleSeed } from './seeds/types'
 
@@ -96,14 +98,54 @@ async function seedArticles(): Promise<number> {
   return articles.length
 }
 
+async function seedMembershipTiers(): Promise<number> {
+  await prisma.membershipTier.deleteMany()
+
+  await prisma.membershipTier.createMany({
+    data: membershipTiers.map((tier) => ({
+      id: tier.id,
+      name: tier.name,
+      priceIdr: tier.priceIdr,
+      period: tier.period,
+      features: tier.features,
+      isHighlighted: tier.isHighlighted,
+      sortOrder: tier.sortOrder,
+    })),
+  })
+
+  return membershipTiers.length
+}
+
+async function seedConsultingPackages(): Promise<number> {
+  await prisma.consultingPackage.deleteMany()
+
+  await prisma.consultingPackage.createMany({
+    data: consultingPackages.map((consultingPackage) => ({
+      id: consultingPackage.id,
+      name: consultingPackage.name,
+      description: consultingPackage.description,
+      priceIdr: consultingPackage.priceIdr,
+      priceLabel: consultingPackage.priceLabel,
+      outputs: consultingPackage.outputs,
+      icon: consultingPackage.icon,
+    })),
+  })
+
+  return consultingPackages.length
+}
+
 async function main(): Promise<void> {
   console.log('🌱 Seeding database...')
 
   const cardCount = await seedCreditCards()
   const articleCount = await seedArticles()
+  const membershipTierCount = await seedMembershipTiers()
+  const consultingPackageCount = await seedConsultingPackages()
 
   console.log(`✅ Created ${cardCount} credit cards`)
   console.log(`✅ Created ${articleCount} articles`)
+  console.log(`✅ Created ${membershipTierCount} membership tiers`)
+  console.log(`✅ Created ${consultingPackageCount} consulting packages`)
 }
 
 main()

@@ -41,7 +41,7 @@ phases:
     name: "Database & Seed Data"
     status: in_progress
     stories_total: 6
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "01.1"
         name: "Define Prisma schema — all tables"
@@ -57,7 +57,7 @@ phases:
         status: completed
       - id: "01.5"
         name: "Seed membership tiers + consulting packages"
-        status: pending
+        status: completed
       - id: "01.6"
         name: "Database indexes + Prisma generate"
         status: pending
