@@ -310,14 +310,14 @@ phases:
     name: "Admin Dashboard"
     status: in_progress
     stories_total: 10
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "12.1"
         name: "Dashboard layout — sidebar + header"
         status: completed
       - id: "12.2"
         name: "Dashboard overview — stats cards + recent activity"
-        status: pending
+        status: completed
       - id: "12.3"
         name: "Admin auth guard — middleware + route protection"
         status: pending

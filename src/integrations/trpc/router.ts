@@ -10,6 +10,7 @@ import { cardsRouter } from './cards'
 import { consultingRouter } from './consulting'
 import { membershipRouter } from './membership'
 import { newsletterRouter } from './newsletter'
+import { adminRepo } from '#/server/repositories/admin.repo'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -32,6 +33,7 @@ const adminRouter = {
     ok: true,
     userId: ctx.user.id,
   })),
+  overview: adminProcedure.query(() => adminRepo.getOverview()),
 } satisfies TRPCRouterRecord
 
 export const trpcRouter = createTRPCRouter({
