@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as DealsRouteImport } from './routes/deals'
 import { Route as CompareRouteImport } from './routes/compare'
@@ -29,6 +30,11 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipRoute = MembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesRoute = GuidesRouteImport.update({
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/compare': typeof CompareRoute
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
+  '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/compare': typeof CompareRoute
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
+  '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -151,6 +159,7 @@ export interface FileRoutesById {
   '/compare': typeof CompareRoute
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
+  '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/deals'
     | '/guides'
+    | '/membership'
     | '/news'
     | '/articles/$slug'
     | '/auth/login'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/deals'
     | '/guides'
+    | '/membership'
     | '/news'
     | '/articles/$slug'
     | '/auth/login'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/deals'
     | '/guides'
+    | '/membership'
     | '/news'
     | '/articles/$slug'
     | '/auth/login'
@@ -226,6 +238,7 @@ export interface RootRouteChildren {
   CompareRoute: typeof CompareRoute
   DealsRoute: typeof DealsRoute
   GuidesRoute: typeof GuidesRoute
+  MembershipRoute: typeof MembershipRoute
   NewsRoute: typeof NewsRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -245,6 +258,13 @@ declare module '@tanstack/react-router' {
       path: '/news'
       fullPath: '/news'
       preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membership': {
+      id: '/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof MembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guides': {
@@ -362,6 +382,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompareRoute: CompareRoute,
   DealsRoute: DealsRoute,
   GuidesRoute: GuidesRoute,
+  MembershipRoute: MembershipRoute,
   NewsRoute: NewsRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
