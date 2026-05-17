@@ -110,7 +110,7 @@ phases:
     name: "Home Page"
     status: in_progress
     stories_total: 8
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
@@ -126,7 +126,7 @@ phases:
         status: completed
       - id: "04.5"
         name: "Top credit cards section — 3 card previews"
-        status: pending
+        status: completed
       - id: "04.6"
         name: "Latest guides + reviews sections"
         status: pending
