@@ -6,6 +6,10 @@ export {
   RadarComparisonChart,
   RadialProgressChart,
 } from '#/components/charts/ChartVariants'
+export {
+  CHART_THEME_COLORS,
+  getChartColor,
+} from '#/components/charts/chart-theme'
 
 export type {
   CartesianChartProps,

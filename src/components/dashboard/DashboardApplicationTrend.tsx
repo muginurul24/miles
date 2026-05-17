@@ -1,4 +1,4 @@
-import { AreaTrendChart } from '#/components/charts'
+import { AreaTrendChart, getChartColor } from '#/components/charts'
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ const applicationSeries = [
   {
     key: 'applications',
     label: 'Application interest',
-    color: 'var(--chart-1)',
+    color: getChartColor(0),
   },
 ] as const
 

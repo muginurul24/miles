@@ -1,4 +1,4 @@
-import { RadarComparisonChart } from '#/components/charts'
+import { RadarComparisonChart, getChartColor } from '#/components/charts'
 import {
   Card,
   CardContent,
@@ -48,7 +48,7 @@ function buildSeries(results: CardFeatureRadarResult[]): ChartSeries[] {
   return results.map((result, index) => ({
     key: result.card.id,
     label: result.card.shortName,
-    color: `var(--chart-${(index % 5) + 1})`,
+    color: getChartColor(index),
   }))
 }
 

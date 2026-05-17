@@ -29,6 +29,7 @@ import {
   ChartTooltipContent,
 } from '#/components/ui/chart'
 import { cn } from '#/lib/utils'
+import { getChartColor } from './chart-theme'
 
 import type { ChartConfig } from '#/components/ui/chart'
 import type { ReactElement } from 'react'
@@ -248,7 +249,7 @@ function getSeriesConfig(series: ChartSeries[]): ChartConfig {
   return series.reduce<ChartConfig>((config, item, index) => {
     config[item.key] = {
       label: item.label,
-      color: item.color ?? `var(--chart-${(index % 5) + 1})`,
+      color: item.color ?? getChartColor(index),
     }
 
     return config
@@ -260,7 +261,7 @@ function getSegmentConfig(data: ChartDatum[], nameKey: string): ChartConfig {
     const key = getSegmentKey(item, nameKey)
     config[key] = {
       label: String(item[nameKey]),
-      color: `var(--chart-${(index % 5) + 1})`,
+      color: getChartColor(index),
     }
 
     return config

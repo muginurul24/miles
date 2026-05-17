@@ -364,9 +364,9 @@ phases:
 
   - id: phase-14
     name: "Charts Integration"
-    status: in_progress
+    status: completed
     stories_total: 5
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "14.1"
         name: "Install shadcn chart components — area, bar, line, pie, radar, radial, tooltip"
@@ -382,7 +382,7 @@ phases:
         status: completed
       - id: "14.5"
         name: "Dark/light mode chart theming"
-        status: pending
+        status: completed
 
   - id: phase-15
     name: "Polish & Production Hardening"

@@ -1,4 +1,8 @@
-import { BarMetricChart, PieDistributionChart } from '#/components/charts'
+import {
+  BarMetricChart,
+  PieDistributionChart,
+  getChartColor,
+} from '#/components/charts'
 import {
   Card,
   CardContent,
@@ -22,7 +26,7 @@ const articleSeries = [
   {
     key: 'articles',
     label: 'Articles',
-    color: 'var(--chart-2)',
+    color: getChartColor(1),
   },
 ] as const
 
