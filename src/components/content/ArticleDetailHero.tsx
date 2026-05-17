@@ -67,7 +67,13 @@ export function ArticleDetailHero({
         <img
           src={article.imageUrl}
           alt={article.title}
+          width={1200}
+          height={675}
           className="aspect-[16/9] w-full rounded-3xl border border-border object-cover shadow-xs"
+          decoding="async"
+          fetchPriority="high"
+          loading="eager"
+          sizes="(min-width: 1024px) 896px, 100vw"
         />
       ) : (
         <div

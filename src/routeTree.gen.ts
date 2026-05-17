@@ -9,10 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DealsRouteImport } from './routes/deals'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AboutRouteImport } from './routes/about'
@@ -20,6 +28,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as CreditCardsIndexRouteImport } from './routes/credit-cards/index'
 import { Route as ReviewsSubCategoryRouteImport } from './routes/reviews/$subCategory'
+import { Route as DashboardSubscribersRouteImport } from './routes/dashboard/subscribers'
+import { Route as DashboardInquiriesRouteImport } from './routes/dashboard/inquiries'
+import { Route as DashboardCardsRouteImport } from './routes/dashboard/cards'
+import { Route as DashboardArticlesRouteImport } from './routes/dashboard/articles'
 import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
@@ -27,6 +39,31 @@ import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsletterRoute = NewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
@@ -42,9 +79,24 @@ const GuidesRoute = GuidesRouteImport.update({
   path: '/guides',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DealsRoute = DealsRouteImport.update({
   id: '/deals',
   path: '/deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultingRoute = ConsultingRouteImport.update({
+  id: '/consulting',
+  path: '/consulting',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -68,9 +120,9 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const CreditCardsIndexRoute = CreditCardsIndexRouteImport.update({
   id: '/credit-cards/',
@@ -81,6 +133,26 @@ const ReviewsSubCategoryRoute = ReviewsSubCategoryRouteImport.update({
   id: '/reviews/$subCategory',
   path: '/reviews/$subCategory',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSubscribersRoute = DashboardSubscribersRouteImport.update({
+  id: '/subscribers',
+  path: '/subscribers',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCardsRoute = DashboardCardsRouteImport.update({
+  id: '/cards',
+  path: '/cards',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardArticlesRoute = DashboardArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const CreditCardsSlugRoute = CreditCardsSlugRouteImport.update({
   id: '/credit-cards/$slug',
@@ -118,14 +190,26 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/consulting': typeof ConsultingRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/deals': typeof DealsRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
+  '/newsletter': typeof NewsletterRoute
+  '/privacy': typeof PrivacyRoute
+  '/quiz': typeof QuizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/dashboard/articles': typeof DashboardArticlesRoute
+  '/dashboard/cards': typeof DashboardCardsRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
+  '/dashboard/subscribers': typeof DashboardSubscribersRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -137,14 +221,25 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/consulting': typeof ConsultingRoute
   '/deals': typeof DealsRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
+  '/newsletter': typeof NewsletterRoute
+  '/privacy': typeof PrivacyRoute
+  '/quiz': typeof QuizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/dashboard/articles': typeof DashboardArticlesRoute
+  '/dashboard/cards': typeof DashboardCardsRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
+  '/dashboard/subscribers': typeof DashboardSubscribersRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards': typeof CreditCardsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -157,14 +252,26 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/consulting': typeof ConsultingRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/deals': typeof DealsRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
   '/news': typeof NewsRoute
+  '/newsletter': typeof NewsletterRoute
+  '/privacy': typeof PrivacyRoute
+  '/quiz': typeof QuizRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
+  '/dashboard/articles': typeof DashboardArticlesRoute
+  '/dashboard/cards': typeof DashboardCardsRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
+  '/dashboard/subscribers': typeof DashboardSubscribersRoute
   '/reviews/$subCategory': typeof ReviewsSubCategoryRoute
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -178,14 +285,26 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/consulting'
+    | '/dashboard'
     | '/deals'
+    | '/disclaimer'
     | '/guides'
     | '/membership'
     | '/news'
+    | '/newsletter'
+    | '/privacy'
+    | '/quiz'
+    | '/sitemap.xml'
+    | '/terms'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/dashboard/articles'
+    | '/dashboard/cards'
+    | '/dashboard/inquiries'
+    | '/dashboard/subscribers'
     | '/reviews/$subCategory'
     | '/credit-cards/'
     | '/dashboard/'
@@ -197,14 +316,25 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/consulting'
     | '/deals'
+    | '/disclaimer'
     | '/guides'
     | '/membership'
     | '/news'
+    | '/newsletter'
+    | '/privacy'
+    | '/quiz'
+    | '/sitemap.xml'
+    | '/terms'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/dashboard/articles'
+    | '/dashboard/cards'
+    | '/dashboard/inquiries'
+    | '/dashboard/subscribers'
     | '/reviews/$subCategory'
     | '/credit-cards'
     | '/dashboard'
@@ -216,14 +346,26 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/consulting'
+    | '/dashboard'
     | '/deals'
+    | '/disclaimer'
     | '/guides'
     | '/membership'
     | '/news'
+    | '/newsletter'
+    | '/privacy'
+    | '/quiz'
+    | '/sitemap.xml'
+    | '/terms'
     | '/articles/$slug'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
+    | '/dashboard/articles'
+    | '/dashboard/cards'
+    | '/dashboard/inquiries'
+    | '/dashboard/subscribers'
     | '/reviews/$subCategory'
     | '/credit-cards/'
     | '/dashboard/'
@@ -236,23 +378,65 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CalculatorRoute: typeof CalculatorRoute
   CompareRoute: typeof CompareRoute
+  ConsultingRoute: typeof ConsultingRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   DealsRoute: typeof DealsRoute
+  DisclaimerRoute: typeof DisclaimerRoute
   GuidesRoute: typeof GuidesRoute
   MembershipRoute: typeof MembershipRoute
   NewsRoute: typeof NewsRoute
+  NewsletterRoute: typeof NewsletterRoute
+  PrivacyRoute: typeof PrivacyRoute
+  QuizRoute: typeof QuizRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   CreditCardsSlugRoute: typeof CreditCardsSlugRoute
   ReviewsSubCategoryRoute: typeof ReviewsSubCategoryRoute
   CreditCardsIndexRoute: typeof CreditCardsIndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsletter': {
+      id: '/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/news': {
       id: '/news'
       path: '/news'
@@ -274,11 +458,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/deals': {
       id: '/deals'
       path: '/deals'
       fullPath: '/deals'
       preLoaderRoute: typeof DealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consulting': {
+      id: '/consulting'
+      path: '/consulting'
+      fullPath: '/consulting'
+      preLoaderRoute: typeof ConsultingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -311,10 +516,10 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/': {
       id: '/dashboard/'
-      path: '/dashboard'
+      path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/credit-cards/': {
       id: '/credit-cards/'
@@ -329,6 +534,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/reviews/$subCategory'
       preLoaderRoute: typeof ReviewsSubCategoryRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/subscribers': {
+      id: '/dashboard/subscribers'
+      path: '/subscribers'
+      fullPath: '/dashboard/subscribers'
+      preLoaderRoute: typeof DashboardSubscribersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/inquiries': {
+      id: '/dashboard/inquiries'
+      path: '/inquiries'
+      fullPath: '/dashboard/inquiries'
+      preLoaderRoute: typeof DashboardInquiriesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/cards': {
+      id: '/dashboard/cards'
+      path: '/cards'
+      fullPath: '/dashboard/cards'
+      preLoaderRoute: typeof DashboardCardsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/articles': {
+      id: '/dashboard/articles'
+      path: '/articles'
+      fullPath: '/dashboard/articles'
+      preLoaderRoute: typeof DashboardArticlesRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/credit-cards/$slug': {
       id: '/credit-cards/$slug'
@@ -375,22 +608,49 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardArticlesRoute: typeof DashboardArticlesRoute
+  DashboardCardsRoute: typeof DashboardCardsRoute
+  DashboardInquiriesRoute: typeof DashboardInquiriesRoute
+  DashboardSubscribersRoute: typeof DashboardSubscribersRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardArticlesRoute: DashboardArticlesRoute,
+  DashboardCardsRoute: DashboardCardsRoute,
+  DashboardInquiriesRoute: DashboardInquiriesRoute,
+  DashboardSubscribersRoute: DashboardSubscribersRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CalculatorRoute: CalculatorRoute,
   CompareRoute: CompareRoute,
+  ConsultingRoute: ConsultingRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   DealsRoute: DealsRoute,
+  DisclaimerRoute: DisclaimerRoute,
   GuidesRoute: GuidesRoute,
   MembershipRoute: MembershipRoute,
   NewsRoute: NewsRoute,
+  NewsletterRoute: NewsletterRoute,
+  PrivacyRoute: PrivacyRoute,
+  QuizRoute: QuizRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   CreditCardsSlugRoute: CreditCardsSlugRoute,
   ReviewsSubCategoryRoute: ReviewsSubCategoryRoute,
   CreditCardsIndexRoute: CreditCardsIndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
 }

@@ -135,17 +135,17 @@ async function seedConsultingPackages(): Promise<number> {
 }
 
 async function main(): Promise<void> {
-  console.log('🌱 Seeding database...')
+  console.info('🌱 Seeding database...')
 
   const cardCount = await seedCreditCards()
   const articleCount = await seedArticles()
   const membershipTierCount = await seedMembershipTiers()
   const consultingPackageCount = await seedConsultingPackages()
 
-  console.log(`✅ Created ${cardCount} credit cards`)
-  console.log(`✅ Created ${articleCount} articles`)
-  console.log(`✅ Created ${membershipTierCount} membership tiers`)
-  console.log(`✅ Created ${consultingPackageCount} consulting packages`)
+  console.info(`✅ Created ${cardCount} credit cards`)
+  console.info(`✅ Created ${articleCount} articles`)
+  console.info(`✅ Created ${membershipTierCount} membership tiers`)
+  console.info(`✅ Created ${consultingPackageCount} consulting packages`)
 }
 
 main()

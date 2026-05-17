@@ -1,5 +1,7 @@
 import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
+import { RouteErrorState } from '#/components/shared/RouteErrorState'
+import { RoutePendingSkeleton } from '#/components/shared/RoutePendingSkeleton'
 
 import type { ReactNode } from 'react'
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
@@ -16,6 +18,8 @@ export function getRouter() {
     scrollRestoration: true,
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
+    defaultErrorComponent: RouteErrorState,
+    defaultPendingComponent: RoutePendingSkeleton,
 
     Wrap: (props: { children: ReactNode }) => {
       return (

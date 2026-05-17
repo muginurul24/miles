@@ -2,24 +2,18 @@
 
 import * as React from 'react'
 import {
-  Bot,
-  Camera,
-  ChartBar,
+  BarChart3,
   CircleHelp,
-  ClipboardList,
-  Database,
+  CreditCard,
   FileText,
-  FileType,
-  Folder,
+  Inbox,
   LayoutDashboard,
-  ListChecks,
+  Mail,
   Plane,
-  Search,
   Settings,
   Users,
 } from 'lucide-react'
 
-import { NavDocuments } from '#/components/nav-documents.tsx'
 import { NavMain } from '#/components/nav-main.tsx'
 import { NavSecondary } from '#/components/nav-secondary.tsx'
 import { NavUser } from '#/components/nav-user.tsx'
@@ -35,117 +29,57 @@ import {
 
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+    name: 'JustMiles Admin',
+    email: 'admin@justmiles.id',
+    avatar: '',
   },
   navMain: [
     {
-      title: 'Dashboard',
-      url: '#',
+      title: 'Overview',
+      url: '/dashboard',
       icon: LayoutDashboard,
     },
     {
-      title: 'Lifecycle',
-      url: '#',
-      icon: ListChecks,
+      title: 'Cards',
+      url: '/dashboard/cards',
+      icon: CreditCard,
     },
     {
-      title: 'Analytics',
-      url: '#',
-      icon: ChartBar,
-    },
-    {
-      title: 'Projects',
-      url: '#',
-      icon: Folder,
-    },
-    {
-      title: 'Team',
-      url: '#',
-      icon: Users,
-    },
-  ],
-  navClouds: [
-    {
-      title: 'Capture',
-      icon: Camera,
-      isActive: true,
-      url: '#',
-      items: [
-        {
-          title: 'Active Proposals',
-          url: '#',
-        },
-        {
-          title: 'Archived',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Proposal',
+      title: 'Articles',
+      url: '/dashboard/articles',
       icon: FileText,
-      url: '#',
-      items: [
-        {
-          title: 'Active Proposals',
-          url: '#',
-        },
-        {
-          title: 'Archived',
-          url: '#',
-        },
-      ],
     },
     {
-      title: 'Prompts',
-      icon: Bot,
-      url: '#',
-      items: [
-        {
-          title: 'Active Proposals',
-          url: '#',
-        },
-        {
-          title: 'Archived',
-          url: '#',
-        },
-      ],
+      title: 'Inquiries',
+      url: '/dashboard/inquiries',
+      icon: Inbox,
+    },
+    {
+      title: 'Subscribers',
+      url: '/dashboard/subscribers',
+      icon: Mail,
+    },
+    {
+      title: 'Charts',
+      url: '/dashboard/charts',
+      icon: BarChart3,
     },
   ],
   navSecondary: [
     {
+      title: 'Members',
+      url: '/dashboard/members',
+      icon: Users,
+    },
+    {
       title: 'Settings',
-      url: '#',
+      url: '/dashboard/settings',
       icon: Settings,
     },
     {
-      title: 'Get Help',
-      url: '#',
+      title: 'Public site',
+      url: '/',
       icon: CircleHelp,
-    },
-    {
-      title: 'Search',
-      url: '#',
-      icon: Search,
-    },
-  ],
-  documents: [
-    {
-      name: 'Data Library',
-      url: '#',
-      icon: Database,
-    },
-    {
-      name: 'Reports',
-      url: '#',
-      icon: ClipboardList,
-    },
-    {
-      name: 'Word Assistant',
-      url: '#',
-      icon: FileType,
     },
   ],
 }
@@ -169,8 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavMain items={data.navMain} label="Admin" />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

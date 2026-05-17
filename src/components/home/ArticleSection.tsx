@@ -1,4 +1,5 @@
 import { ArticleCard } from '#/components/cards/ArticleCard'
+import { EmptyState } from '#/components/shared'
 
 import type { Article } from '#/generated/prisma/client'
 import type { ReactElement } from 'react'
@@ -37,9 +38,11 @@ export function ArticleSection({
           ))}
         </div>
       ) : (
-        <p className="rounded-md border border-border bg-card p-4 text-sm text-muted-foreground">
-          Belum ada artikel untuk ditampilkan.
-        </p>
+        <EmptyState
+          eyebrow="No articles"
+          title="Artikel belum tersedia"
+          description="Belum ada artikel untuk ditampilkan."
+        />
       )}
     </section>
   )

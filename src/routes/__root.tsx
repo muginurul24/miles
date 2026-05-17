@@ -2,6 +2,7 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  useRouterState,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -9,6 +10,7 @@ import Footer from '#/components/Footer'
 import Header from '#/components/Header'
 import { ToastViewport } from '#/components/Toast'
 import TanStackQueryDevtools from '#/integrations/tanstack-query/devtools'
+import { buildSeoMeta, DEFAULT_SEO } from '#/lib/seo'
 import appCss from '#/styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
@@ -23,10 +25,6 @@ interface MyRouterContext {
 }
 
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='system'||stored==='auto')?stored:'system';if(mode==='auto'){mode='system'}var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='system'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);root.setAttribute('data-theme',mode);root.style.colorScheme=resolved;}catch(e){}})();`
-const SITE_TITLE = 'JustMiles | Indonesia Points & Miles Advisor'
-const SITE_DESCRIPTION =
-  "Indonesia's points and miles advisor for credit cards, travel deals, redemption guides, and premium trip planning."
-
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
     meta: [
@@ -37,41 +35,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         name: 'viewport',
         content: 'width=device-width, initial-scale=1',
       },
-      {
-        title: SITE_TITLE,
-      },
-      {
-        name: 'description',
-        content: SITE_DESCRIPTION,
-      },
-      {
-        property: 'og:title',
-        content: SITE_TITLE,
-      },
-      {
-        property: 'og:description',
-        content: SITE_DESCRIPTION,
-      },
-      {
-        property: 'og:type',
-        content: 'website',
-      },
-      {
-        property: 'og:locale',
-        content: 'id_ID',
-      },
-      {
-        name: 'twitter:card',
-        content: 'summary_large_image',
-      },
-      {
-        name: 'twitter:title',
-        content: SITE_TITLE,
-      },
-      {
-        name: 'twitter:description',
-        content: SITE_DESCRIPTION,
-      },
+      ...buildSeoMeta(DEFAULT_SEO),
     ],
     links: [
       {
@@ -109,6 +73,10 @@ function NotFoundPage() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const isDashboardRoute = useRouterState({
+    select: (state) => state.location.pathname.startsWith('/dashboard'),
+  })
+
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
@@ -116,9 +84,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-accent/20">
-        <Header />
-        {children}
-        <Footer />
+        <a
+          href="#main-content"
+          className="sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:not-sr-only focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-foreground focus:shadow-lg focus:ring-2 focus:ring-ring"
+        >
+          Lewati ke konten utama
+        </a>
+        {isDashboardRoute ? null : <Header />}
+        <div id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </div>
+        {isDashboardRoute ? null : <Footer />}
         <ToastViewport />
         <TanStackDevtools
           config={{

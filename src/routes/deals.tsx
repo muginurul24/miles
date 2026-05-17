@@ -3,6 +3,7 @@ import { BellRing, Clock3, ShieldCheck, Sparkles } from 'lucide-react'
 import { ArticleGrid } from '#/components/cards/ArticleGrid'
 import { Badge, NewsletterCTA, PageHeader } from '#/components/shared'
 import { Button } from '#/components/ui/button'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 import type { ReactElement, ReactNode } from 'react'
 
@@ -18,16 +19,13 @@ export const Route = createFileRoute('/deals')({
     return { deals }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Deals Points & Miles — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Promo transfer miles, sweet spot redemption, welcome bonus kartu kredit, dan travel deals pilihan untuk traveler Indonesia.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Deals Points & Miles — JustMiles',
+      description:
+        'Promo transfer miles, sweet spot redemption, welcome bonus kartu kredit, dan travel deals pilihan untuk traveler Indonesia.',
+      path: '/deals',
+    }),
+    links: buildCanonicalLinks('/deals'),
   }),
   component: DealsPage,
 })
@@ -126,7 +124,11 @@ function DealsPage() {
           </p>
         </div>
 
-        <ArticleGrid articles={deals} emptyMessage="Belum ada deal terbaru." />
+        <ArticleGrid
+          articles={deals}
+          emptyTitle="Belum ada deal"
+          emptyMessage="Belum ada deal terbaru."
+        />
       </section>
 
       <NewsletterCTA

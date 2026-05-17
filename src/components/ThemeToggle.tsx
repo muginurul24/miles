@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Monitor, Moon, Sun } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 
-type ThemeMode = 'light' | 'dark' | 'system'
+export type ThemeMode = 'light' | 'dark' | 'system'
 
 function getInitialMode(): ThemeMode {
   if (typeof window === 'undefined') {
@@ -31,6 +31,18 @@ function applyThemeMode(mode: ThemeMode) {
   document.documentElement.style.colorScheme = resolved
 }
 
+export function getNextThemeMode(mode: ThemeMode): ThemeMode {
+  if (mode === 'light') {
+    return 'dark'
+  }
+
+  if (mode === 'dark') {
+    return 'system'
+  }
+
+  return 'light'
+}
+
 export default function ThemeToggle() {
   const [mode, setMode] = useState<ThemeMode>('system')
 
@@ -55,8 +67,7 @@ export default function ThemeToggle() {
   }, [mode])
 
   function toggleMode() {
-    const nextMode: ThemeMode =
-      mode === 'light' ? 'dark' : mode === 'dark' ? 'system' : 'light'
+    const nextMode = getNextThemeMode(mode)
     setMode(nextMode)
     applyThemeMode(nextMode)
     window.localStorage.setItem('theme', nextMode)

@@ -3,6 +3,14 @@ import { getRequest } from '@tanstack/react-start/server'
 import { redirect } from '@tanstack/react-router'
 import { auth } from '#/lib/auth'
 
+interface GuardSession {
+  user: {
+    role?: string | null
+  }
+}
+
+type RedirectTarget = '/' | '/auth/login'
+
 export const getCurrentSession = createServerFn({ method: 'GET' }).handler(
   async () => {
     const request = getRequest()
@@ -13,22 +21,46 @@ export const getCurrentSession = createServerFn({ method: 'GET' }).handler(
   },
 )
 
+export function getAuthRedirectTarget(
+  session: GuardSession | null,
+): RedirectTarget | null {
+  if (!session) {
+    return '/auth/login'
+  }
+
+  return null
+}
+
+export function getAdminRedirectTarget(
+  session: GuardSession | null,
+): RedirectTarget | null {
+  const authTarget = getAuthRedirectTarget(session)
+
+  if (authTarget) {
+    return authTarget
+  }
+
+  if (session.user.role !== 'admin') {
+    return '/'
+  }
+
+  return null
+}
+
 export async function requireAuth(): Promise<void> {
   const session = await getCurrentSession()
+  const target = getAuthRedirectTarget(session)
 
-  if (!session) {
-    throw redirect({ to: '/auth/login' })
+  if (target) {
+    throw redirect({ to: target })
   }
 }
 
 export async function requireAdmin(): Promise<void> {
   const session = await getCurrentSession()
+  const target = getAdminRedirectTarget(session)
 
-  if (!session) {
-    throw redirect({ to: '/auth/login' })
-  }
-
-  if (session.user.role !== 'admin') {
-    throw redirect({ to: '/' })
+  if (target) {
+    throw redirect({ to: target })
   }
 }

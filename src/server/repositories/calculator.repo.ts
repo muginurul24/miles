@@ -8,6 +8,9 @@ const calculatorCardSelect = {
   shortName: true,
   bank: true,
   annualFee: true,
+  loungeAccess: true,
+  travelInsurance: true,
+  airportTransfer: true,
   earningRates: {
     orderBy: [{ transactionType: 'asc' }],
   },

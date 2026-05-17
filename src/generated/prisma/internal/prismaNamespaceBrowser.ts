@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   CreditCard: 'CreditCard',
+  CardApplication: 'CardApplication',
   EarningRate: 'EarningRate',
   TransferPartner: 'TransferPartner',
   CardPro: 'CardPro',
@@ -103,6 +104,16 @@ export const CreditCardScalarFieldEnum = {
 } as const
 
 export type CreditCardScalarFieldEnum = (typeof CreditCardScalarFieldEnum)[keyof typeof CreditCardScalarFieldEnum]
+
+
+export const CardApplicationScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type CardApplicationScalarFieldEnum = (typeof CardApplicationScalarFieldEnum)[keyof typeof CardApplicationScalarFieldEnum]
 
 
 export const EarningRateScalarFieldEnum = {

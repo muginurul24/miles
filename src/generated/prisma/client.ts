@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type CreditCard = Prisma.CreditCardModel
 /**
+ * Model CardApplication
+ * 
+ */
+export type CardApplication = Prisma.CardApplicationModel
+/**
  * Model EarningRate
  * 
  */

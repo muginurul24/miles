@@ -264,9 +264,9 @@ phases:
 
   - id: phase-10
     name: "Membership + Consulting"
-    status: in_progress
+    status: completed
     stories_total: 6
-    stories_completed: 2
+    stories_completed: 6
     stories:
       - id: "10.1"
         name: "Membership tiers page — 4 tier cards"
@@ -276,141 +276,141 @@ phases:
         status: completed
       - id: "10.3"
         name: "Consulting packages page"
-        status: pending
+        status: completed
       - id: "10.4"
         name: "Consulting inquiry form"
-        status: pending
+        status: completed
       - id: "10.5"
         name: "tRPC procedures — membership, consulting submission"
-        status: pending
+        status: completed
       - id: "10.6"
         name: "Newsletter subscription — multi-page + tRPC"
-        status: pending
+        status: completed
 
   - id: phase-11
     name: "Advisor Quiz"
-    status: pending
+    status: completed
     stories_total: 4
-    stories_completed: 0
+    stories_completed: 4
     stories:
       - id: "11.1"
         name: "Quiz form — 8 question cards with radio options"
-        status: pending
+        status: completed
       - id: "11.2"
         name: "Quiz recommendation algorithm"
-        status: pending
+        status: completed
       - id: "11.3"
         name: "Quiz results display — top 3 recommendations + stats"
-        status: pending
+        status: completed
       - id: "11.4"
         name: "Quiz page layout + navigation"
-        status: pending
+        status: completed
 
   - id: phase-12
     name: "Admin Dashboard"
-    status: pending
+    status: completed
     stories_total: 10
-    stories_completed: 0
+    stories_completed: 10
     stories:
       - id: "12.1"
         name: "Dashboard layout — sidebar + header"
-        status: pending
+        status: completed
       - id: "12.2"
         name: "Dashboard overview — stats cards + recent activity"
-        status: pending
+        status: completed
       - id: "12.3"
         name: "Admin auth guard — middleware + route protection"
-        status: pending
+        status: completed
       - id: "12.4"
         name: "Manage cards — TanStack Table with CRUD"
-        status: pending
+        status: completed
       - id: "12.5"
         name: "Manage articles — TanStack Table with editor"
-        status: pending
+        status: completed
       - id: "12.6"
         name: "Manage inquiries — table with status filters"
-        status: pending
+        status: completed
       - id: "12.7"
         name: "Manage subscribers — table + CSV export"
-        status: pending
+        status: completed
       - id: "12.8"
         name: "Dashboard theme toggle"
-        status: pending
+        status: completed
       - id: "12.9"
         name: "tRPC admin router — all procedures"
-        status: pending
+        status: completed
       - id: "12.10"
         name: "shadcn dashboard-01 block integration"
-        status: pending
+        status: completed
 
   - id: phase-13
     name: "Legal Pages + Newsletter"
-    status: pending
+    status: completed
     stories_total: 4
-    stories_completed: 0
+    stories_completed: 4
     stories:
       - id: "13.1"
         name: "About page"
-        status: pending
+        status: completed
       - id: "13.2"
         name: "Privacy Policy page"
-        status: pending
+        status: completed
       - id: "13.3"
         name: "Terms & Conditions page"
-        status: pending
+        status: completed
       - id: "13.4"
         name: "Disclaimer page"
-        status: pending
+        status: completed
 
   - id: phase-14
     name: "Charts Integration"
-    status: pending
+    status: completed
     stories_total: 5
-    stories_completed: 0
+    stories_completed: 5
     stories:
       - id: "14.1"
         name: "Install shadcn chart components — area, bar, line, pie, radar, radial, tooltip"
-        status: pending
+        status: completed
       - id: "14.2"
         name: "Area chart — card applications over time"
-        status: pending
+        status: completed
       - id: "14.3"
         name: "Bar + Pie charts — articles + membership distribution"
-        status: pending
+        status: completed
       - id: "14.4"
         name: "Radar chart — card feature comparison"
-        status: pending
+        status: completed
       - id: "14.5"
         name: "Dark/light mode chart theming"
-        status: pending
+        status: completed
 
   - id: phase-15
     name: "Polish & Production Hardening"
-    status: pending
+    status: completed
     stories_total: 8
-    stories_completed: 0
+    stories_completed: 8
     stories:
       - id: "15.1"
         name: "Loading states — skeletons for all pages"
-        status: pending
+        status: completed
       - id: "15.2"
         name: "Empty states — no results, no articles, no cards"
-        status: pending
+        status: completed
       - id: "15.3"
         name: "Error boundaries per route"
-        status: pending
+        status: completed
       - id: "15.4"
         name: "SEO — meta tags, OG images, sitemap"
-        status: pending
+        status: completed
       - id: "15.5"
         name: "Accessibility audit — keyboard nav, ARIA, contrast"
-        status: pending
+        status: completed
       - id: "15.6"
         name: "Performance — image optimization, bundle analysis"
-        status: pending
+        status: completed
       - id: "15.7"
         name: "Mobile responsive QA — all pages at 375/768/1280"
-        status: pending
+        status: completed
       - id: "15.8"
         name: "Final code review + cleanup"
-        status: pending
+        status: completed

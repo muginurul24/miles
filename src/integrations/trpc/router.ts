@@ -1,12 +1,11 @@
-import {
-  adminProcedure,
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from './init'
+import { createTRPCRouter, protectedProcedure, publicProcedure } from './init'
+import { adminRouter } from './admin'
 import { articlesRouter } from './articles'
 import { calculatorRouter } from './calculator'
 import { cardsRouter } from './cards'
+import { consultingRouter } from './consulting'
+import { membershipRouter } from './membership'
+import { newsletterRouter } from './newsletter'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -24,13 +23,6 @@ const viewerRouter = {
   })),
 } satisfies TRPCRouterRecord
 
-const adminRouter = {
-  ping: adminProcedure.query(({ ctx }) => ({
-    ok: true,
-    userId: ctx.user.id,
-  })),
-} satisfies TRPCRouterRecord
-
 export const trpcRouter = createTRPCRouter({
   health: healthRouter,
   viewer: viewerRouter,
@@ -38,5 +30,8 @@ export const trpcRouter = createTRPCRouter({
   cards: cardsRouter,
   calculator: calculatorRouter,
   articles: articlesRouter,
+  membership: membershipRouter,
+  consulting: consultingRouter,
+  newsletter: newsletterRouter,
 })
 export type TRPCRouter = typeof trpcRouter

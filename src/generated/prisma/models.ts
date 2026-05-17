@@ -9,6 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/CreditCard.ts'
+export type * from './models/CardApplication.ts'
 export type * from './models/EarningRate.ts'
 export type * from './models/TransferPartner.ts'
 export type * from './models/CardPro.ts'

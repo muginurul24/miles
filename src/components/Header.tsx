@@ -59,6 +59,7 @@ const reviewGroups: NavGroup[] = [
     items: [
       { label: 'Miles Calculator', href: '/calculator' },
       { label: 'Compare Cards', href: '/compare' },
+      { label: 'Advisor Quiz', href: '/quiz' },
     ],
   },
 ]

@@ -17,9 +17,13 @@ export function CardDetailHero({ card }: CardDetailHeroProps): ReactElement {
           <img
             src={card.imageUrl}
             alt={card.shortName}
+            width={1200}
+            height={600}
             className="h-full w-full object-cover"
             decoding="async"
+            fetchPriority="high"
             loading="eager"
+            sizes="(min-width: 1024px) 66vw, 100vw"
           />
         </div>
       ) : (

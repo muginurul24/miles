@@ -11,6 +11,7 @@ import {
   getInitialCompareSpendingValue,
 } from '#/components/compare/CompareSpendingInputs'
 import { PageHeader } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/compare')({
   loader: async ({ context }) => {
@@ -21,16 +22,13 @@ export const Route = createFileRoute('/compare')({
     return { cards }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'Bandingkan Kartu Kredit — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Bandingkan earning rate, transfer partner, dan estimasi miles dari beberapa kartu kredit.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Bandingkan Kartu Kredit — JustMiles',
+      description:
+        'Bandingkan earning rate, transfer partner, dan estimasi miles dari beberapa kartu kredit.',
+      path: '/compare',
+    }),
+    links: buildCanonicalLinks('/compare'),
   }),
   component: ComparePage,
 })

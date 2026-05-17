@@ -26,6 +26,7 @@ const footerColumns: FooterColumn[] = [
       { label: 'Guides', href: '/guides' },
       { label: 'Reviews', href: '/reviews/flight' },
       { label: 'Deals', href: '/deals' },
+      { label: 'Newsletter', href: '/newsletter' },
     ],
   },
   {

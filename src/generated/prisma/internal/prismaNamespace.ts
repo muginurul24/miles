@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   CreditCard: 'CreditCard',
+  CardApplication: 'CardApplication',
   EarningRate: 'EarningRate',
   TransferPartner: 'TransferPartner',
   CardPro: 'CardPro',
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "creditCard" | "earningRate" | "transferPartner" | "cardPro" | "cardCon" | "article" | "membershipTier" | "consultingPackage" | "consultingInquiry" | "newsletterSubscriber" | "user" | "session" | "account" | "verification"
+    modelProps: "creditCard" | "cardApplication" | "earningRate" | "transferPartner" | "cardPro" | "cardCon" | "article" | "membershipTier" | "consultingPackage" | "consultingInquiry" | "newsletterSubscriber" | "user" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -488,6 +489,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CreditCardCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CreditCardCountAggregateOutputType> | number
+        }
+      }
+    }
+    CardApplication: {
+      payload: Prisma.$CardApplicationPayload<ExtArgs>
+      fields: Prisma.CardApplicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardApplicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardApplicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>
+        }
+        findFirst: {
+          args: Prisma.CardApplicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardApplicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>
+        }
+        findMany: {
+          args: Prisma.CardApplicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>[]
+        }
+        create: {
+          args: Prisma.CardApplicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>
+        }
+        createMany: {
+          args: Prisma.CardApplicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardApplicationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>[]
+        }
+        delete: {
+          args: Prisma.CardApplicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>
+        }
+        update: {
+          args: Prisma.CardApplicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.CardApplicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardApplicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardApplicationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>[]
+        }
+        upsert: {
+          args: Prisma.CardApplicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardApplicationPayload>
+        }
+        aggregate: {
+          args: Prisma.CardApplicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCardApplication>
+        }
+        groupBy: {
+          args: Prisma.CardApplicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardApplicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardApplicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardApplicationCountAggregateOutputType> | number
         }
       }
     }
@@ -1514,6 +1589,16 @@ export const CreditCardScalarFieldEnum = {
 export type CreditCardScalarFieldEnum = (typeof CreditCardScalarFieldEnum)[keyof typeof CreditCardScalarFieldEnum]
 
 
+export const CardApplicationScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type CardApplicationScalarFieldEnum = (typeof CardApplicationScalarFieldEnum)[keyof typeof CardApplicationScalarFieldEnum]
+
+
 export const EarningRateScalarFieldEnum = {
   id: 'id',
   cardId: 'cardId',
@@ -1917,6 +2002,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   creditCard?: Prisma.CreditCardOmit
+  cardApplication?: Prisma.CardApplicationOmit
   earningRate?: Prisma.EarningRateOmit
   transferPartner?: Prisma.TransferPartnerOmit
   cardPro?: Prisma.CardProOmit

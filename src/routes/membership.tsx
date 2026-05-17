@@ -1,5 +1,4 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
 import { ArrowRight, Check, Crown, Sparkles } from 'lucide-react'
 import { Badge, PageHeader } from '#/components/shared'
 import {
@@ -10,6 +9,7 @@ import {
 } from '#/components/ui/accordion'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '#/components/ui/card'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 import { cn } from '#/lib/utils'
 
 import type { MembershipTierView } from '#/server/repositories/membership.repo'
@@ -38,29 +38,22 @@ const membershipFaqs = [
   },
 ] as const
 
-const getMembershipData = createServerFn({ method: 'GET' }).handler(
-  async () => {
-    const { membershipRepo } =
-      await import('#/server/repositories/membership.repo')
-    const tiers = await membershipRepo.findTiers()
+export const Route = createFileRoute('/membership')({
+  loader: async ({ context }) => {
+    const tiers = await context.queryClient.ensureQueryData(
+      context.trpc.membership.tiers.queryOptions(),
+    )
 
     return { tiers }
   },
-)
-
-export const Route = createFileRoute('/membership')({
-  loader: async () => getMembershipData(),
   head: () => ({
-    meta: [
-      {
-        title: 'Membership — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Pilih membership JustMiles untuk membuka premium guides, review mendalam, dan strategy briefing points and miles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Membership — JustMiles',
+      description:
+        'Pilih membership JustMiles untuk membuka premium guides, review mendalam, dan strategy briefing points and miles.',
+      path: '/membership',
+    }),
+    links: buildCanonicalLinks('/membership'),
   }),
   component: MembershipPage,
 })

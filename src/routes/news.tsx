@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ArticleGrid } from '#/components/cards/ArticleGrid'
 import { NewsletterCTA, PageHeader } from '#/components/shared'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/news')({
   loader: async ({ context }) => {
@@ -14,16 +15,13 @@ export const Route = createFileRoute('/news')({
     return { articles }
   },
   head: () => ({
-    meta: [
-      {
-        title: 'News Points & Miles — JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Update terbaru program points, miles, kartu kredit, airline loyalty, dan promo transfer di Indonesia.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'News Points & Miles — JustMiles',
+      description:
+        'Update terbaru program points, miles, kartu kredit, airline loyalty, dan promo transfer di Indonesia.',
+      path: '/news',
+    }),
+    links: buildCanonicalLinks('/news'),
   }),
   component: NewsPage,
 })
@@ -54,6 +52,7 @@ function NewsPage() {
 
         <ArticleGrid
           articles={articles}
+          emptyTitle="Belum ada news"
           emptyMessage="Belum ada news terbaru."
         />
       </section>

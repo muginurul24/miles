@@ -1,18 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SignupForm } from '#/components/signup-form.tsx'
+import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/auth/register')({
   head: () => ({
-    meta: [
-      {
-        title: 'Daftar | JustMiles',
-      },
-      {
-        name: 'description',
-        content:
-          'Daftar akun JustMiles untuk menyimpan preferensi kartu, membership, dan konsultasi points and miles.',
-      },
-    ],
+    meta: buildSeoMeta({
+      title: 'Daftar | JustMiles',
+      description:
+        'Daftar akun JustMiles untuk menyimpan preferensi kartu, membership, dan konsultasi points and miles.',
+      path: '/auth/register',
+      noIndex: true,
+    }),
+    links: buildCanonicalLinks('/auth/register'),
   }),
   component: RegisterPage,
 })
