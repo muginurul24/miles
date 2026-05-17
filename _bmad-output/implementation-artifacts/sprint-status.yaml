@@ -170,9 +170,9 @@ phases:
 
   - id: phase-06
     name: "Calculator"
-    status: in_progress
+    status: completed
     stories_total: 6
-    stories_completed: 5
+    stories_completed: 6
     stories:
       - id: "06.1"
         name: "Calculator engine — pure functions in lib/calculator.ts"
@@ -188,7 +188,7 @@ phases:
         status: completed
       - id: "06.5"
         name: "Calculator page layout + formula explanation"
-        status: pending
+        status: completed
       - id: "06.6"
         name: "Calculator unit tests — all edge cases"
         status: completed
