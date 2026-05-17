@@ -1,6 +1,7 @@
 import { RotateCcw, Send } from 'lucide-react'
 import { useState } from 'react'
 import { showToast } from '#/components/Toast'
+import { AdvisorQuizResults } from '#/components/quiz/AdvisorQuizResults'
 import { Badge } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
@@ -11,15 +12,27 @@ import {
   isQuizComplete,
   quizQuestions,
 } from '#/lib/quiz'
+import { recommendCardsFromQuiz } from '#/lib/quiz-recommendation'
 import { cn } from '#/lib/utils'
 
 import type { FormEvent, ReactElement } from 'react'
 import type { QuizAnswers, QuizQuestionId } from '#/lib/quiz'
+import type {
+  QuizRecommendation,
+  QuizRecommendationCard,
+} from '#/lib/quiz-recommendation'
 
 const totalQuestions = quizQuestions.length
 
-export function AdvisorQuizForm(): ReactElement {
+export interface AdvisorQuizFormProps {
+  cards: QuizRecommendationCard[]
+}
+
+export function AdvisorQuizForm({ cards }: AdvisorQuizFormProps): ReactElement {
   const [answers, setAnswers] = useState<QuizAnswers>({})
+  const [recommendations, setRecommendations] = useState<
+    QuizRecommendation[] | null
+  >(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const answeredCount = getAnsweredQuestionCount(answers)
   const completionPercentage = Math.round(
@@ -36,6 +49,7 @@ export function AdvisorQuizForm(): ReactElement {
 
   function handleReset(): void {
     setAnswers({})
+    setRecommendations(null)
     setSubmitError(null)
   }
 
@@ -50,7 +64,17 @@ export function AdvisorQuizForm(): ReactElement {
     }
 
     setSubmitError(null)
-    showToast('Jawaban quiz tersimpan. Rekomendasi aktif di tahap berikutnya.')
+    setRecommendations(recommendCardsFromQuiz(answers, cards))
+    showToast('Rekomendasi quiz siap.')
+  }
+
+  if (recommendations) {
+    return (
+      <AdvisorQuizResults
+        recommendations={recommendations}
+        onReset={handleReset}
+      />
+    )
   }
 
   return (
@@ -171,8 +195,8 @@ export function AdvisorQuizForm(): ReactElement {
                 <p className="mt-1 text-sm text-destructive">{submitError}</p>
               ) : (
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Rekomendasi top 3 akan menggunakan jawaban ini di story
-                  berikutnya.
+                  Rekomendasi top 3 akan dihitung dari jawaban dan data kartu
+                  terbaru.
                 </p>
               )}
             </div>
@@ -184,7 +208,7 @@ export function AdvisorQuizForm(): ReactElement {
               </Button>
               <Button type="submit">
                 <Send className="h-4 w-4" aria-hidden="true" />
-                Simpan jawaban
+                Lihat rekomendasi
               </Button>
             </div>
           </div>

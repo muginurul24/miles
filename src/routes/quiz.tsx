@@ -3,6 +3,15 @@ import { AdvisorQuizForm } from '#/components/quiz/AdvisorQuizForm'
 import { PageHeader } from '#/components/shared'
 
 export const Route = createFileRoute('/quiz')({
+  loader: async ({ context }) => {
+    const cards = await context.queryClient.ensureQueryData(
+      context.trpc.cards.list.queryOptions({
+        sort: 'earning_best',
+      }),
+    )
+
+    return { cards }
+  },
   head: () => ({
     meta: [
       {
@@ -19,6 +28,8 @@ export const Route = createFileRoute('/quiz')({
 })
 
 function QuizPage() {
+  const { cards } = Route.useLoaderData()
+
   return (
     <main className="pb-12">
       <PageHeader
@@ -27,7 +38,7 @@ function QuizPage() {
         description="Jawab 8 pertanyaan inti. Form ini menjadi fondasi scoring rekomendasi top 3 kartu di tahap berikutnya."
       />
 
-      <AdvisorQuizForm />
+      <AdvisorQuizForm cards={cards} />
     </main>
   )
 }
