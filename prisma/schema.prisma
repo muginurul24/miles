@@ -7,8 +7,155 @@ datasource db {
   provider = "postgresql"
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
+model CreditCard {
+  id              String   @id
+  name            String
+  shortName       String   @map("short_name")
+  bank            String
+  network         String
+  tier            String
+  annualFee       Int      @map("annual_fee")
+  minIncome       Int      @map("min_income")
+  imageUrl        String?  @map("image_url")
+  bestFor         String?  @map("best_for")
+  notIdealFor     String?  @map("not_ideal_for")
+  loungeAccess    Boolean  @default(false) @map("lounge_access")
+  travelInsurance Boolean  @default(false) @map("travel_insurance")
+  airportTransfer Boolean  @default(false) @map("airport_transfer")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  earningRates     EarningRate[]
+  transferPartners TransferPartner[]
+  pros             CardPro[]
+  cons             CardCon[]
+
+  @@index([bank], map: "idx_cards_bank")
+  @@index([tier], map: "idx_cards_tier")
+  @@map("credit_cards")
+}
+
+model EarningRate {
+  id              String @id @default(uuid()) @db.Uuid
+  cardId          String @map("card_id")
+  transactionType String @map("transaction_type")
+  spendPerPoint   Int    @map("spend_per_point")
+  pointsEarned    Float  @map("points_earned")
+
+  card CreditCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId], map: "idx_earning_rates_card")
+  @@index([transactionType], map: "idx_earning_rates_type")
+  @@map("earning_rates")
+}
+
+model TransferPartner {
+  id             String @id @default(uuid()) @db.Uuid
+  cardId         String @map("card_id")
+  program        String
+  pointsRequired Int    @map("points_required")
+  milesReceived  Int    @map("miles_received")
+
+  card CreditCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId], map: "idx_transfer_partners_card")
+  @@index([program], map: "idx_transfer_partners_program")
+  @@map("transfer_partners")
+}
+
+model CardPro {
+  id     String @id @default(uuid()) @db.Uuid
+  cardId String @map("card_id")
+  text   String
+
+  card CreditCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId], map: "idx_card_pros_card")
+  @@map("card_pros")
+}
+
+model CardCon {
+  id     String @id @default(uuid()) @db.Uuid
+  cardId String @map("card_id")
+  text   String
+
+  card CreditCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId], map: "idx_card_cons_card")
+  @@map("card_cons")
+}
+
+model Article {
+  id          String    @id
+  title       String
+  excerpt     String?
+  content     String?
+  category    String
+  subCategory String?   @map("sub_category")
+  author      String?
+  imageUrl    String?   @map("image_url")
+  premium     Boolean   @default(false)
+  dealTag     String?   @map("deal_tag")
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@index([category], map: "idx_articles_category")
+  @@index([publishedAt], map: "idx_articles_published")
+  @@index([premium], map: "idx_articles_premium")
+  @@index([category, publishedAt], map: "idx_articles_category_published")
+  @@map("articles")
+}
+
+model MembershipTier {
+  id            String  @id
+  name          String
+  priceIdr      Int     @map("price_idr")
+  period        String
+  features      Json
+  isHighlighted Boolean @default(false) @map("is_highlighted")
+  sortOrder     Int?    @map("sort_order")
+
+  @@map("membership_tiers")
+}
+
+model ConsultingPackage {
+  id          String  @id
+  name        String
+  description String?
+  priceIdr    Int?    @map("price_idr")
+  priceLabel  String? @map("price_label")
+  outputs     Json
+  icon        String?
+
+  inquiries ConsultingInquiry[]
+
+  @@map("consulting_packages")
+}
+
+model ConsultingInquiry {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String
+  phone        String?
+  packageId    String?  @map("package_id")
+  currentCards String?  @map("current_cards")
+  needs        String?
+  status       String   @default("new")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  package ConsultingPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
+
+  @@index([status], map: "idx_inquiries_status")
+  @@index([createdAt], map: "idx_inquiries_created")
+  @@map("consulting_inquiries")
+}
+
+model NewsletterSubscriber {
+  id             String    @id @default(uuid()) @db.Uuid
+  email          String    @unique
+  subscribedAt   DateTime  @default(now()) @map("subscribed_at")
+  unsubscribedAt DateTime? @map("unsubscribed_at")
+
+  @@map("newsletter_subscribers")
 }

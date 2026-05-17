@@ -51,7 +51,16 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Todo: 'Todo'
+  CreditCard: 'CreditCard',
+  EarningRate: 'EarningRate',
+  TransferPartner: 'TransferPartner',
+  CardPro: 'CardPro',
+  CardCon: 'CardCon',
+  Article: 'Article',
+  MembershipTier: 'MembershipTier',
+  ConsultingPackage: 'ConsultingPackage',
+  ConsultingInquiry: 'ConsultingInquiry',
+  NewsletterSubscriber: 'NewsletterSubscriber'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,13 +79,136 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const TodoScalarFieldEnum = {
+export const CreditCardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  shortName: 'shortName',
+  bank: 'bank',
+  network: 'network',
+  tier: 'tier',
+  annualFee: 'annualFee',
+  minIncome: 'minIncome',
+  imageUrl: 'imageUrl',
+  bestFor: 'bestFor',
+  notIdealFor: 'notIdealFor',
+  loungeAccess: 'loungeAccess',
+  travelInsurance: 'travelInsurance',
+  airportTransfer: 'airportTransfer',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditCardScalarFieldEnum = (typeof CreditCardScalarFieldEnum)[keyof typeof CreditCardScalarFieldEnum]
+
+
+export const EarningRateScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  transactionType: 'transactionType',
+  spendPerPoint: 'spendPerPoint',
+  pointsEarned: 'pointsEarned'
+} as const
+
+export type EarningRateScalarFieldEnum = (typeof EarningRateScalarFieldEnum)[keyof typeof EarningRateScalarFieldEnum]
+
+
+export const TransferPartnerScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  program: 'program',
+  pointsRequired: 'pointsRequired',
+  milesReceived: 'milesReceived'
+} as const
+
+export type TransferPartnerScalarFieldEnum = (typeof TransferPartnerScalarFieldEnum)[keyof typeof TransferPartnerScalarFieldEnum]
+
+
+export const CardProScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  text: 'text'
+} as const
+
+export type CardProScalarFieldEnum = (typeof CardProScalarFieldEnum)[keyof typeof CardProScalarFieldEnum]
+
+
+export const CardConScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  text: 'text'
+} as const
+
+export type CardConScalarFieldEnum = (typeof CardConScalarFieldEnum)[keyof typeof CardConScalarFieldEnum]
+
+
+export const ArticleScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  excerpt: 'excerpt',
+  content: 'content',
+  category: 'category',
+  subCategory: 'subCategory',
+  author: 'author',
+  imageUrl: 'imageUrl',
+  premium: 'premium',
+  dealTag: 'dealTag',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const MembershipTierScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  priceIdr: 'priceIdr',
+  period: 'period',
+  features: 'features',
+  isHighlighted: 'isHighlighted',
+  sortOrder: 'sortOrder'
+} as const
+
+export type MembershipTierScalarFieldEnum = (typeof MembershipTierScalarFieldEnum)[keyof typeof MembershipTierScalarFieldEnum]
+
+
+export const ConsultingPackageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  priceIdr: 'priceIdr',
+  priceLabel: 'priceLabel',
+  outputs: 'outputs',
+  icon: 'icon'
+} as const
+
+export type ConsultingPackageScalarFieldEnum = (typeof ConsultingPackageScalarFieldEnum)[keyof typeof ConsultingPackageScalarFieldEnum]
+
+
+export const ConsultingInquiryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  packageId: 'packageId',
+  currentCards: 'currentCards',
+  needs: 'needs',
+  status: 'status',
   createdAt: 'createdAt'
 } as const
 
-export type TodoScalarFieldEnum = (typeof TodoScalarFieldEnum)[keyof typeof TodoScalarFieldEnum]
+export type ConsultingInquiryScalarFieldEnum = (typeof ConsultingInquiryScalarFieldEnum)[keyof typeof ConsultingInquiryScalarFieldEnum]
+
+
+export const NewsletterSubscriberScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  subscribedAt: 'subscribedAt',
+  unsubscribedAt: 'unsubscribedAt'
+} as const
+
+export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -87,10 +219,34 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

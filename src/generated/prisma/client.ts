@@ -31,8 +31,8 @@ export * from "./enums.ts"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Todos
- * const todos = await prisma.todo.findMany()
+ * // Fetch zero or more CreditCards
+ * const creditCards = await prisma.creditCard.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -42,7 +42,52 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
- * Model Todo
+ * Model CreditCard
  * 
  */
-export type Todo = Prisma.TodoModel
+export type CreditCard = Prisma.CreditCardModel
+/**
+ * Model EarningRate
+ * 
+ */
+export type EarningRate = Prisma.EarningRateModel
+/**
+ * Model TransferPartner
+ * 
+ */
+export type TransferPartner = Prisma.TransferPartnerModel
+/**
+ * Model CardPro
+ * 
+ */
+export type CardPro = Prisma.CardProModel
+/**
+ * Model CardCon
+ * 
+ */
+export type CardCon = Prisma.CardConModel
+/**
+ * Model Article
+ * 
+ */
+export type Article = Prisma.ArticleModel
+/**
+ * Model MembershipTier
+ * 
+ */
+export type MembershipTier = Prisma.MembershipTierModel
+/**
+ * Model ConsultingPackage
+ * 
+ */
+export type ConsultingPackage = Prisma.ConsultingPackageModel
+/**
+ * Model ConsultingInquiry
+ * 
+ */
+export type ConsultingInquiry = Prisma.ConsultingInquiryModel
+/**
+ * Model NewsletterSubscriber
+ * 
+ */
+export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel

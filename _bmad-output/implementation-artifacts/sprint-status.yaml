@@ -39,13 +39,13 @@ phases:
 
   - id: phase-01
     name: "Database & Seed Data"
-    status: pending
+    status: in_progress
     stories_total: 6
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "01.1"
         name: "Define Prisma schema — all tables"
-        status: pending
+        status: completed
       - id: "01.2"
         name: "Create repositories — cards, articles, calculators"
         status: pending

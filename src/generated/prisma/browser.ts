@@ -18,7 +18,52 @@ export { Prisma }
 export * as $Enums from './enums.ts'
 export * from './enums.ts';
 /**
- * Model Todo
+ * Model CreditCard
  * 
  */
-export type Todo = Prisma.TodoModel
+export type CreditCard = Prisma.CreditCardModel
+/**
+ * Model EarningRate
+ * 
+ */
+export type EarningRate = Prisma.EarningRateModel
+/**
+ * Model TransferPartner
+ * 
+ */
+export type TransferPartner = Prisma.TransferPartnerModel
+/**
+ * Model CardPro
+ * 
+ */
+export type CardPro = Prisma.CardProModel
+/**
+ * Model CardCon
+ * 
+ */
+export type CardCon = Prisma.CardConModel
+/**
+ * Model Article
+ * 
+ */
+export type Article = Prisma.ArticleModel
+/**
+ * Model MembershipTier
+ * 
+ */
+export type MembershipTier = Prisma.MembershipTierModel
+/**
+ * Model ConsultingPackage
+ * 
+ */
+export type ConsultingPackage = Prisma.ConsultingPackageModel
+/**
+ * Model ConsultingInquiry
+ * 
+ */
+export type ConsultingInquiry = Prisma.ConsultingInquiryModel
+/**
+ * Model NewsletterSubscriber
+ * 
+ */
+export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
