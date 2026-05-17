@@ -9,7 +9,7 @@ NProgress.configure({
 
 let completionTimer: ReturnType<typeof setTimeout> | undefined
 
-export function startLoadingBar(): void {
+export function start(): void {
   if (completionTimer) {
     clearTimeout(completionTimer)
     completionTimer = undefined
@@ -20,7 +20,7 @@ export function startLoadingBar(): void {
   }
 }
 
-export function completeLoadingBar(): void {
+export function done(): void {
   completionTimer = setTimeout(() => {
     NProgress.done()
     completionTimer = undefined

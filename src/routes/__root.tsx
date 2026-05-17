@@ -10,12 +10,10 @@ import Footer from '#/components/Footer'
 import Header from '#/components/Header'
 import { ToastViewport } from '#/components/Toast'
 import TanStackQueryDevtools from '#/integrations/tanstack-query/devtools'
-import { completeLoadingBar, startLoadingBar } from '#/lib/loading-bar'
 import { buildSeoMeta, DEFAULT_SEO } from '#/lib/seo'
 import appCss from '#/styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 import type { TRPCRouter } from '#/integrations/trpc/router'
 import type { TRPCOptionsProxy } from '@trpc/tanstack-react-query'
@@ -98,7 +96,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         </div>
         {isDashboardRoute ? null : <Footer />}
         <ToastViewport />
-        <RouteLoadingBar />
         <TanStackDevtools
           config={{
             position: 'bottom-right',
@@ -115,23 +112,4 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   )
-}
-
-function RouteLoadingBar() {
-  const isRouteLoading = useRouterState({
-    select: (state) =>
-      state.isLoading ||
-      state.matches.some((match) => match.status === 'pending'),
-  })
-
-  useEffect(() => {
-    if (isRouteLoading) {
-      startLoadingBar()
-      return
-    }
-
-    completeLoadingBar()
-  }, [isRouteLoading])
-
-  return null
 }
