@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "@rolldown/plugin-babel": "^0.2.3",
+    "@tailwindcss/forms": "0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/devtools-event-client": "latest",
     "@tanstack/devtools-vite": "latest",

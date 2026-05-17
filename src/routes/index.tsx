@@ -1,9 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { HeroSection } from '#/components/home/HeroSection'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
 })
 
 function HomePage() {
-  return <main className="page-wrap min-h-[40vh]" />
+  return (
+    <main>
+      <HeroSection />
+    </main>
+  )
 }

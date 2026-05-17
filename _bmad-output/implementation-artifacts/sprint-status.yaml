@@ -108,13 +108,13 @@ phases:
 
   - id: phase-04
     name: "Home Page"
-    status: pending
+    status: in_progress
     stories_total: 8
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
-        status: pending
+        status: completed
       - id: "04.2"
         name: "Stats bar — 4 stat cards"
         status: pending
