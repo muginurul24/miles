@@ -1,7 +1,12 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { Armchair, BedDouble, Plane, Star } from 'lucide-react'
 import { ArticleGrid } from '#/components/cards/ArticleGrid'
-import { Badge, NewsletterCTA, PageHeader } from '#/components/shared'
+import {
+  Badge,
+  NewsletterCTA,
+  PageHeader,
+  PremiumContentCTA,
+} from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { cn } from '#/lib/utils'
 
@@ -172,6 +177,13 @@ function ReviewsPage() {
           emptyMessage={section?.emptyMessage ?? 'Belum ada review.'}
         />
       </section>
+
+      <PremiumContentCTA
+        className="my-10"
+        title="Review premium untuk redemption yang lebih mahal"
+        description="Saat tiket, hotel, atau lounge access punya biaya opportunity tinggi, analisis premium membantu membandingkan value, comfort, dan alternatif redemption sebelum miles dikunci."
+        highlight="Review premium"
+      />
 
       <NewsletterCTA
         title="Dapatkan review baru sebelum menentukan redemption"

@@ -1,7 +1,12 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { LockKeyhole, Route as RouteIcon, Sparkles } from 'lucide-react'
 import { ArticleGrid } from '#/components/cards/ArticleGrid'
-import { Badge, NewsletterCTA, PageHeader } from '#/components/shared'
+import {
+  Badge,
+  NewsletterCTA,
+  PageHeader,
+  PremiumContentCTA,
+} from '#/components/shared'
 import { Button } from '#/components/ui/button'
 
 export const Route = createFileRoute('/guides')({
@@ -109,6 +114,13 @@ function GuidesPage() {
 
         <ArticleGrid articles={guides} emptyMessage="Belum ada guide." />
       </section>
+
+      <PremiumContentCTA
+        className="my-10"
+        title="Butuh playbook lebih dalam dari guide publik?"
+        description="Guide premium akan fokus pada strategi portfolio kartu, timing transfer, dan prioritas redemption yang lebih taktis untuk target trip tertentu."
+        highlight="Guide premium"
+      />
 
       <NewsletterCTA
         title="Dapatkan guide baru tanpa harus mengecek promo satu-satu"
