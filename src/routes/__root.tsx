@@ -5,14 +5,10 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
-
-import StoreDevtools from '../lib/demo-store-devtools'
-
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
-
-import appCss from '../styles.css?url'
+import Footer from '#/components/Footer'
+import Header from '#/components/Header'
+import TanStackQueryDevtools from '#/integrations/tanstack-query/devtools'
+import appCss from '#/styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -38,7 +34,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'JustMiles',
       },
     ],
     links: [
@@ -71,7 +67,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               name: 'Tanstack Router',
               render: <TanStackRouterDevtoolsPanel />,
             },
-            StoreDevtools,
             TanStackQueryDevtools,
           ]}
         />

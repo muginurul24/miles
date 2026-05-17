@@ -10,11 +10,11 @@ phases:
     name: "Bootstrap & Foundation"
     status: in_progress
     stories_total: 8
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "00.1"
         name: "Project cleanup — remove demo files"
-        status: pending
+        status: completed
       - id: "00.2"
         name: "Font setup — fonts.bunny.net CDN + Tailwind font families"
         status: pending

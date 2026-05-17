@@ -1,3 +1,9 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+AGENTS.md
+README.md
+_bmad-output/
+.agents/
+.cta.json
+src/routeTree.gen.ts
