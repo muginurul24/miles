@@ -77,6 +77,7 @@ This project has domain-specific skills in `.agents/skills/`. Activate them when
 
 - Only create documentation files if explicitly requested
 - Existing docs are authoritative: `_bmad-output/` contains PRD, architecture, epics
+- **NEVER modify `.agents/skills/` files** — these are curated project skills with required YAML frontmatter
 
 ## Replies
 
