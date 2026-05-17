@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AboutRouteImport } from './routes/about'
@@ -21,6 +22,11 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/news': typeof NewsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/news': typeof NewsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
+  '/news': typeof NewsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/credit-cards/$slug': typeof CreditCardsSlugRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/news'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/news'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/calculator'
     | '/compare'
+    | '/news'
     | '/auth/login'
     | '/auth/register'
     | '/credit-cards/$slug'
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CalculatorRoute: typeof CalculatorRoute
   CompareRoute: typeof CompareRoute
+  NewsRoute: typeof NewsRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   CreditCardsSlugRoute: typeof CreditCardsSlugRoute
@@ -175,6 +188,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compare': {
       id: '/compare'
       path: '/compare'
@@ -260,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CalculatorRoute: CalculatorRoute,
   CompareRoute: CompareRoute,
+  NewsRoute: NewsRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   CreditCardsSlugRoute: CreditCardsSlugRoute,
