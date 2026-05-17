@@ -172,14 +172,14 @@ phases:
     name: "Calculator"
     status: in_progress
     stories_total: 6
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "06.1"
         name: "Calculator engine — pure functions in lib/calculator.ts"
         status: completed
       - id: "06.2"
         name: "Calculator form — card, tx type, partner, amount inputs"
-        status: pending
+        status: completed
       - id: "06.3"
         name: "Calculator result display — rating badge + stat cards"
         status: pending
