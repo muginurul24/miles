@@ -23,7 +23,7 @@ import {
 
 import type { AdminArticleRow } from '#/server/repositories/admin.repo'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
-import type { ReactElement } from 'react'
+import type { MouseEventHandler, ReactElement } from 'react'
 
 interface AdminArticlesTableProps {
   articles: AdminArticleRow[]
@@ -260,7 +260,7 @@ function getColumns(options: ColumnOptions): ColumnDef<AdminArticleRow>[] {
 
 interface SortableHeaderProps {
   label: string
-  onClick: (() => void) | undefined
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 function SortableHeader({ label, onClick }: SortableHeaderProps): ReactElement {

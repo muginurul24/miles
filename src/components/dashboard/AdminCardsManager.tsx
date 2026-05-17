@@ -5,10 +5,7 @@ import { AdminCardForm } from '#/components/dashboard/AdminCardForm'
 import { AdminCardsTable } from '#/components/dashboard/AdminCardsTable'
 import { useTRPC } from '#/integrations/trpc/react'
 
-import type {
-  AdminCardCreateInput,
-  AdminCardUpdateInput,
-} from '#/lib/schemas/admin-card'
+import type { AdminCardFormValue } from '#/components/dashboard/AdminCardForm'
 import type { AdminCardRow } from '#/server/repositories/admin.repo'
 import type { ReactElement } from 'react'
 
@@ -72,9 +69,7 @@ export function AdminCardsManager({
     }),
   )
 
-  function handleSubmit(
-    value: AdminCardCreateInput | AdminCardUpdateInput,
-  ): void {
+  function handleSubmit(value: AdminCardFormValue): void {
     if (editingCard) {
       updateCard.mutate(value)
       return

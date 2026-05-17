@@ -34,10 +34,8 @@ export function getAuthRedirectTarget(
 export function getAdminRedirectTarget(
   session: GuardSession | null,
 ): RedirectTarget | null {
-  const authTarget = getAuthRedirectTarget(session)
-
-  if (authTarget) {
-    return authTarget
+  if (!session) {
+    return '/auth/login'
   }
 
   if (session.user.role !== 'admin') {

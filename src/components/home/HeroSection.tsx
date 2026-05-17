@@ -47,7 +47,11 @@ export function HeroSection() {
               asChild
               className="border-accent-foreground/45 bg-accent-foreground/10 text-accent-foreground hover:bg-accent-foreground/20 hover:text-accent-foreground"
             >
-              <Link to="/credit-cards" className="no-underline">
+              <Link
+                to="/credit-cards"
+                search={{ search: '', bank: '', partner: '', sort: 'name' }}
+                className="no-underline"
+              >
                 <CreditCard className="h-4 w-4" aria-hidden="true" />
                 Bandingkan Kartu Kredit
               </Link>

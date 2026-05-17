@@ -22,18 +22,33 @@ export const Route = createFileRoute('/articles/$slug')({
 
     return { article, relatedArticles }
   },
-  head: ({ loaderData }) => ({
-    meta: buildSeoMeta({
-      title: `${loaderData.article.title} — JustMiles`,
-      description:
-        loaderData.article.excerpt ??
-        'Artikel JustMiles tentang points, miles, kartu kredit, dan travel strategy.',
-      path: `/articles/${loaderData.article.id}`,
-      image: loaderData.article.imageUrl ?? undefined,
-      type: 'article',
-    }),
-    links: buildCanonicalLinks(`/articles/${loaderData.article.id}`),
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: buildSeoMeta({
+          title: 'Artikel — JustMiles',
+          description:
+            'Artikel JustMiles tentang points, miles, kartu kredit, dan travel strategy.',
+          path: '/articles',
+          type: 'article',
+        }),
+        links: buildCanonicalLinks('/articles'),
+      }
+    }
+
+    return {
+      meta: buildSeoMeta({
+        title: `${loaderData.article.title} — JustMiles`,
+        description:
+          loaderData.article.excerpt ??
+          'Artikel JustMiles tentang points, miles, kartu kredit, dan travel strategy.',
+        path: `/articles/${loaderData.article.id}`,
+        image: loaderData.article.imageUrl ?? undefined,
+        type: 'article',
+      }),
+      links: buildCanonicalLinks(`/articles/${loaderData.article.id}`),
+    }
+  },
   component: ArticleDetailPage,
 })
 

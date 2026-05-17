@@ -12,20 +12,31 @@ import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { adminCardCreateInputSchema } from '#/lib/schemas/admin-card'
 
-import type {
-  AdminCardCreateInput,
-  AdminCardUpdateInput,
-} from '#/lib/schemas/admin-card'
 import type { AdminCardRow } from '#/server/repositories/admin.repo'
 import type { FormEvent, ReactElement } from 'react'
 
-type AdminCardFormValue = AdminCardCreateInput
+export interface AdminCardFormValue {
+  id: string
+  name: string
+  shortName: string
+  bank: string
+  network: string
+  tier: string
+  annualFee: number
+  minIncome: number
+  imageUrl: string
+  bestFor: string
+  notIdealFor: string
+  loungeAccess: boolean
+  travelInsurance: boolean
+  airportTransfer: boolean
+}
 
 interface AdminCardFormProps {
   editingCard: AdminCardRow | null
   isPending: boolean
   onCancelEdit: () => void
-  onSubmit: (value: AdminCardCreateInput | AdminCardUpdateInput) => void
+  onSubmit: (value: AdminCardFormValue) => void
 }
 
 const emptyCardValue: AdminCardFormValue = {
@@ -37,9 +48,9 @@ const emptyCardValue: AdminCardFormValue = {
   tier: '',
   annualFee: 0,
   minIncome: 0,
-  imageUrl: null,
-  bestFor: null,
-  notIdealFor: null,
+  imageUrl: '',
+  bestFor: '',
+  notIdealFor: '',
   loungeAccess: false,
   travelInsurance: false,
   airportTransfer: false,
@@ -71,7 +82,7 @@ export function AdminCardForm({
       return
     }
 
-    onSubmit(parsed.data)
+    onSubmit(value)
   }
 
   return (
@@ -150,7 +161,7 @@ export function AdminCardForm({
             <TextField
               id={`${formId}-image-url`}
               label="Image URL"
-              value={value.imageUrl ?? ''}
+              value={value.imageUrl}
               onChange={(imageUrl) => updateValue({ imageUrl })}
             />
           </div>
@@ -159,13 +170,13 @@ export function AdminCardForm({
             <TextareaField
               id={`${formId}-best-for`}
               label="Best for"
-              value={value.bestFor ?? ''}
+              value={value.bestFor}
               onChange={(bestFor) => updateValue({ bestFor })}
             />
             <TextareaField
               id={`${formId}-not-ideal-for`}
               label="Not ideal for"
-              value={value.notIdealFor ?? ''}
+              value={value.notIdealFor}
               onChange={(notIdealFor) => updateValue({ notIdealFor })}
             />
           </div>
@@ -220,9 +231,9 @@ function toFormValue(card: AdminCardRow): AdminCardFormValue {
     tier: card.tier,
     annualFee: card.annualFee,
     minIncome: card.minIncome,
-    imageUrl: card.imageUrl,
-    bestFor: card.bestFor,
-    notIdealFor: card.notIdealFor,
+    imageUrl: card.imageUrl ?? '',
+    bestFor: card.bestFor ?? '',
+    notIdealFor: card.notIdealFor ?? '',
     loungeAccess: card.loungeAccess,
     travelInsurance: card.travelInsurance,
     airportTransfer: card.airportTransfer,

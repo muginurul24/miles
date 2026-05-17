@@ -44,7 +44,7 @@ export interface ChartSeries {
 
 export interface CartesianChartProps {
   data: ChartDatum[]
-  series: ChartSeries[]
+  series: readonly ChartSeries[]
   categoryKey?: string
   className?: string
 }
@@ -245,7 +245,7 @@ export function RadialProgressChart({
   )
 }
 
-function getSeriesConfig(series: ChartSeries[]): ChartConfig {
+function getSeriesConfig(series: readonly ChartSeries[]): ChartConfig {
   return series.reduce<ChartConfig>((config, item, index) => {
     config[item.key] = {
       label: item.label,

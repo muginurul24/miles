@@ -1,10 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import {
-  ArrowRight,
-  Calculator,
-  GitCompareArrows,
-  MessageSquareText,
-} from 'lucide-react'
+import { Calculator, GitCompareArrows, MessageSquareText } from 'lucide-react'
 import { AdvisorQuizForm } from '#/components/quiz/AdvisorQuizForm'
 import { Badge, PageHeader } from '#/components/shared'
 import { Button } from '#/components/ui/button'

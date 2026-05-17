@@ -37,12 +37,12 @@ export const Route = createFileRoute('/consulting')({
   component: ConsultingPage,
 })
 
-const packageIcons = {
+const packageIcons: Record<string, LucideIcon> = {
   CreditCard,
   Route: RouteIcon,
   Sparkles,
   Building2,
-} satisfies Record<string, LucideIcon>
+}
 
 function getPackageIcon(icon: string | null): LucideIcon {
   return icon ? (packageIcons[icon] ?? Sparkles) : Sparkles

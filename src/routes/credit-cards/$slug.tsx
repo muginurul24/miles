@@ -27,17 +27,31 @@ export const Route = createFileRoute('/credit-cards/$slug')({
 
     return { card, similarCards }
   },
-  head: ({ loaderData }) => ({
-    meta: buildSeoMeta({
-      title: `${loaderData.card.shortName} — JustMiles`,
-      description:
-        loaderData.card.bestFor ??
-        `Review earning rate dan benefit ${loaderData.card.shortName}.`,
-      path: `/credit-cards/${loaderData.card.id}`,
-      image: loaderData.card.imageUrl ?? undefined,
-    }),
-    links: buildCanonicalLinks(`/credit-cards/${loaderData.card.id}`),
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: buildSeoMeta({
+          title: 'Kartu Kredit Miles — JustMiles',
+          description:
+            'Review earning rate, transfer partner, dan benefit kartu kredit miles Indonesia.',
+          path: '/credit-cards',
+        }),
+        links: buildCanonicalLinks('/credit-cards'),
+      }
+    }
+
+    return {
+      meta: buildSeoMeta({
+        title: `${loaderData.card.shortName} — JustMiles`,
+        description:
+          loaderData.card.bestFor ??
+          `Review earning rate dan benefit ${loaderData.card.shortName}.`,
+        path: `/credit-cards/${loaderData.card.id}`,
+        image: loaderData.card.imageUrl ?? undefined,
+      }),
+      links: buildCanonicalLinks(`/credit-cards/${loaderData.card.id}`),
+    }
+  },
   component: CardDetailPage,
 })
 

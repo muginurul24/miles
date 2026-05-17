@@ -70,6 +70,18 @@ export const Route = createFileRoute('/reviews/$subCategory')({
     return { reviews, subCategory: params.subCategory }
   },
   head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: buildSeoMeta({
+          title: 'Reviews — JustMiles',
+          description:
+            'Review flight, hotel, dan lounge dengan konteks points and miles untuk traveler Indonesia.',
+          path: '/reviews',
+        }),
+        links: buildCanonicalLinks('/reviews'),
+      }
+    }
+
     const section = getReviewSection(loaderData.subCategory)
     const label = section?.label ?? 'Reviews'
 

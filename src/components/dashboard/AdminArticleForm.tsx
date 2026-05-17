@@ -13,14 +13,10 @@ import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 import { adminArticleCreateInputSchema } from '#/lib/schemas/admin-article'
 
-import type {
-  AdminArticleCreateInput,
-  AdminArticleUpdateInput,
-} from '#/lib/schemas/admin-article'
 import type { AdminArticleRow } from '#/server/repositories/admin.repo'
 import type { FormEvent, ReactElement } from 'react'
 
-interface AdminArticleFormValue {
+export interface AdminArticleFormValue {
   id: string
   title: string
   excerpt: string
@@ -38,7 +34,7 @@ interface AdminArticleFormProps {
   editingArticle: AdminArticleRow | null
   isPending: boolean
   onCancelEdit: () => void
-  onSubmit: (value: AdminArticleCreateInput | AdminArticleUpdateInput) => void
+  onSubmit: (value: AdminArticleFormValue) => void
 }
 
 const emptyArticleValue: AdminArticleFormValue = {
@@ -81,7 +77,7 @@ export function AdminArticleForm({
       return
     }
 
-    onSubmit(parsed.data)
+    onSubmit(value)
   }
 
   return (
