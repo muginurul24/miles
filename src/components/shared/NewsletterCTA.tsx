@@ -73,6 +73,9 @@ export function NewsletterCTA({
 
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 sm:flex-row">
+            <label htmlFor={inputId} className="sr-only">
+              Email newsletter
+            </label>
             <Input
               id={inputId}
               type="email"

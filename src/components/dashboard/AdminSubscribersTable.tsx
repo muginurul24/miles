@@ -86,6 +86,7 @@ export function AdminSubscribersTable({
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={globalFilter}
+                aria-label="Cari subscriber"
                 placeholder="Cari email..."
                 className="pl-9"
                 onChange={(event) => setGlobalFilter(event.target.value)}
@@ -97,7 +98,7 @@ export function AdminSubscribersTable({
                 setStatusFilter(value as SubscriberFilter)
               }
             >
-              <SelectTrigger>
+              <SelectTrigger aria-label="Filter status subscriber">
                 <SelectValue placeholder="Filter status" />
               </SelectTrigger>
               <SelectContent>

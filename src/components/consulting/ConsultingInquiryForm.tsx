@@ -14,6 +14,7 @@ import {
 } from '#/components/ui/select'
 import { Textarea } from '#/components/ui/textarea'
 import { useTRPC } from '#/integrations/trpc/react'
+import { getFieldErrorId } from '#/lib/accessibility'
 import { consultingInquiryInputSchema } from '#/lib/schemas/consulting'
 
 import type { ConsultingPackageView } from '#/server/repositories/consulting.repo'
@@ -142,6 +143,9 @@ export function ConsultingInquiryForm({
                   value={value.name}
                   autoComplete="name"
                   aria-invalid={errors.name ? 'true' : 'false'}
+                  aria-describedby={
+                    errors.name ? getFieldErrorId('consulting-name') : undefined
+                  }
                   onChange={(event) =>
                     updateValue({ name: event.target.value })
                   }
@@ -159,6 +163,11 @@ export function ConsultingInquiryForm({
                   value={value.email}
                   autoComplete="email"
                   aria-invalid={errors.email ? 'true' : 'false'}
+                  aria-describedby={
+                    errors.email
+                      ? getFieldErrorId('consulting-email')
+                      : undefined
+                  }
                   onChange={(event) =>
                     updateValue({ email: event.target.value })
                   }
@@ -179,6 +188,11 @@ export function ConsultingInquiryForm({
                   autoComplete="tel"
                   placeholder="+62..."
                   aria-invalid={errors.phone ? 'true' : 'false'}
+                  aria-describedby={
+                    errors.phone
+                      ? getFieldErrorId('consulting-phone')
+                      : undefined
+                  }
                   onChange={(event) =>
                     updateValue({ phone: event.target.value })
                   }
@@ -198,6 +212,11 @@ export function ConsultingInquiryForm({
                     id="consulting-package"
                     className="w-full"
                     aria-invalid={errors.packageId ? 'true' : 'false'}
+                    aria-describedby={
+                      errors.packageId
+                        ? getFieldErrorId('consulting-package')
+                        : undefined
+                    }
                   >
                     <SelectValue placeholder="Pilih paket" />
                   </SelectTrigger>
@@ -225,6 +244,11 @@ export function ConsultingInquiryForm({
                 value={value.currentCards}
                 placeholder="Contoh: BCA KrisFlyer, Citi PremierMiles, Mandiri World Elite"
                 aria-invalid={errors.currentCards ? 'true' : 'false'}
+                aria-describedby={
+                  errors.currentCards
+                    ? getFieldErrorId('consulting-current-cards')
+                    : undefined
+                }
                 onChange={(event) =>
                   updateValue({ currentCards: event.target.value })
                 }
@@ -242,6 +266,9 @@ export function ConsultingInquiryForm({
                 className="min-h-32"
                 placeholder="Ceritakan target trip, rute, budget annual fee, atau keputusan transfer poin yang sedang dipertimbangkan."
                 aria-invalid={errors.needs ? 'true' : 'false'}
+                aria-describedby={
+                  errors.needs ? getFieldErrorId('consulting-needs') : undefined
+                }
                 onChange={(event) => updateValue({ needs: event.target.value })}
               />
             </FormField>
@@ -283,7 +310,15 @@ function FormField({
     <div className="grid gap-2">
       <Label htmlFor={htmlFor}>{label}</Label>
       {children}
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+      {error ? (
+        <p
+          id={getFieldErrorId(htmlFor)}
+          role="alert"
+          className="text-sm text-destructive"
+        >
+          {error}
+        </p>
+      ) : null}
     </div>
   )
 }

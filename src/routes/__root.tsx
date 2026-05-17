@@ -84,8 +84,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-accent/20">
+        <a
+          href="#main-content"
+          className="sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:not-sr-only focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-foreground focus:shadow-lg focus:ring-2 focus:ring-ring"
+        >
+          Lewati ke konten utama
+        </a>
         {isDashboardRoute ? null : <Header />}
-        {children}
+        <div id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </div>
         {isDashboardRoute ? null : <Footer />}
         <ToastViewport />
         <TanStackDevtools

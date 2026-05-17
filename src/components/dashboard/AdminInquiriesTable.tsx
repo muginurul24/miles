@@ -99,6 +99,7 @@ export function AdminInquiriesTable({
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={globalFilter}
+                aria-label="Cari inquiry"
                 placeholder="Cari nama, email, paket..."
                 className="pl-9"
                 onChange={(event) => setGlobalFilter(event.target.value)}
@@ -108,7 +109,7 @@ export function AdminInquiriesTable({
               value={statusFilter}
               onValueChange={(value) => setStatusFilter(value as StatusFilter)}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-label="Filter status inquiry">
                 <SelectValue placeholder="Filter status" />
               </SelectTrigger>
               <SelectContent>

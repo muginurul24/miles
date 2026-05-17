@@ -88,6 +88,7 @@ export function AdminCardsTable({
             />
             <Input
               value={globalFilter}
+              aria-label="Cari kartu"
               placeholder="Cari bank, kartu, tier..."
               className="pl-9"
               onChange={(event) => setGlobalFilter(event.target.value)}
