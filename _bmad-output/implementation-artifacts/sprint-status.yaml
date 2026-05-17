@@ -110,7 +110,7 @@ phases:
     name: "Home Page"
     status: in_progress
     stories_total: 8
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "04.1"
         name: "Hero section — background, headline, CTAs"
@@ -120,7 +120,7 @@ phases:
         status: completed
       - id: "04.3"
         name: "Calculator preview — mini calculator on homepage"
-        status: pending
+        status: completed
       - id: "04.4"
         name: "Latest news section — 3 article cards"
         status: pending
@@ -170,13 +170,13 @@ phases:
 
   - id: phase-06
     name: "Calculator"
-    status: pending
+    status: in_progress
     stories_total: 6
-    stories_completed: 0
+    stories_completed: 2
     stories:
       - id: "06.1"
         name: "Calculator engine — pure functions in lib/calculator.ts"
-        status: pending
+        status: completed
       - id: "06.2"
         name: "Calculator form — card, tx type, partner, amount inputs"
         status: pending
@@ -191,7 +191,7 @@ phases:
         status: pending
       - id: "06.6"
         name: "Calculator unit tests — all edge cases"
-        status: pending
+        status: completed
 
   - id: phase-07
     name: "Compare Tool"

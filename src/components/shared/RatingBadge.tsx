@@ -1,17 +1,12 @@
 import { Badge } from '#/components/shared/Badge'
+import { RATING_LABELS } from '#/lib/calculator'
 import { cn } from '#/lib/utils'
 
 import type { ComponentProps, ReactElement } from 'react'
+import type { RatingLabel } from '#/lib/calculator'
 
-export const RATING_LABELS = [
-  'Excellent',
-  'Very Good',
-  'Good',
-  'Average',
-  'Poor',
-] as const
-
-export type RatingLabel = (typeof RATING_LABELS)[number]
+export { RATING_LABELS }
+export type { RatingLabel }
 
 export interface RatingBadgeProps extends Omit<
   ComponentProps<typeof Badge>,
