@@ -1,10 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { DashboardShell } from '#/components/dashboard/DashboardShell'
 import { DashboardOverview } from '#/components/dashboard/DashboardOverview'
-import { requireAdmin } from '#/lib/auth-guards'
 
 export const Route = createFileRoute('/dashboard/')({
-  beforeLoad: requireAdmin,
   loader: async ({ context }) => {
     const overview = await context.queryClient.ensureQueryData(
       context.trpc.admin.overview.queryOptions(),

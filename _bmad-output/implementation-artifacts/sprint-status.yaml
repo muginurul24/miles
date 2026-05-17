@@ -310,7 +310,7 @@ phases:
     name: "Admin Dashboard"
     status: in_progress
     stories_total: 10
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "12.1"
         name: "Dashboard layout — sidebar + header"
@@ -320,7 +320,7 @@ phases:
         status: completed
       - id: "12.3"
         name: "Admin auth guard — middleware + route protection"
-        status: pending
+        status: completed
       - id: "12.4"
         name: "Manage cards — TanStack Table with CRUD"
         status: pending

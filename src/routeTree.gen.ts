@@ -15,6 +15,7 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as DealsRouteImport } from './routes/deals'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CalculatorRouteImport } from './routes/calculator'
@@ -60,6 +61,11 @@ const DealsRoute = DealsRouteImport.update({
   path: '/deals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConsultingRoute = ConsultingRouteImport.update({
   id: '/consulting',
   path: '/consulting',
@@ -86,9 +92,9 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const CreditCardsIndexRoute = CreditCardsIndexRouteImport.update({
   id: '/credit-cards/',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
   '/consulting': typeof ConsultingRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
@@ -182,6 +189,7 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRoute
   '/consulting': typeof ConsultingRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/deals': typeof DealsRoute
   '/guides': typeof GuidesRoute
   '/membership': typeof MembershipRoute
@@ -206,6 +214,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/compare'
     | '/consulting'
+    | '/dashboard'
     | '/deals'
     | '/guides'
     | '/membership'
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/compare'
     | '/consulting'
+    | '/dashboard'
     | '/deals'
     | '/guides'
     | '/membership'
@@ -273,6 +283,7 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   CompareRoute: typeof CompareRoute
   ConsultingRoute: typeof ConsultingRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   DealsRoute: typeof DealsRoute
   GuidesRoute: typeof GuidesRoute
   MembershipRoute: typeof MembershipRoute
@@ -285,7 +296,6 @@ export interface RootRouteChildren {
   CreditCardsSlugRoute: typeof CreditCardsSlugRoute
   ReviewsSubCategoryRoute: typeof ReviewsSubCategoryRoute
   CreditCardsIndexRoute: typeof CreditCardsIndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
 }
@@ -334,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DealsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/consulting': {
       id: '/consulting'
       path: '/consulting'
@@ -371,10 +388,10 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/': {
       id: '/dashboard/'
-      path: '/dashboard'
+      path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/credit-cards/': {
       id: '/credit-cards/'
@@ -435,12 +452,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CalculatorRoute: CalculatorRoute,
   CompareRoute: CompareRoute,
   ConsultingRoute: ConsultingRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   DealsRoute: DealsRoute,
   GuidesRoute: GuidesRoute,
   MembershipRoute: MembershipRoute,
@@ -453,7 +483,6 @@ const rootRouteChildren: RootRouteChildren = {
   CreditCardsSlugRoute: CreditCardsSlugRoute,
   ReviewsSubCategoryRoute: ReviewsSubCategoryRoute,
   CreditCardsIndexRoute: CreditCardsIndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
 }
