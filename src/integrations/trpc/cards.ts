@@ -66,9 +66,9 @@ const cardsRouter = {
       }),
     )
     .mutation(async ({ input }) => {
-      const card = await cardsRepo.findBySlug(input.cardId)
+      const cardExists = await cardsRepo.exists(input.cardId)
 
-      if (!card) {
+      if (!cardExists) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'Kartu tidak ditemukan.',

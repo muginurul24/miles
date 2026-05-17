@@ -7,6 +7,7 @@ vi.mock('#/server/repositories/cards.repo', () => ({
   cardsRepo: {
     findAll: vi.fn(),
     findBySlug: vi.fn(),
+    exists: vi.fn(),
     getBanks: vi.fn(),
     getAllPartners: vi.fn(),
   },
@@ -103,9 +104,7 @@ describe('cards router', () => {
       cardId: 'bca-krisflyer-visa-infinite',
       createdAt: new Date('2026-05-17T10:00:00.000Z'),
     }
-    mockedCardsRepo.findBySlug.mockResolvedValue({
-      id: 'bca-krisflyer-visa-infinite',
-    } as never)
+    mockedCardsRepo.exists.mockResolvedValue(true)
     mockedApplicationsRepo.create.mockResolvedValue(receipt)
     const caller = trpcRouter.createCaller({ session: null })
 
@@ -120,7 +119,7 @@ describe('cards router', () => {
   })
 
   it('should reject application interest when card is missing', async () => {
-    mockedCardsRepo.findBySlug.mockResolvedValue(null)
+    mockedCardsRepo.exists.mockResolvedValue(false)
     const caller = trpcRouter.createCaller({ session: null })
 
     await expect(

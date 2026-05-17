@@ -32,7 +32,10 @@ model CreditCard {
   applications     CardApplication[]
 
   @@index([bank], map: "idx_cards_bank")
+  @@index([bank, name], map: "idx_cards_bank_name")
+  @@index([annualFee, name], map: "idx_cards_annual_fee_name")
   @@index([tier], map: "idx_cards_tier")
+  @@index([updatedAt(sort: Desc)], map: "idx_cards_updated")
   @@map("credit_cards")
 }
 
@@ -118,6 +121,8 @@ model Article {
   @@index([publishedAt(sort: Desc)], map: "idx_articles_published")
   @@index([premium], map: "idx_articles_premium")
   @@index([category, publishedAt(sort: Desc)], map: "idx_articles_category_published")
+  @@index([category, subCategory, publishedAt(sort: Desc)], map: "idx_articles_category_subcategory_published")
+  @@index([updatedAt(sort: Desc)], map: "idx_articles_updated")
   @@map("articles")
 }
 
@@ -130,6 +135,7 @@ model MembershipTier {
   isHighlighted Boolean @default(false) @map("is_highlighted")
   sortOrder     Int?    @map("sort_order")
 
+  @@index([sortOrder, priceIdr], map: "idx_membership_tiers_sort_price")
   @@map("membership_tiers")
 }
 
@@ -144,6 +150,7 @@ model ConsultingPackage {
 
   inquiries ConsultingInquiry[]
 
+  @@index([priceIdr, name], map: "idx_consulting_packages_price_name")
   @@map("consulting_packages")
 }
 
@@ -161,6 +168,8 @@ model ConsultingInquiry {
   package ConsultingPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
 
   @@index([status], map: "idx_inquiries_status")
+  @@index([status, createdAt(sort: Desc)], map: "idx_inquiries_status_created")
+  @@index([packageId], map: "idx_inquiries_package")
   @@index([createdAt(sort: Desc)], map: "idx_inquiries_created")
   @@map("consulting_inquiries")
 }
@@ -171,6 +180,7 @@ model NewsletterSubscriber {
   subscribedAt   DateTime  @default(now()) @map("subscribed_at")
   unsubscribedAt DateTime? @map("unsubscribed_at")
 
+  @@index([subscribedAt(sort: Desc)], map: "idx_newsletter_subscribed")
   @@map("newsletter_subscribers")
 }
 
@@ -188,6 +198,8 @@ model User {
   accounts Account[]
   sessions Session[]
 
+  @@index([membershipTier], map: "idx_users_membership_tier")
+  @@index([role], map: "idx_users_role")
   @@map("users")
 }
 
@@ -204,6 +216,7 @@ model Session {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "idx_sessions_user")
+  @@index([expiresAt], map: "idx_sessions_expires")
   @@map("sessions")
 }
 
@@ -225,6 +238,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "idx_accounts_user")
+  @@index([providerId, accountId], map: "idx_accounts_provider_account")
   @@map("accounts")
 }
 
@@ -237,5 +251,6 @@ model Verification {
   updatedAt  DateTime @updatedAt @map("updated_at")
 
   @@index([identifier], map: "idx_verifications_identifier")
+  @@index([expiresAt], map: "idx_verifications_expires")
   @@map("verifications")
 }

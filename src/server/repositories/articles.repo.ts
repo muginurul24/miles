@@ -10,6 +10,25 @@ export interface ArticleFilters {
   offset?: number
 }
 
+const articlePreviewSelect = {
+  id: true,
+  title: true,
+  excerpt: true,
+  category: true,
+  subCategory: true,
+  author: true,
+  imageUrl: true,
+  premium: true,
+  dealTag: true,
+  publishedAt: true,
+  createdAt: true,
+  updatedAt: true,
+} satisfies Prisma.ArticleSelect
+
+type ArticlePreviewRecord = Prisma.ArticleGetPayload<{
+  select: typeof articlePreviewSelect
+}>
+
 function buildArticleWhere(filters: ArticleFilters): Prisma.ArticleWhereInput {
   return {
     ...(filters.category ? { category: filters.category } : {}),
@@ -25,7 +44,7 @@ function normalizeLimit(limit: number | undefined, fallback: number): number {
   return Math.min(limit, 50)
 }
 
-function withoutArticleContent(article: Article): Article {
+function withEmptyArticleContent(article: ArticlePreviewRecord): Article {
   return { ...article, content: null }
 }
 
@@ -45,9 +64,10 @@ export const articlesRepo = {
           orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
           take: limit,
           skip: offset,
+          select: articlePreviewSelect,
         })
 
-        return articles.map(withoutArticleContent)
+        return articles.map(withEmptyArticleContent)
       },
     )
   },
@@ -78,9 +98,10 @@ export const articlesRepo = {
           },
           orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
           take: normalizedLimit,
+          select: articlePreviewSelect,
         })
 
-        return articles.map(withoutArticleContent)
+        return articles.map(withEmptyArticleContent)
       },
     )
   },
@@ -95,9 +116,10 @@ export const articlesRepo = {
         const articles = await prisma.article.findMany({
           orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
           take: normalizedLimit,
+          select: articlePreviewSelect,
         })
 
-        return articles.map(withoutArticleContent)
+        return articles.map(withEmptyArticleContent)
       },
     )
   },

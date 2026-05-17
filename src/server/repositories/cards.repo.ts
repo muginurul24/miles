@@ -89,7 +89,7 @@ function sortByEarningBest<T extends CardPreview>(cards: T[]): T[] {
 }
 
 export const cardsRepo = {
-  async findAll(filters: CardFilters = {}): Promise<CardWithRelations[]> {
+  async findAll(filters: CardFilters = {}): Promise<CardPreview[]> {
     return cached(
       `cards:list:${cacheHash(filters)}`,
       DEFAULT_TTL.CARDS_LIST,
@@ -97,7 +97,7 @@ export const cardsRepo = {
         const sort = filters.sort ?? 'name'
         const cards = await prisma.creditCard.findMany({
           where: buildCardWhere(filters),
-          include: cardRelations,
+          include: cardPreviewRelations,
           orderBy: getCardOrderBy(sort),
         })
 
@@ -124,6 +124,15 @@ export const cardsRepo = {
         include: cardRelations,
       }),
     )
+  },
+
+  async exists(id: string): Promise<boolean> {
+    const card = await prisma.creditCard.findUnique({
+      where: { id },
+      select: { id: true },
+    })
+
+    return card !== null
   },
 
   async findSimilar(slug: string, limit = 3): Promise<CardPreview[]> {
@@ -164,14 +173,14 @@ export const cardsRepo = {
     )
   },
 
-  async findByPartner(program: string): Promise<CardWithRelations[]> {
+  async findByPartner(program: string): Promise<CardPreview[]> {
     return cached(
       `cards:list:${cacheHash({ partner: program })}`,
       DEFAULT_TTL.CARDS_LIST,
       () =>
         prisma.creditCard.findMany({
           where: { transferPartners: { some: { program } } },
-          include: cardRelations,
+          include: cardPreviewRelations,
           orderBy: [{ bank: 'asc' }, { name: 'asc' }],
         }),
     )
