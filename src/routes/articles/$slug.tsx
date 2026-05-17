@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ArticleBody } from '#/components/content/ArticleBody'
 import { ArticleDetailHero } from '#/components/content/ArticleDetailHero'
+import { PremiumArticleGate } from '#/components/content/PremiumArticleGate'
 import { NewsletterCTA } from '#/components/shared'
 
 export const Route = createFileRoute('/articles/$slug')({
@@ -35,7 +36,9 @@ function ArticleDetailPage() {
       <ArticleDetailHero article={article} />
 
       <div className="mx-auto w-full max-w-3xl">
-        <ArticleBody article={article} />
+        <PremiumArticleGate article={article}>
+          <ArticleBody article={article} />
+        </PremiumArticleGate>
       </div>
 
       <NewsletterCTA className="-mx-4 rounded-none border md:mx-0 md:rounded-3xl" />
