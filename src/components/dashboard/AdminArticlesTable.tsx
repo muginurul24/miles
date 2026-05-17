@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table'
 import { ArrowDownUp, Pencil, Search, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Badge } from '#/components/shared'
+import { Badge, EmptyState } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
@@ -118,10 +118,14 @@ export function AdminArticlesTable({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24">
-                    <p className="text-center text-sm text-muted-foreground">
-                      Tidak ada artikel yang cocok dengan filter.
-                    </p>
+                  <TableCell colSpan={columns.length} className="h-40">
+                    <EmptyState
+                      compact
+                      eyebrow="No articles"
+                      title="Tidak ada artikel"
+                      description="Tidak ada artikel yang cocok dengan filter."
+                      className="border-0 bg-transparent shadow-none"
+                    />
                   </TableCell>
                 </TableRow>
               )}

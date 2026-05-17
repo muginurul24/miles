@@ -126,7 +126,11 @@ function DealsPage() {
           </p>
         </div>
 
-        <ArticleGrid articles={deals} emptyMessage="Belum ada deal terbaru." />
+        <ArticleGrid
+          articles={deals}
+          emptyTitle="Belum ada deal"
+          emptyMessage="Belum ada deal terbaru."
+        />
       </section>
 
       <NewsletterCTA

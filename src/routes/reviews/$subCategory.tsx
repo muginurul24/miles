@@ -174,6 +174,7 @@ function ReviewsPage() {
 
         <ArticleGrid
           articles={reviews}
+          emptyTitle="Belum ada review"
           emptyMessage={section?.emptyMessage ?? 'Belum ada review.'}
         />
       </section>

@@ -388,14 +388,14 @@ phases:
     name: "Polish & Production Hardening"
     status: in_progress
     stories_total: 8
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "15.1"
         name: "Loading states — skeletons for all pages"
         status: completed
       - id: "15.2"
         name: "Empty states — no results, no articles, no cards"
-        status: pending
+        status: completed
       - id: "15.3"
         name: "Error boundaries per route"
         status: pending

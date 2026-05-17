@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { ArrowRight, CircleDollarSign, Plane, Star, Trophy } from 'lucide-react'
 import { CardFeatureRadar } from '#/components/compare/CardFeatureRadar'
-import { Badge, RatingBadge } from '#/components/shared'
+import { Badge, EmptyState, RatingBadge } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { calculateMiles, getRating } from '#/lib/calculator'
@@ -127,11 +127,11 @@ export function CompareResults({
 
   if (results.length === 0) {
     return (
-      <Card className="border-border bg-card shadow-sm">
-        <CardContent className="p-6 text-sm text-muted-foreground">
-          Pilih minimal satu kartu untuk melihat hasil perbandingan.
-        </CardContent>
-      </Card>
+      <EmptyState
+        eyebrow="Compare"
+        title="Pilih kartu untuk mulai"
+        description="Pilih minimal satu kartu dan partner miles untuk melihat hasil perbandingan."
+      />
     )
   }
 

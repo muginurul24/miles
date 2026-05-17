@@ -83,6 +83,7 @@ function CreditCardsPage() {
         </div>
         <CreditCardGrid
           cards={cards}
+          emptyTitle="Tidak ada kartu ditemukan"
           emptyMessage="Tidak ada kartu yang cocok dengan filter ini."
         />
       </section>

@@ -54,6 +54,7 @@ function NewsPage() {
 
         <ArticleGrid
           articles={articles}
+          emptyTitle="Belum ada news"
           emptyMessage="Belum ada news terbaru."
         />
       </section>

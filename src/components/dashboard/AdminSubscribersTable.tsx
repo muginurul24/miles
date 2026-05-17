@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table'
 import { Download, Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Badge } from '#/components/shared'
+import { Badge, EmptyState } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
@@ -148,10 +148,14 @@ export function AdminSubscribersTable({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24">
-                    <p className="text-center text-sm text-muted-foreground">
-                      Tidak ada subscriber yang cocok dengan filter.
-                    </p>
+                  <TableCell colSpan={columns.length} className="h-40">
+                    <EmptyState
+                      compact
+                      eyebrow="No subscribers"
+                      title="Tidak ada subscriber"
+                      description="Tidak ada subscriber yang cocok dengan filter."
+                      className="border-0 bg-transparent shadow-none"
+                    />
                   </TableCell>
                 </TableRow>
               )}

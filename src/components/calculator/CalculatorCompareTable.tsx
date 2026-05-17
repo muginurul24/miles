@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { RatingBadge } from '#/components/shared'
+import { EmptyState, RatingBadge } from '#/components/shared'
 import { Badge } from '#/components/shared/Badge'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import {
@@ -109,9 +109,13 @@ export function CalculatorCompareTable({
 
       <CardContent>
         {rows.length === 0 ? (
-          <p className="rounded-xl border border-border bg-background p-4 text-sm text-muted-foreground">
-            Tidak ada kartu yang mendukung kombinasi transaksi dan partner ini.
-          </p>
+          <EmptyState
+            compact
+            eyebrow="No matches"
+            title="Kombinasi belum didukung"
+            description="Tidak ada kartu yang mendukung kombinasi transaksi dan partner ini."
+            className="bg-background"
+          />
         ) : (
           <Table>
             <TableHeader>

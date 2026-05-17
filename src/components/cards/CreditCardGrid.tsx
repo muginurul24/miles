@@ -1,4 +1,5 @@
 import { CreditCardCard } from '#/components/cards/CreditCardCard'
+import { EmptyState } from '#/components/shared'
 
 import type { CardPreview } from '#/server/repositories/cards.repo'
 import type { ReactElement } from 'react'
@@ -6,17 +7,21 @@ import type { ReactElement } from 'react'
 export interface CreditCardGridProps {
   cards: CardPreview[]
   emptyMessage?: string
+  emptyTitle?: string
 }
 
 export function CreditCardGrid({
   cards,
   emptyMessage = 'Belum ada kartu untuk ditampilkan.',
+  emptyTitle = 'Kartu belum tersedia',
 }: CreditCardGridProps): ReactElement {
   if (cards.length === 0) {
     return (
-      <p className="rounded-md border border-border bg-card p-4 text-sm text-muted-foreground">
-        {emptyMessage}
-      </p>
+      <EmptyState
+        eyebrow="No cards"
+        title={emptyTitle}
+        description={emptyMessage}
+      />
     )
   }
 

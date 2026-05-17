@@ -1,4 +1,5 @@
 import { ArticleCard } from '#/components/cards/ArticleCard'
+import { EmptyState } from '#/components/shared'
 
 import type { Article } from '#/generated/prisma/client'
 import type { ReactElement } from 'react'
@@ -6,17 +7,21 @@ import type { ReactElement } from 'react'
 export interface ArticleGridProps {
   articles: Article[]
   emptyMessage?: string
+  emptyTitle?: string
 }
 
 export function ArticleGrid({
   articles,
   emptyMessage = 'Belum ada artikel untuk ditampilkan.',
+  emptyTitle = 'Artikel belum tersedia',
 }: ArticleGridProps): ReactElement {
   if (articles.length === 0) {
     return (
-      <p className="rounded-xl border border-border bg-card p-5 text-sm leading-7 text-muted-foreground">
-        {emptyMessage}
-      </p>
+      <EmptyState
+        eyebrow="No articles"
+        title={emptyTitle}
+        description={emptyMessage}
+      />
     )
   }
 

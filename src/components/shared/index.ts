@@ -5,12 +5,14 @@ export { PageHeader } from '#/components/shared/PageHeader'
 export { PremiumContentCTA } from '#/components/shared/PremiumContentCTA'
 export { RatingBadge, RATING_LABELS } from '#/components/shared/RatingBadge'
 export { RoutePendingSkeleton } from '#/components/shared/RoutePendingSkeleton'
+export { EmptyState } from '#/components/shared/EmptyState'
 
 export type {
   BadgeProps,
   BadgeSize,
   BadgeTone,
 } from '#/components/shared/Badge'
+export type { EmptyStateProps } from '#/components/shared/EmptyState'
 export type {
   BreadcrumbEntry,
   BreadcrumbProps,

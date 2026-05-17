@@ -112,7 +112,11 @@ function GuidesPage() {
           </p>
         </div>
 
-        <ArticleGrid articles={guides} emptyMessage="Belum ada guide." />
+        <ArticleGrid
+          articles={guides}
+          emptyTitle="Belum ada guide"
+          emptyMessage="Belum ada guide."
+        />
       </section>
 
       <PremiumContentCTA
