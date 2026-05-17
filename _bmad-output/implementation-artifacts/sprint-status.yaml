@@ -88,7 +88,7 @@ phases:
     name: "Auth System"
     status: in_progress
     stories_total: 5
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "03.1"
         name: "Better Auth configuration — email/password + session"
@@ -98,7 +98,7 @@ phases:
         status: completed
       - id: "03.3"
         name: "Register page — shadcn signup-01 block"
-        status: pending
+        status: completed
       - id: "03.4"
         name: "Auth guards — tRPC middleware + route beforeLoad"
         status: pending

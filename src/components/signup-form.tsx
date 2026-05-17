@@ -1,3 +1,6 @@
+import { Link, useNavigate } from '@tanstack/react-router'
+import { Loader2, UserPlus } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '#/components/ui/button.tsx'
 import {
   Card,
@@ -9,62 +12,147 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from '#/components/ui/field.tsx'
 import { Input } from '#/components/ui/input.tsx'
+import { authClient } from '#/lib/auth-client.ts'
+import { cn } from '#/lib/utils.ts'
 
-export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+import type { ComponentProps, FormEvent } from 'react'
+
+export function SignupForm({
+  className,
+  ...props
+}: ComponentProps<typeof Card>) {
+  const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ): Promise<void> {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const name = String(formData.get('name') ?? '').trim()
+    const email = String(formData.get('email') ?? '').trim()
+    const password = String(formData.get('password') ?? '')
+    const confirmPassword = String(formData.get('confirmPassword') ?? '')
+
+    if (!name || !email || !password || !confirmPassword) {
+      setFormError('Nama, email, dan password wajib diisi.')
+      return
+    }
+
+    if (password.length < 8) {
+      setFormError('Password minimal 8 karakter.')
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setFormError('Konfirmasi password tidak sama.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setFormError(null)
+
+    try {
+      const result = await authClient.signUp.email({
+        name,
+        email,
+        password,
+      })
+
+      if (result.error) {
+        setFormError(result.error.message ?? 'Akun gagal dibuat.')
+        return
+      }
+
+      await navigate({ to: '/' })
+    } catch {
+      setFormError('Pendaftaran gagal diproses. Coba lagi beberapa saat.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
-    <Card {...props}>
+    <Card
+      className={cn('border-border bg-card shadow-sm', className)}
+      {...props}
+    >
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+        <CardTitle className="font-display text-2xl">Daftar</CardTitle>
         <CardDescription>
-          Enter your information below to create your account
+          Buat akun untuk menyimpan preferensi kartu dan konsultasi JustMiles.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
+              <FieldLabel htmlFor="name">Nama lengkap</FieldLabel>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                placeholder="Nama lengkap"
+                aria-invalid={Boolean(formError)}
+                required
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
+                name="email"
                 type="email"
-                placeholder="m@example.com"
+                autoComplete="email"
+                placeholder="nama@email.com"
+                aria-invalid={Boolean(formError)}
                 required
               />
-              <FieldDescription>
-                We&apos;ll use this to contact you. We will not share your email
-                with anyone else.
-              </FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" required />
-              <FieldDescription>
-                Must be at least 8 characters long.
-              </FieldDescription>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                aria-invalid={Boolean(formError)}
+                required
+              />
+              <FieldDescription>Minimal 8 karakter.</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Confirm Password
-              </FieldLabel>
-              <Input id="confirm-password" type="password" required />
-              <FieldDescription>Please confirm your password.</FieldDescription>
+              <FieldLabel htmlFor="confirm-password">Konfirmasi</FieldLabel>
+              <Input
+                id="confirm-password"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                aria-invalid={Boolean(formError)}
+                required
+              />
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit">Create Account</Button>
-                <Button variant="outline" type="button">
-                  Sign up with Google
+                <FieldError>{formError}</FieldError>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <UserPlus className="h-4 w-4" />
+                  )}
+                  Daftar
                 </Button>
                 <FieldDescription className="px-6 text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Sudah punya akun? <Link to="/auth/login">Masuk</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
