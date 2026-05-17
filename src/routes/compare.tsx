@@ -4,6 +4,7 @@ import {
   CompareForm,
   getInitialCompareFormValue,
 } from '#/components/compare/CompareForm'
+import { CompareDisclaimer } from '#/components/compare/CompareDisclaimer'
 import { CompareResults } from '#/components/compare/CompareResults'
 import {
   CompareSpendingInputs,
@@ -68,6 +69,8 @@ function ComparePage() {
           selections={formValue}
           spending={spendingValue}
         />
+
+        <CompareDisclaimer />
       </section>
     </main>
   )

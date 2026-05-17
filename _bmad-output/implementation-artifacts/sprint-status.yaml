@@ -195,9 +195,9 @@ phases:
 
   - id: phase-07
     name: "Compare Tool"
-    status: in_progress
+    status: completed
     stories_total: 5
-    stories_completed: 4
+    stories_completed: 5
     stories:
       - id: "07.1"
         name: "Compare form — 3 card selectors with partner dropdowns"
@@ -213,7 +213,7 @@ phases:
         status: completed
       - id: "07.5"
         name: "Compare page layout + disclaimer"
-        status: pending
+        status: completed
 
   - id: phase-08
     name: "Content Pages (News/Guides/Deals/Reviews)"
