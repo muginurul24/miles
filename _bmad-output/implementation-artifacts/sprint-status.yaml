@@ -308,13 +308,13 @@ phases:
 
   - id: phase-12
     name: "Admin Dashboard"
-    status: pending
+    status: in_progress
     stories_total: 10
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "12.1"
         name: "Dashboard layout — sidebar + header"
-        status: pending
+        status: completed
       - id: "12.2"
         name: "Dashboard overview — stats cards + recent activity"
         status: pending

@@ -2,6 +2,7 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  useRouterState,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -109,6 +110,10 @@ function NotFoundPage() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const isDashboardRoute = useRouterState({
+    select: (state) => state.location.pathname.startsWith('/dashboard'),
+  })
+
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
@@ -116,9 +121,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-accent/20">
-        <Header />
+        {isDashboardRoute ? null : <Header />}
         {children}
-        <Footer />
+        {isDashboardRoute ? null : <Footer />}
         <ToastViewport />
         <TanStackDevtools
           config={{
