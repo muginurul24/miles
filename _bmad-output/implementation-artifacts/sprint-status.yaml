@@ -10,7 +10,7 @@ phases:
     name: "Bootstrap & Foundation"
     status: in_progress
     stories_total: 8
-    stories_completed: 2
+    stories_completed: 3
     stories:
       - id: "00.1"
         name: "Project cleanup — remove demo files"
@@ -20,7 +20,7 @@ phases:
         status: completed
       - id: "00.3"
         name: "Design system — CSS variables for JustMiles theme"
-        status: pending
+        status: completed
       - id: "00.4"
         name: "Theme toggle — dark/light/system in navbar"
         status: pending

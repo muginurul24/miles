@@ -11,7 +11,7 @@ export default function Header() {
             to="/"
             className="inline-flex items-center gap-2 rounded-md text-sm font-semibold text-primary no-underline"
           >
-            <Plane className="h-4 w-4 text-accent-foreground" />
+            <Plane className="h-4 w-4 text-accent" />
             JustMiles
           </Link>
         </h2>
