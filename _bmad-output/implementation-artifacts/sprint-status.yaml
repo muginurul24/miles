@@ -141,7 +141,7 @@ phases:
     name: "Credit Cards Directory + Detail"
     status: in_progress
     stories_total: 8
-    stories_completed: 6
+    stories_completed: 7
     stories:
       - id: "05.1"
         name: "tRPC card router — list, getBySlug, filter procedures"
@@ -163,7 +163,7 @@ phases:
         status: completed
       - id: "05.7"
         name: "Card detail — sidebar calculator + apply CTA"
-        status: pending
+        status: completed
       - id: "05.8"
         name: "Card detail — similar cards + breadcrumb"
         status: pending

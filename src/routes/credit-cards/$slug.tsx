@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { BenefitsGrid } from '#/components/cards/BenefitsGrid'
 import { CardFitSummary } from '#/components/cards/CardFitSummary'
+import { CardDetailSidebar } from '#/components/cards/CardDetailSidebar'
 import { CardDetailHero } from '#/components/cards/CardDetailHero'
 import { CardKeyStats } from '#/components/cards/CardKeyStats'
 import { EarningRateTable } from '#/components/cards/EarningRateTable'
@@ -45,14 +46,17 @@ function CardDetailPage() {
         ]}
       />
 
-      <div className="grid gap-6">
-        <CardDetailHero card={card} />
-        <CardKeyStats card={card} />
-        <EarningRateTable card={card} />
-        <TransferPartnerTable card={card} />
-        <ProsConsPanel card={card} />
-        <BenefitsGrid card={card} />
-        <CardFitSummary card={card} />
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+        <div className="grid gap-6">
+          <CardDetailHero card={card} />
+          <CardKeyStats card={card} />
+          <EarningRateTable card={card} />
+          <TransferPartnerTable card={card} />
+          <ProsConsPanel card={card} />
+          <BenefitsGrid card={card} />
+          <CardFitSummary card={card} />
+        </div>
+        <CardDetailSidebar key={card.id} card={card} />
       </div>
     </main>
   )
