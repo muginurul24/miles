@@ -291,14 +291,14 @@ phases:
     name: "Advisor Quiz"
     status: in_progress
     stories_total: 4
-    stories_completed: 1
+    stories_completed: 2
     stories:
       - id: "11.1"
         name: "Quiz form — 8 question cards with radio options"
         status: completed
       - id: "11.2"
         name: "Quiz recommendation algorithm"
-        status: pending
+        status: completed
       - id: "11.3"
         name: "Quiz results display — top 3 recommendations + stats"
         status: pending
