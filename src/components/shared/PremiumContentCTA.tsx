@@ -14,9 +14,9 @@ export interface PremiumContentCTAProps {
 }
 
 export function PremiumContentCTA({
-  title = 'Unlock strategi premium sebelum transfer poin besar',
-  description = 'Premium content JustMiles dirancang untuk keputusan yang punya konsekuensi nyata: portfolio kartu, timing transfer, sweet spot redemption, dan trade-off cash vs miles.',
-  highlight = 'Premium analysis',
+  title = 'Sebelum transfer poin, baca strateginya dulu',
+  description = 'Kami membongkar data aktual, award chart maskapai, timing terbaik transfer, dan rute yang benar-benar worth it — bukan teori. Ini konten yang kami produksi dari jam terbang dan data lapangan.',
+  highlight = 'Behind the data',
   className,
 }: PremiumContentCTAProps): ReactElement {
   return (
@@ -44,7 +44,7 @@ export function PremiumContentCTA({
               className="inline-flex items-center gap-1 border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground"
             >
               <LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />
-              Premium
+              Member Exclusive
             </Badge>
             <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground/65">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
@@ -64,8 +64,8 @@ export function PremiumContentCTA({
 
         <div className="relative grid gap-3 rounded-2xl border border-primary-foreground/15 bg-primary-foreground/10 p-4 backdrop-blur">
           <p className="text-sm leading-6 text-primary-foreground/80">
-            Daftar akun sekarang untuk menyimpan preferensi dan siap masuk ke
-            membership saat premium gating aktif.
+            Daftar gratis dalam 30 detik untuk buka semua artikel exclusive.
+            Tanpa spam, tanpa ribet.
           </p>
           <Button
             asChild
@@ -73,7 +73,7 @@ export function PremiumContentCTA({
             className="bg-accent text-accent-foreground hover:bg-accent-hover"
           >
             <Link to="/auth/register">
-              Daftar akses premium
+              Baca semua artikel exclusive
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowRight, LockKeyhole, ShieldCheck } from 'lucide-react'
+import { ArrowRight, LockKeyhole, Sparkles } from 'lucide-react'
 import { ArticleBody } from '#/components/content/ArticleBody'
 import { Badge } from '#/components/shared'
 import { Button } from '#/components/ui/button'
@@ -30,7 +30,7 @@ export function PremiumArticleGate({
             ...article,
             content:
               article.excerpt ??
-              'Preview tersedia. Daftar untuk membuka analisis premium lengkap.',
+              'Berikut cuplikan artikelnya. Scroll untuk membaca preview.',
           }}
         />
         <div
@@ -49,22 +49,22 @@ export function PremiumArticleGate({
                 className="inline-flex items-center gap-1 border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground"
               >
                 <LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />
-                Premium locked
+                Member Exclusive
               </Badge>
               <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground/65">
-                <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                Content protected
+                <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                Deep Analysis
               </span>
             </div>
 
             <div>
               <h2 className="font-display text-2xl font-bold sm:text-3xl">
-                Buka analisis premium ini
+                Dapatkan strategi lengkapnya
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-primary-foreground/75 sm:text-base">
-                Konten premium hanya ditampilkan untuk member berbayar. Untuk
-                sekarang, daftar akun agar preferensi kamu siap saat membership
-                diaktifkan.
+                Artikel ini bagian dari seri exclusive yang kami tulis dari
+                pengalaman nyata, data yang tidak dipublikasikan umum, dan
+                analisis mendalam. Daftar gratis untuk mulai membaca.
               </p>
             </div>
           </div>
@@ -76,7 +76,7 @@ export function PremiumArticleGate({
               className="bg-accent text-accent-foreground hover:bg-accent-hover"
             >
               <Link to="/auth/register">
-                Daftar akses premium
+                Baca selengkapnya — gratis
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </Button>
@@ -86,7 +86,7 @@ export function PremiumArticleGate({
               variant="ghost"
               className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              <Link to="/auth/login">Sudah punya akun? Masuk</Link>
+              <Link to="/auth/login">Sudah daftar? Masuk di sini</Link>
             </Button>
           </div>
         </div>
