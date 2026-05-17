@@ -40,6 +40,15 @@ const cardsRouter = {
       return card
     }),
 
+  similar: publicProcedure
+    .input(
+      z.object({
+        slug: z.string().trim().min(1, 'Slug kartu wajib diisi.'),
+        limit: z.number().int().min(1).max(6).optional(),
+      }),
+    )
+    .query(({ input }) => cardsRepo.findSimilar(input.slug, input.limit)),
+
   filters: publicProcedure.query(async () => {
     const [banks, partners] = await Promise.all([
       cardsRepo.getBanks(),

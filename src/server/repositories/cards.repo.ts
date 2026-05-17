@@ -115,6 +115,38 @@ export const cardsRepo = {
     })
   },
 
+  async findSimilar(slug: string, limit = 3): Promise<CardPreview[]> {
+    const card = await prisma.creditCard.findUnique({
+      where: { id: slug },
+      include: { transferPartners: true },
+    })
+
+    if (!card) {
+      return []
+    }
+
+    const partnerPrograms = card.transferPartners.map(
+      (partner) => partner.program,
+    )
+
+    return prisma.creditCard.findMany({
+      where: {
+        id: { not: slug },
+        OR: [
+          { bank: card.bank },
+          {
+            transferPartners: {
+              some: { program: { in: partnerPrograms } },
+            },
+          },
+        ],
+      },
+      include: cardPreviewRelations,
+      orderBy: [{ bank: 'asc' }, { name: 'asc' }],
+      take: limit,
+    })
+  },
+
   async findByPartner(program: string): Promise<CardWithRelations[]> {
     return prisma.creditCard.findMany({
       where: { transferPartners: { some: { program } } },
