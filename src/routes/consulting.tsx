@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import {
   ArrowRight,
   Building2,
@@ -59,10 +59,14 @@ function ConsultingPage() {
         description="Gunakan consulting saat keputusanmu sudah konkret: kartu mana dipertahankan, rute mana ditukar, kapan transfer poin, dan apa fallback kalau availability berubah."
         actions={
           <Button asChild size="lg">
-            <a href="#consulting-inquiry" className="no-underline">
+            <Link
+              to="/consulting"
+              hash="consulting-inquiry"
+              className="no-underline"
+            >
               Mulai inquiry
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </Link>
           </Button>
         }
       />
@@ -162,10 +166,14 @@ function ConsultingPackageCard({
 
       <CardFooter>
         <Button asChild className="w-full" variant="outline">
-          <a href="#consulting-inquiry" className="no-underline">
+          <Link
+            to="/consulting"
+            hash="consulting-inquiry"
+            className="no-underline"
+          >
             Pilih paket
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </Link>
         </Button>
       </CardFooter>
     </Card>

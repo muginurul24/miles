@@ -1,5 +1,6 @@
 'use client'
 
+import { Link } from '@tanstack/react-router'
 import * as React from 'react'
 import {
   BarChart3,
@@ -94,10 +95,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
+              <Link to="/dashboard">
                 <Plane className="size-5!" />
                 <span className="text-base font-semibold">JustMiles</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

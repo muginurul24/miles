@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Loader2, LogIn } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '#/lib/utils.ts'
@@ -113,7 +113,7 @@ export function LoginForm({ className, ...props }: ComponentProps<'div'>) {
                   Masuk
                 </Button>
                 <FieldDescription className="text-center">
-                  Belum punya akun? <a href="/auth/register">Daftar</a>
+                  Belum punya akun? <Link to="/auth/register">Daftar</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

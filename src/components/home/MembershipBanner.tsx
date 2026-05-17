@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ArrowRight, Crown } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 
@@ -26,10 +27,10 @@ export function MembershipBanner(): ReactElement {
           size="lg"
           className="w-full bg-accent text-accent-foreground hover:bg-accent-hover md:w-auto"
         >
-          <a href="/membership" className="no-underline">
+          <Link to="/membership" className="no-underline">
             Lihat Membership
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </Link>
         </Button>
       </div>
     </section>

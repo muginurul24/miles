@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ArrowRight, Compass, MessageSquareText } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent } from '#/components/ui/card'
@@ -45,10 +46,10 @@ export function BottomCtas(): ReactElement {
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full sm:w-fit">
-                  <a href={cta.href} className="no-underline">
+                  <Link to={cta.href} className="no-underline">
                     {cta.label}
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </a>
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
