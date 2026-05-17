@@ -4,6 +4,7 @@ export { NewsletterCTA } from '#/components/shared/NewsletterCTA'
 export { PageHeader } from '#/components/shared/PageHeader'
 export { PremiumContentCTA } from '#/components/shared/PremiumContentCTA'
 export { RatingBadge, RATING_LABELS } from '#/components/shared/RatingBadge'
+export { RoutePendingSkeleton } from '#/components/shared/RoutePendingSkeleton'
 
 export type {
   BadgeProps,

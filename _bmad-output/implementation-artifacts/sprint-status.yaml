@@ -386,13 +386,13 @@ phases:
 
   - id: phase-15
     name: "Polish & Production Hardening"
-    status: pending
+    status: in_progress
     stories_total: 8
-    stories_completed: 0
+    stories_completed: 1
     stories:
       - id: "15.1"
         name: "Loading states — skeletons for all pages"
-        status: pending
+        status: completed
       - id: "15.2"
         name: "Empty states — no results, no articles, no cards"
         status: pending
