@@ -266,7 +266,7 @@ phases:
     name: "Membership + Consulting"
     status: in_progress
     stories_total: 6
-    stories_completed: 3
+    stories_completed: 4
     stories:
       - id: "10.1"
         name: "Membership tiers page — 4 tier cards"
@@ -279,7 +279,7 @@ phases:
         status: completed
       - id: "10.4"
         name: "Consulting inquiry form"
-        status: pending
+        status: completed
       - id: "10.5"
         name: "tRPC procedures — membership, consulting submission"
         status: pending

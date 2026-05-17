@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import {
   ArrowRight,
@@ -8,6 +8,7 @@ import {
   Route as RouteIcon,
   Sparkles,
 } from 'lucide-react'
+import { ConsultingInquiryForm } from '#/components/consulting/ConsultingInquiryForm'
 import { Badge, PageHeader } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '#/components/ui/card'
@@ -65,10 +66,10 @@ function ConsultingPage() {
         description="Gunakan consulting saat keputusanmu sudah konkret: kartu mana dipertahankan, rute mana ditukar, kapan transfer poin, dan apa fallback kalau availability berubah."
         actions={
           <Button asChild size="lg">
-            <Link to="/auth/register">
+            <a href="#consulting-inquiry" className="no-underline">
               Mulai inquiry
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+            </a>
           </Button>
         }
       />
@@ -84,6 +85,8 @@ function ConsultingPage() {
           />
         ))}
       </section>
+
+      <ConsultingInquiryForm packages={packages} />
 
       <section className="page-wrap mt-8 rounded-3xl border border-border bg-card p-5 text-card-foreground shadow-xs md:p-6">
         <div className="grid gap-5 md:grid-cols-[1fr_20rem] md:items-center">
@@ -166,10 +169,10 @@ function ConsultingPackageCard({
 
       <CardFooter>
         <Button asChild className="w-full" variant="outline">
-          <Link to="/auth/register">
+          <a href="#consulting-inquiry" className="no-underline">
             Pilih paket
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
+          </a>
         </Button>
       </CardFooter>
     </Card>
