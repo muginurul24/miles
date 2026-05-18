@@ -21,7 +21,7 @@ export const membershipTiers = [
     period: 'month',
     features: [
       'Semua fitur Free',
-      'Akses guide premium pilihan',
+      'Akses guide exclusive pilihan',
       'Notifikasi promo transfer bonus',
       'Saved card shortlist',
     ],
@@ -35,7 +35,7 @@ export const membershipTiers = [
     period: 'month',
     features: [
       'Semua fitur Plus',
-      'Akses semua konten premium',
+      'Akses semua seri exclusive',
       'Compare tool lanjutan',
       'Monthly strategy briefing',
     ],

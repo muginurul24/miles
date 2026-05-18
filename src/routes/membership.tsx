@@ -23,9 +23,9 @@ const membershipFaqs = [
       'Saat kamu punya target trip, rencana transfer poin, atau sedang memilih kartu dengan annual fee besar. Kalau masih eksplorasi dasar, tier Free sudah cukup.',
   },
   {
-    question: 'Apakah Plus cukup untuk membuka premium guide?',
+    question: 'Apakah Plus cukup untuk membaca guide exclusive?',
     answer:
-      'Plus ditujukan untuk akses premium pilihan dan alert promo. Pro lebih cocok kalau kamu ingin akses semua konten premium dan strategy briefing rutin.',
+      'Plus ditujukan untuk akses pilihan dan alert promo. Pro lebih cocok kalau kamu ingin membaca semua seri exclusive dan strategy briefing rutin.',
   },
   {
     question: 'Apakah Concierge sama dengan konsultasi personal?',
@@ -51,7 +51,7 @@ export const Route = createFileRoute('/membership')({
     meta: buildSeoMeta({
       title: 'Membership — JustMiles',
       description:
-        'Pilih membership JustMiles untuk membuka premium guides, review mendalam, dan strategy briefing points and miles.',
+        'Pilih membership JustMiles untuk membaca guide exclusive, review mendalam, dan strategy briefing points and miles.',
       path: '/membership',
     }),
     links: buildCanonicalLinks('/membership'),
@@ -97,7 +97,7 @@ function MembershipPage() {
       <PageHeader
         eyebrow="Membership"
         title="Pilih level analisis yang kamu butuhkan"
-        description="Mulai gratis untuk fondasi, lalu naik ke membership saat kamu butuh strategi premium untuk portfolio kartu, transfer points, dan redemption bernilai tinggi."
+        description="Mulai gratis untuk fondasi, lalu naik ke membership saat kamu butuh strategi mendalam untuk portfolio kartu, transfer points, dan redemption bernilai tinggi."
         actions={
           <Button asChild size="lg">
             <Link to="/auth/register">
@@ -135,7 +135,7 @@ function MembershipPage() {
               </span>
               <div>
                 <p className="text-sm font-semibold text-primary">
-                  Premium content siap
+                  Konten member siap
                 </p>
                 <p className="text-xs text-muted-foreground">
                   Artikel exclusive sudah terbuka di halaman detail.

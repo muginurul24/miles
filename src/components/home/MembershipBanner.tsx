@@ -14,10 +14,10 @@ export function MembershipBanner(): ReactElement {
             Membership
           </p>
           <h2 className="font-display text-2xl font-bold sm:text-3xl">
-            Buka analisis premium untuk keputusan redemption yang lebih tajam
+            Baca analisis member untuk keputusan redemption yang lebih tajam
           </h2>
           <p className="mt-3 text-sm leading-7 text-primary-foreground/75 sm:text-base">
-            Akses review mendalam, sweet spot premium, dan rekomendasi yang
+            Akses review mendalam, sweet spot pilihan, dan rekomendasi yang
             lebih spesifik untuk portfolio kartu serta target trip kamu.
           </p>
         </div>

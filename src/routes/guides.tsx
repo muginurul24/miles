@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { LockKeyhole, Route as RouteIcon, Sparkles } from 'lucide-react'
+import { Route as RouteIcon, Sparkles } from 'lucide-react'
 import { ArticleGrid } from '#/components/cards/ArticleGrid'
 import {
   Badge,
@@ -35,7 +35,7 @@ export const Route = createFileRoute('/guides')({
 
 function GuidesPage() {
   const { guides } = Route.useLoaderData()
-  const premiumGuidesCount = guides.filter((guide) => guide.premium).length
+  const exclusiveGuidesCount = guides.filter((guide) => guide.premium).length
 
   return (
     <main className="pb-12">
@@ -53,14 +53,14 @@ function GuidesPage() {
                 <Badge tone="accent" size="md">
                   Learning path
                 </Badge>
-                {premiumGuidesCount > 0 ? (
+                {exclusiveGuidesCount > 0 ? (
                   <Badge
                     tone="warning"
                     size="md"
                     className="inline-flex items-center gap-1"
                   >
-                    <LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />
-                    {premiumGuidesCount} premium guide
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                    {exclusiveGuidesCount} exclusive guide
                   </Badge>
                 ) : null}
               </div>
@@ -68,8 +68,8 @@ function GuidesPage() {
                 Bangun sistem earning sebelum mengejar promo
               </h2>
               <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                Guide terbuka cocok untuk fondasi. Guide premium ditandai jelas
-                untuk strategi yang lebih taktis: portfolio kartu, timing
+                Guide terbuka cocok untuk fondasi. Seri exclusive membantu kamu
+                masuk ke keputusan yang lebih taktis: portfolio kartu, timing
                 transfer, dan prioritas redemption bernilai tinggi.
               </p>
             </div>
@@ -119,9 +119,9 @@ function GuidesPage() {
 
       <PremiumContentCTA
         className="my-10"
-        title="Butuh playbook lebih dalam dari guide publik?"
-        description="Guide premium akan fokus pada strategi portfolio kartu, timing transfer, dan prioritas redemption yang lebih taktis untuk target trip tertentu."
-        highlight="Guide premium"
+        title="Butuh playbook yang lebih dalam dari guide publik?"
+        description="Seri exclusive membahas strategi portfolio kartu, timing transfer, dan prioritas redemption yang lebih taktis untuk target trip tertentu."
+        highlight="Member playbook"
       />
 
       <NewsletterCTA

@@ -90,7 +90,7 @@ export const termsContent = {
       bullets: [
         'Melanggar hukum, melakukan fraud, spam, scraping agresif, probing keamanan, atau percobaan akses tidak sah.',
         'Mengirim data palsu, melanggar hak pihak ketiga, atau mengganggu stabilitas layanan.',
-        'Menggunakan konten premium untuk redistribusi publik atau komersial tanpa izin.',
+        'Menggunakan konten member untuk redistribusi publik atau komersial tanpa izin.',
       ],
     },
     {

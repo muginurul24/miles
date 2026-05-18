@@ -1,9 +1,11 @@
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
+import { hasPremiumAccess } from '#/lib/premium-access'
 import { articlesRepo } from '#/server/repositories/articles.repo'
 import { publicProcedure } from './init'
 
 import type { Article } from '#/generated/prisma/client'
+import type { PremiumAccessUser } from '#/lib/premium-access'
 import type { TRPCRouterRecord } from '@trpc/server'
 
 const articleListInputSchema = z
@@ -15,37 +17,9 @@ const articleListInputSchema = z
   })
   .optional()
 
-interface PremiumAccessUser {
-  membershipExpiresAt?: Date | null
-  membershipTier?: string | null
-  role?: string | null
-}
-
-const premiumTiers = new Set(['plus', 'pro', 'concierge'])
-
-function hasPremiumAccess(user: PremiumAccessUser | undefined): boolean {
-  if (!user) {
-    return false
-  }
-
-  if (user.role === 'admin') {
-    return true
-  }
-
-  if (!premiumTiers.has(user.membershipTier ?? 'free')) {
-    return false
-  }
-
-  if (!user.membershipExpiresAt) {
-    return user.membershipTier === 'concierge'
-  }
-
-  return user.membershipExpiresAt.getTime() > Date.now()
-}
-
 function applyPremiumGate(
   article: Article,
-  user: PremiumAccessUser | undefined,
+  user: PremiumAccessUser | null | undefined,
 ): Article {
   if (!article.premium || hasPremiumAccess(user)) {
     return article
