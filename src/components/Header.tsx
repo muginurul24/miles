@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Plane } from 'lucide-react'
-import { AuthActions } from './AuthActions'
-import MobileMenu from './MobileMenu'
+import { LazyAuthActions } from './LazyAuthActions'
+import { LazyMobileMenu } from './LazyMobileMenu'
 import { NavGroupDropdown } from './NavGroupDropdown'
 import ThemeToggle from './ThemeToggle'
 import { cn } from '#/lib/utils'
@@ -86,9 +86,9 @@ export default function Header() {
             <ThemeToggle />
           </div>
           <div className="hidden items-center gap-2 lg:flex">
-            <AuthActions variant="desktop" />
+            <LazyAuthActions variant="desktop" />
           </div>
-          <MobileMenu navItems={mainNavItems} navGroups={navGroups} />
+          <LazyMobileMenu navItems={mainNavItems} navGroups={navGroups} />
         </div>
       </nav>
     </header>

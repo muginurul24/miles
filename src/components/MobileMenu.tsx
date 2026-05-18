@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Menu, Plane } from 'lucide-react'
-import { AuthActions } from './AuthActions'
+import { LazyAuthActions } from './LazyAuthActions'
 import ThemeToggle from './ThemeToggle'
 import { Button } from '#/components/ui/button'
 import {
@@ -76,7 +76,7 @@ export default function MobileMenu({ navItems, navGroups }: MobileMenuProps) {
             <ThemeToggle />
           </div>
 
-          <AuthActions variant="mobile" />
+          <LazyAuthActions variant="mobile" />
 
           <nav className="flex flex-col gap-1">
             <SheetClose asChild>

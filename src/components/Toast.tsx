@@ -1,20 +1,5 @@
 import { AlertTriangle, CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { Toaster } from '#/components/ui/sonner'
-
-import type { ReactElement } from 'react'
-
-export function ToastViewport(): ReactElement {
-  return (
-    <Toaster
-      closeButton
-      richColors
-      expand
-      position="bottom-right"
-      duration={3000}
-    />
-  )
-}
 
 export function showToast(message: string): ReturnType<typeof toast.success> {
   return toast.success(message, {
