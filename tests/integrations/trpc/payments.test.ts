@@ -6,6 +6,11 @@ import { paymentsRepo } from '#/server/repositories/payments.repo'
 
 vi.mock('#/lib/paygate', () => ({
   createPaygateCharge: vi.fn(),
+  resolvePaygatePaymentChannel: vi.fn(() => ({
+    acquirer: 'gopay',
+    paymentMethod: 'qris_gopay',
+    paymentType: 'qris',
+  })),
 }))
 
 vi.mock('#/server/repositories/membership.repo', () => ({
@@ -80,8 +85,8 @@ describe('payments router', () => {
       order_id: 'order-1',
       platform_order_id: 'store_order-1',
       status: 'pending',
-      payment_type: 'bank_transfer',
-      payment_method: 'bca',
+      payment_type: 'qris',
+      payment_method: 'qris_gopay',
       amount: 99_000,
       midtrans: {},
     })
@@ -89,7 +94,7 @@ describe('payments router', () => {
 
     const result = await caller.payments.createMembershipCheckout({
       tierId: 'pro',
-      bank: 'bca',
+      paymentMethod: 'qris_gopay',
     })
 
     expect(result.orderId).toMatch(/^JM-/)
@@ -98,6 +103,8 @@ describe('payments router', () => {
         userId: 'user-id',
         tierId: 'pro',
         amount: 99_000,
+        paymentMethod: 'qris_gopay',
+        paymentType: 'qris',
       }),
     )
     expect(mockedCreatePaygateCharge).toHaveBeenCalledWith(
@@ -126,7 +133,7 @@ describe('payments router', () => {
     await expect(
       caller.payments.createMembershipCheckout({
         tierId: 'free',
-        bank: 'bca',
+        paymentMethod: 'qris_gopay',
       }),
     ).rejects.toMatchObject({
       code: 'BAD_REQUEST',

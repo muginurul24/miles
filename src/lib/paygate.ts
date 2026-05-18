@@ -1,4 +1,17 @@
 import { z } from 'zod'
+import {
+  DEFAULT_PAYMENT_CHANNEL_ID,
+  getPaymentChannelById,
+  isBankCode,
+  isEwalletCode,
+} from '#/lib/payment-channels'
+
+import type {
+  BankCode,
+  EwalletCode,
+  PaymentChannelCode,
+  PaymentType,
+} from '#/lib/payment-channels'
 
 const paygateChargeResponseSchema = z.object({
   transaction_id: z.string().min(1),
@@ -8,8 +21,31 @@ const paygateChargeResponseSchema = z.object({
   payment_type: z.string().min(1),
   payment_method: z.string().optional(),
   amount: z.number().int().positive(),
+  actions: z
+    .array(
+      z.object({
+        method: z.string().optional(),
+        name: z.string().optional(),
+        type: z.string().optional(),
+        url: z.string().optional(),
+      }),
+    )
+    .optional(),
+  expires_at: z.string().optional(),
+  qr_string: z.string().optional(),
+  qr_url: z.string().optional(),
   midtrans: z
     .object({
+      actions: z
+        .array(
+          z.object({
+            method: z.string().optional(),
+            name: z.string().optional(),
+            type: z.string().optional(),
+            url: z.string().optional(),
+          }),
+        )
+        .optional(),
       transaction_id: z.string().optional(),
       va_numbers: z
         .array(
@@ -21,6 +57,8 @@ const paygateChargeResponseSchema = z.object({
         .optional(),
       transaction_status: z.string().optional(),
       fraud_status: z.string().optional(),
+      qr_string: z.string().optional(),
+      qr_url: z.string().optional(),
     })
     .passthrough(),
 })
@@ -35,8 +73,7 @@ export type PaygateChargeResult = z.infer<typeof paygateChargeResponseSchema>
 export interface PaygateChargeInput {
   orderId: string
   amount: number
-  paymentType: 'bank_transfer'
-  bank: 'bca' | 'bni' | 'bri' | 'bsi' | 'cimb' | 'mandiri' | 'permata'
+  paymentMethod?: PaymentChannelCode
   customer: {
     name: string
     email: string
@@ -50,6 +87,14 @@ export interface PaygateChargeInput {
   }>
   callbackUrl: string
   metadata: Record<string, string>
+}
+
+export interface ResolvedPaygatePaymentChannel {
+  paymentMethod: PaymentChannelCode
+  paymentType: PaymentType
+  acquirer?: 'gopay'
+  bank?: BankCode
+  ewallet?: EwalletCode
 }
 
 export class PaygateError extends Error {
@@ -66,23 +111,14 @@ export class PaygateError extends Error {
 export async function createPaygateCharge(
   input: PaygateChargeInput,
 ): Promise<PaygateChargeResult> {
+  const channel = resolvePaygatePaymentChannel(input.paymentMethod)
   const response = await paygateRequest('/v1/transactions/charge', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Idempotency-Key': input.orderId,
+      'Idempotency-Key': `idem_${input.orderId}`,
     },
-    body: JSON.stringify({
-      order_id: input.orderId,
-      amount: input.amount,
-      currency: 'IDR',
-      payment_type: input.paymentType,
-      bank: input.bank,
-      customer: input.customer,
-      items: input.items,
-      callback_url: input.callbackUrl,
-      metadata: input.metadata,
-    }),
+    body: JSON.stringify(buildPaygateChargePayload(input, channel)),
   })
 
   return paygateEnvelopeSchema.parse(response).data
@@ -93,7 +129,12 @@ export async function getPaygateTransaction(
 ): Promise<PaygateChargeResult> {
   const response = await paygateRequest(
     `/v1/transactions/${encodeURIComponent(orderId)}`,
-    { method: 'GET' },
+    {
+      method: 'GET',
+      headers: {
+        'Idempotency-Key': `idem_lookup_${orderId}`,
+      },
+    },
   )
 
   return paygateEnvelopeSchema.parse(response).data
@@ -110,6 +151,7 @@ async function paygateRequest(
     const response = await fetch(`${getPaygateBaseUrl()}${path}`, {
       ...init,
       headers: {
+        Accept: 'application/json',
         Authorization: `Bearer ${getPaygateStoreToken()}`,
         ...init.headers,
       },
@@ -140,19 +182,86 @@ async function paygateRequest(
 }
 
 function getPaygateBaseUrl(): string {
-  return getRequiredEnv('PAYGATE_BASE_URL').replace(/\/+$/, '')
+  return getConfiguredEnv('PAYGATE_API_BASE_URL', 'PAYGATE_BASE_URL').replace(
+    /\/+$/,
+    '',
+  )
 }
 
 function getPaygateStoreToken(): string {
-  return getRequiredEnv('PAYGATE_STORE_TOKEN')
+  return getConfiguredEnv('PAYGATE_STORE_API_TOKEN', 'PAYGATE_STORE_TOKEN')
 }
 
-function getRequiredEnv(name: string): string {
-  const value = process.env[name]
+function getConfiguredEnv(primaryName: string, legacyName: string): string {
+  const value =
+    process.env[primaryName]?.trim() || process.env[legacyName]?.trim()
 
   if (!value) {
-    throw new Error(`${name} is required.`)
+    throw new Error(`${primaryName} is required.`)
   }
 
   return value
+}
+
+export function resolvePaygatePaymentChannel(
+  paymentMethod = DEFAULT_PAYMENT_CHANNEL_ID,
+): ResolvedPaygatePaymentChannel {
+  const channel = getPaymentChannelById(paymentMethod)
+
+  if (!channel) {
+    throw new Error(`Unsupported PayGate payment channel: ${paymentMethod}.`)
+  }
+
+  if (channel.category === 'bank_transfer') {
+    if (!isBankCode(channel.id)) {
+      throw new Error(`Unsupported PayGate bank channel: ${channel.id}.`)
+    }
+
+    return {
+      bank: channel.id,
+      paymentMethod: channel.id,
+      paymentType: channel.paymentType,
+    }
+  }
+
+  if (channel.category === 'ewallet') {
+    if (!isEwalletCode(channel.id)) {
+      throw new Error(`Unsupported PayGate e-wallet channel: ${channel.id}.`)
+    }
+
+    return {
+      ewallet: channel.id,
+      paymentMethod: channel.id,
+      paymentType: channel.paymentType,
+    }
+  }
+
+  return {
+    acquirer: 'gopay',
+    paymentMethod: channel.id,
+    paymentType: channel.paymentType,
+  }
+}
+
+export function buildPaygateChargePayload(
+  input: PaygateChargeInput,
+  channel = resolvePaygatePaymentChannel(input.paymentMethod),
+): Record<string, unknown> {
+  return {
+    order_id: input.orderId,
+    amount: input.amount,
+    currency: 'IDR',
+    payment_type: channel.paymentType,
+    ...(channel.bank ? { bank: channel.bank } : {}),
+    ...(channel.ewallet ? { ewallet: channel.ewallet } : {}),
+    ...(channel.acquirer ? { acquirer: channel.acquirer } : {}),
+    customer: input.customer,
+    items: input.items,
+    callback_url: input.callbackUrl,
+    metadata: {
+      ...input.metadata,
+      paymentMethod: channel.paymentMethod,
+      paymentType: channel.paymentType,
+    },
+  }
 }

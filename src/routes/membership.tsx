@@ -235,7 +235,7 @@ function MembershipTierCard({ tier }: MembershipTierCardProps): ReactElement {
         </ul>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className={isPurchasable ? 'items-stretch' : undefined}>
         {isPurchasable ? (
           <MembershipCheckoutButton
             tierId={tier.id}

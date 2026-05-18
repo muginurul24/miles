@@ -1,19 +1,28 @@
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { protectedProcedure } from './init'
-import { createPaygateCharge } from '#/lib/paygate'
+import {
+  createPaygateCharge,
+  resolvePaygatePaymentChannel,
+} from '#/lib/paygate'
+import {
+  DEFAULT_PAYMENT_CHANNEL_ID,
+  PAYGATE_PAYMENT_CHANNEL_CODES,
+  isPaymentChannelId,
+} from '#/lib/payment-channels'
 import { paymentsRepo } from '#/server/repositories/payments.repo'
 import { membershipRepo } from '#/server/repositories/membership.repo'
 
 import type { TRPCRouterRecord } from '@trpc/server'
+import type { PaymentChannelCode } from '#/lib/payment-channels'
 
 const purchasableTierIds = new Set(['plus', 'pro'])
 
 const createCheckoutInputSchema = z.object({
   tierId: z.string().trim().min(1),
-  bank: z
-    .enum(['bca', 'bni', 'bri', 'bsi', 'cimb', 'mandiri', 'permata'])
-    .default(getDefaultBank()),
+  paymentMethod: z
+    .enum(PAYGATE_PAYMENT_CHANNEL_CODES)
+    .default(getDefaultPaymentMethod()),
 })
 
 const orderInputSchema = z.object({
@@ -35,6 +44,7 @@ const paymentsRouter = {
       }
 
       const orderId = createOrderId()
+      const paymentChannel = resolvePaygatePaymentChannel(input.paymentMethod)
 
       await paymentsRepo.createPendingOrder({
         userId: ctx.user.id,
@@ -43,14 +53,15 @@ const paymentsRouter = {
         amount: tier.priceIdr,
         customerEmail: ctx.user.email,
         customerName: ctx.user.name,
+        paymentMethod: paymentChannel.paymentMethod,
+        paymentType: paymentChannel.paymentType,
       })
 
       try {
         const charge = await createPaygateCharge({
           orderId,
           amount: tier.priceIdr,
-          paymentType: 'bank_transfer',
-          bank: input.bank,
+          paymentMethod: paymentChannel.paymentMethod,
           customer: {
             name: ctx.user.name,
             email: ctx.user.email,
@@ -121,26 +132,16 @@ function getPaymentCallbackUrl(): string {
   return callbackUrl
 }
 
-function getDefaultBank():
-  | 'bca'
-  | 'bni'
-  | 'bri'
-  | 'bsi'
-  | 'cimb'
-  | 'mandiri'
-  | 'permata' {
-  switch (process.env.PAYGATE_DEFAULT_BANK) {
-    case 'bca':
-    case 'bni':
-    case 'bri':
-    case 'bsi':
-    case 'cimb':
-    case 'mandiri':
-    case 'permata':
-      return process.env.PAYGATE_DEFAULT_BANK
-    default:
-      return 'bsi'
+function getDefaultPaymentMethod(): PaymentChannelCode {
+  const configured =
+    process.env.PAYGATE_DEFAULT_PAYMENT_METHOD ??
+    process.env.PAYGATE_DEFAULT_BANK
+
+  if (configured && isPaymentChannelId(configured)) {
+    return configured
   }
+
+  return DEFAULT_PAYMENT_CHANNEL_ID
 }
 
 export { paymentsRouter }

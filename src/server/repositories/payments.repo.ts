@@ -10,6 +10,8 @@ export interface CreatePendingPaymentOrderInput {
   amount: number
   customerEmail: string
   customerName: string
+  paymentMethod: string
+  paymentType: string
 }
 
 export interface PaymentOrderView {
@@ -38,6 +40,8 @@ export const paymentsRepo = {
         amount: input.amount,
         customerEmail: input.customerEmail,
         customerName: input.customerName,
+        paymentMethod: input.paymentMethod,
+        paymentType: input.paymentType,
         gatewayPayload: {},
       },
     })

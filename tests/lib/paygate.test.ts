@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createPaygateCharge, getPaygateTransaction } from '#/lib/paygate'
+import {
+  buildPaygateChargePayload,
+  createPaygateCharge,
+  getPaygateTransaction,
+  resolvePaygatePaymentChannel,
+} from '#/lib/paygate'
 
 describe('paygate client', () => {
   beforeEach(() => {
@@ -35,8 +40,7 @@ describe('paygate client', () => {
       createPaygateCharge({
         orderId: 'order-1',
         amount: 1000,
-        paymentType: 'bank_transfer',
-        bank: 'bsi',
+        paymentMethod: 'bsi',
         customer: { name: 'Rafi', email: 'rafi@example.com' },
         items: [
           {
@@ -59,7 +63,7 @@ describe('paygate client', () => {
         method: 'POST',
         headers: expect.objectContaining({
           Authorization: 'Bearer sk_live_test',
-          'Idempotency-Key': 'order-1',
+          'Idempotency-Key': 'idem_order-1',
         }),
       }),
     )
@@ -99,6 +103,54 @@ describe('paygate client', () => {
       name: 'PaygateError',
       status: 200,
       responseBody: 'not-json',
+    })
+  })
+
+  it('should build GoPay and QRIS payloads from the shared channel registry', () => {
+    expect(
+      buildPaygateChargePayload({
+        orderId: 'order-1',
+        amount: 1000,
+        paymentMethod: 'gopay',
+        customer: { name: 'Rafi', email: 'rafi@example.com' },
+        items: [],
+        callbackUrl: 'https://justmiles.id/api/payments/webhook',
+        metadata: { kind: 'membership' },
+      }),
+    ).toMatchObject({
+      ewallet: 'gopay',
+      metadata: {
+        paymentMethod: 'gopay',
+        paymentType: 'ewallet',
+      },
+      payment_type: 'ewallet',
+    })
+
+    expect(
+      buildPaygateChargePayload({
+        orderId: 'order-2',
+        amount: 1000,
+        paymentMethod: 'qris_gopay',
+        customer: { name: 'Rafi', email: 'rafi@example.com' },
+        items: [],
+        callbackUrl: 'https://justmiles.id/api/payments/webhook',
+        metadata: { kind: 'membership' },
+      }),
+    ).toMatchObject({
+      acquirer: 'gopay',
+      metadata: {
+        paymentMethod: 'qris_gopay',
+        paymentType: 'qris',
+      },
+      payment_type: 'qris',
+    })
+  })
+
+  it('should use QRIS GoPay as the default channel', () => {
+    expect(resolvePaygatePaymentChannel()).toEqual({
+      acquirer: 'gopay',
+      paymentMethod: 'qris_gopay',
+      paymentType: 'qris',
     })
   })
 })
