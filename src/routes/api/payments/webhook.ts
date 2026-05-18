@@ -3,6 +3,7 @@ import {
   paygateWebhookPayloadSchema,
   verifyPaygateWebhookSignature,
 } from '#/lib/payment-webhook'
+import { logger } from '#/lib/logger'
 import { paymentsRepo } from '#/server/repositories/payments.repo'
 
 async function handlePaymentWebhook({
@@ -10,13 +11,16 @@ async function handlePaymentWebhook({
 }: {
   request: Request
 }): Promise<Response> {
+  const requestId = createRequestId()
   const rawBody = await request.text()
   const webhookSecret = process.env.PAYGATE_WEBHOOK_SECRET
 
   if (!webhookSecret) {
-    return Response.json(
+    logger.error('payment_webhook_secret_missing', { requestId })
+    return jsonResponse(
       { success: false, error: 'Webhook secret is not configured.' },
-      { status: 500 },
+      500,
+      requestId,
     )
   }
 
@@ -29,9 +33,11 @@ async function handlePaymentWebhook({
   })
 
   if (!signatureValid) {
-    return Response.json(
+    logger.warn('payment_webhook_invalid_signature', { requestId })
+    return jsonResponse(
       { success: false, error: 'Invalid webhook signature.' },
-      { status: 401 },
+      401,
+      requestId,
     )
   }
 
@@ -39,28 +45,101 @@ async function handlePaymentWebhook({
   try {
     parsedPayload = JSON.parse(rawBody) as unknown
   } catch {
-    return Response.json(
+    logger.warn('payment_webhook_invalid_json', { requestId })
+    return jsonResponse(
       { success: false, error: 'Invalid webhook payload.' },
-      { status: 400 },
+      400,
+      requestId,
     )
   }
 
   const parsed = paygateWebhookPayloadSchema.safeParse(parsedPayload)
   if (!parsed.success) {
-    return Response.json(
+    logger.warn('payment_webhook_invalid_payload', {
+      requestId,
+      issues: parsed.error.issues.map((issue) => issue.path.join('.')),
+    })
+    return jsonResponse(
       { success: false, error: 'Invalid webhook payload.' },
-      { status: 400 },
+      400,
+      requestId,
     )
   }
 
-  await paymentsRepo.processWebhook(parsed.data)
+  try {
+    const result = await paymentsRepo.processWebhook(parsed.data)
 
-  return Response.json({ success: true })
+    if (
+      result.outcome === 'amount_mismatch' ||
+      result.outcome === 'currency_mismatch'
+    ) {
+      logger.error('payment_webhook_order_mismatch', {
+        requestId,
+        orderId: result.orderId,
+        outcome: result.outcome,
+        webhookId: result.webhookId,
+      })
+      return jsonResponse(
+        {
+          success: false,
+          error: 'Payment notification does not match the order.',
+          data: result,
+        },
+        409,
+        requestId,
+      )
+    }
+
+    if (result.outcome === 'unknown_order') {
+      logger.warn('payment_webhook_unknown_order', {
+        requestId,
+        orderId: result.orderId,
+        webhookId: result.webhookId,
+      })
+    } else {
+      logger.info('payment_webhook_processed', {
+        requestId,
+        activatedMembership: result.activatedMembership,
+        orderId: result.orderId,
+        outcome: result.outcome,
+        status: result.status,
+        webhookId: result.webhookId,
+      })
+    }
+
+    return jsonResponse(
+      { success: true, data: result },
+      result.outcome === 'unknown_order' ? 202 : 200,
+      requestId,
+    )
+  } catch (error) {
+    logger.error('payment_webhook_processing_failed', { error, requestId })
+    return jsonResponse(
+      { success: false, error: 'Unable to process payment notification.' },
+      500,
+      requestId,
+    )
+  }
 }
 
 function getWebhookToleranceSeconds(): number {
   const configured = Number(process.env.PAYGATE_WEBHOOK_TOLERANCE_SECONDS)
   return Number.isFinite(configured) && configured > 0 ? configured : 300
+}
+
+function createRequestId(): string {
+  return crypto.randomUUID()
+}
+
+function jsonResponse(
+  body: unknown,
+  status: number,
+  requestId: string,
+): Response {
+  return Response.json(body, {
+    headers: { 'x-request-id': requestId },
+    status,
+  })
 }
 
 export const Route = createFileRoute('/api/payments/webhook')({

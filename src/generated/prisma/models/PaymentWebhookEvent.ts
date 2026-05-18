@@ -187,7 +187,7 @@ export type PaymentWebhookEventWhereInput = {
   AND?: Prisma.PaymentWebhookEventWhereInput | Prisma.PaymentWebhookEventWhereInput[]
   OR?: Prisma.PaymentWebhookEventWhereInput[]
   NOT?: Prisma.PaymentWebhookEventWhereInput | Prisma.PaymentWebhookEventWhereInput[]
-  id?: Prisma.UuidFilter<"PaymentWebhookEvent"> | string
+  id?: Prisma.StringFilter<"PaymentWebhookEvent"> | string
   paymentOrderId?: Prisma.UuidNullableFilter<"PaymentWebhookEvent"> | string | null
   event?: Prisma.StringFilter<"PaymentWebhookEvent"> | string
   status?: Prisma.StringFilter<"PaymentWebhookEvent"> | string
@@ -239,7 +239,7 @@ export type PaymentWebhookEventScalarWhereWithAggregatesInput = {
   AND?: Prisma.PaymentWebhookEventScalarWhereWithAggregatesInput | Prisma.PaymentWebhookEventScalarWhereWithAggregatesInput[]
   OR?: Prisma.PaymentWebhookEventScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PaymentWebhookEventScalarWhereWithAggregatesInput | Prisma.PaymentWebhookEventScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"PaymentWebhookEvent"> | string
+  id?: Prisma.StringWithAggregatesFilter<"PaymentWebhookEvent"> | string
   paymentOrderId?: Prisma.UuidNullableWithAggregatesFilter<"PaymentWebhookEvent"> | string | null
   event?: Prisma.StringWithAggregatesFilter<"PaymentWebhookEvent"> | string
   status?: Prisma.StringWithAggregatesFilter<"PaymentWebhookEvent"> | string
@@ -445,7 +445,7 @@ export type PaymentWebhookEventScalarWhereInput = {
   AND?: Prisma.PaymentWebhookEventScalarWhereInput | Prisma.PaymentWebhookEventScalarWhereInput[]
   OR?: Prisma.PaymentWebhookEventScalarWhereInput[]
   NOT?: Prisma.PaymentWebhookEventScalarWhereInput | Prisma.PaymentWebhookEventScalarWhereInput[]
-  id?: Prisma.UuidFilter<"PaymentWebhookEvent"> | string
+  id?: Prisma.StringFilter<"PaymentWebhookEvent"> | string
   paymentOrderId?: Prisma.UuidNullableFilter<"PaymentWebhookEvent"> | string | null
   event?: Prisma.StringFilter<"PaymentWebhookEvent"> | string
   status?: Prisma.StringFilter<"PaymentWebhookEvent"> | string

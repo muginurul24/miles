@@ -187,19 +187,19 @@ model NewsletterSubscriber {
 }
 
 model User {
-  id             String   @id
-  name           String
-  email          String   @unique(map: "idx_users_email")
-  emailVerified  Boolean  @default(false) @map("email_verified")
-  image          String?
-  membershipTier String   @default("free") @map("membership_tier")
+  id                  String    @id
+  name                String
+  email               String    @unique(map: "idx_users_email")
+  emailVerified       Boolean   @default(false) @map("email_verified")
+  image               String?
+  membershipTier      String    @default("free") @map("membership_tier")
   membershipExpiresAt DateTime? @map("membership_expires_at")
-  role           String   @default("user")
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  role                String    @default("user")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
 
-  accounts Account[]
-  sessions Session[]
+  accounts      Account[]
+  sessions      Session[]
   paymentOrders PaymentOrder[]
 
   @@index([membershipTier], map: "idx_users_membership_tier")
@@ -237,7 +237,7 @@ model PaymentOrder {
 }
 
 model PaymentWebhookEvent {
-  id             String   @id @db.Uuid
+  id             String   @id
   paymentOrderId String?  @map("payment_order_id") @db.Uuid
   event          String
   status         String

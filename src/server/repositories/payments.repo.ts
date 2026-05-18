@@ -1,5 +1,12 @@
 import { prisma } from '#/db'
 import type { PaygateChargeResult } from '#/lib/paygate'
+import {
+  getWebhookPaymentMethod,
+  getWebhookProviderTransactionId,
+  mapPaygateWebhookStatus,
+  parsePaygateWebhookPaidAt,
+  shouldIgnoreWebhookStatusTransition,
+} from '#/lib/payment-webhook'
 import type { PaygateWebhookPayload } from '#/lib/payment-webhook'
 import type { Prisma } from '#/generated/prisma/client'
 
@@ -26,6 +33,22 @@ export interface PaymentOrderView {
   gatewayPayload: Prisma.JsonValue
   paidAt: Date | null
   createdAt: Date
+}
+
+export type PaymentWebhookProcessingOutcome =
+  | 'processed'
+  | 'duplicate'
+  | 'ignored'
+  | 'unknown_order'
+  | 'amount_mismatch'
+  | 'currency_mismatch'
+
+export interface PaymentWebhookProcessingResult {
+  activatedMembership: boolean
+  orderId: string
+  outcome: PaymentWebhookProcessingOutcome
+  status: string | null
+  webhookId: string
 }
 
 export const paymentsRepo = {
@@ -110,8 +133,11 @@ export const paymentsRepo = {
     }
   },
 
-  async processWebhook(payload: PaygateWebhookPayload): Promise<void> {
-    await prisma.$transaction(async (transaction) => {
+  async processWebhook(
+    payload: PaygateWebhookPayload,
+  ): Promise<PaymentWebhookProcessingResult> {
+    return prisma.$transaction(async (transaction) => {
+      const statusAction = mapPaygateWebhookStatus(payload.status)
       const order = await transaction.paymentOrder.findUnique({
         where: { orderId: payload.order_id },
         include: {
@@ -135,36 +161,99 @@ export const paymentsRepo = {
       })
 
       if (eventInsert.count === 0) {
-        return
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'duplicate',
+          status: order?.status ?? null,
+          webhookId: payload.webhook_id,
+        }
       }
 
       if (!order) {
-        return
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'unknown_order',
+          status: null,
+          webhookId: payload.webhook_id,
+        }
+      }
+
+      if (payload.amount !== order.amount) {
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'amount_mismatch',
+          status: order.status,
+          webhookId: payload.webhook_id,
+        }
+      }
+
+      if (payload.currency !== order.currency) {
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'currency_mismatch',
+          status: order.status,
+          webhookId: payload.webhook_id,
+        }
       }
 
       if (
-        payload.amount !== order.amount ||
-        payload.currency !== order.currency
+        !statusAction ||
+        shouldIgnoreWebhookStatusTransition(
+          order.status,
+          statusAction.orderStatus,
+        )
       ) {
-        return
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'ignored',
+          status: order.status,
+          webhookId: payload.webhook_id,
+        }
       }
 
-      const paidAt = payload.paid_at ? new Date(payload.paid_at) : null
-
-      await transaction.paymentOrder.update({
-        where: { id: order.id },
+      const paidAt = parsePaygateWebhookPaidAt(payload)
+      const paymentMethod = getWebhookPaymentMethod(
+        payload,
+        order.paymentMethod,
+      )
+      const updateResult = await transaction.paymentOrder.updateMany({
+        where: { id: order.id, status: order.status },
         data: {
-          gatewayTransactionId: payload.transaction_id,
-          status: payload.status,
-          paymentType: payload.payment_type,
-          paymentMethod: payload.payment_method ?? null,
+          gatewayTransactionId: getWebhookProviderTransactionId(payload),
+          ...(payload.platform_order_id
+            ? { platformOrderId: payload.platform_order_id }
+            : {}),
+          status: statusAction.orderStatus,
+          paymentType: payload.payment_type ?? order.paymentType,
+          paymentMethod,
           paidAt,
           gatewayPayload: toInputJsonValue(payload),
         },
       })
 
-      if (payload.status !== 'paid' || !paidAt) {
-        return
+      if (updateResult.count === 0) {
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'duplicate',
+          status: statusAction.orderStatus,
+          webhookId: payload.webhook_id,
+        }
+      }
+
+      if (!statusAction.activatesMembership || !paidAt) {
+        return {
+          activatedMembership: false,
+          orderId: payload.order_id,
+          outcome: 'processed',
+          status: statusAction.orderStatus,
+          webhookId: payload.webhook_id,
+        }
       }
 
       await transaction.user.update({
@@ -178,6 +267,14 @@ export const paymentsRepo = {
           ),
         },
       })
+
+      return {
+        activatedMembership: true,
+        orderId: payload.order_id,
+        outcome: 'processed',
+        status: statusAction.orderStatus,
+        webhookId: payload.webhook_id,
+      }
     })
   },
 }
