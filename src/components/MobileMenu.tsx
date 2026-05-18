@@ -1,5 +1,6 @@
+import { Link } from '@tanstack/react-router'
 import { Menu, Plane } from 'lucide-react'
-import { AuthActions } from './AuthActions'
+import { LazyAuthActions } from './LazyAuthActions'
 import ThemeToggle from './ThemeToggle'
 import { Button } from '#/components/ui/button'
 import {
@@ -13,11 +14,11 @@ import {
 import { Separator } from '#/components/ui/separator'
 import { cn } from '#/lib/utils'
 
-import type { NavGroup, NavItem } from './Header'
+import type { NavGroup, NavItem } from './NavGroupDropdown'
 
 interface MobileMenuProps {
   navItems: NavItem[]
-  reviewGroups: NavGroup[]
+  navGroups: NavGroup[]
 }
 
 function MobileNavLink({
@@ -29,8 +30,8 @@ function MobileNavLink({
 }) {
   return (
     <SheetClose asChild>
-      <a
-        href={item.href}
+      <Link
+        to={item.href}
         className={cn(
           'block rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground no-underline transition-colors hover:bg-secondary hover:text-foreground',
           item.highlighted && 'font-semibold text-accent hover:text-accent',
@@ -38,15 +39,12 @@ function MobileNavLink({
         )}
       >
         {item.label}
-      </a>
+      </Link>
     </SheetClose>
   )
 }
 
-export default function MobileMenu({
-  navItems,
-  reviewGroups,
-}: MobileMenuProps) {
+export default function MobileMenu({ navItems, navGroups }: MobileMenuProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -78,16 +76,16 @@ export default function MobileMenu({
             <ThemeToggle />
           </div>
 
-          <AuthActions variant="mobile" />
+          <LazyAuthActions variant="mobile" />
 
           <nav className="flex flex-col gap-1">
             <SheetClose asChild>
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="block rounded-md px-3 py-2.5 text-sm font-semibold text-primary no-underline transition-colors hover:bg-secondary"
               >
                 Home
-              </a>
+              </Link>
             </SheetClose>
             {navItems.map((item) => (
               <MobileNavLink key={item.label} item={item} />
@@ -97,7 +95,7 @@ export default function MobileMenu({
           <Separator />
 
           <div className="space-y-4">
-            {reviewGroups.map((group) => (
+            {navGroups.map((group) => (
               <div key={group.title}>
                 <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {group.title}

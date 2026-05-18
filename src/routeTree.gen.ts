@@ -36,7 +36,9 @@ import { Route as CreditCardsSlugRouteImport } from './routes/credit-cards/$slug
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
+import { Route as MembershipCheckoutOrderIdRouteImport } from './routes/membership/checkout/$orderId'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
+import { Route as ApiPaymentsWebhookRouteImport } from './routes/api/payments/webhook'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const TermsRoute = TermsRouteImport.update({
@@ -174,9 +176,20 @@ const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MembershipCheckoutOrderIdRoute =
+  MembershipCheckoutOrderIdRouteImport.update({
+    id: '/checkout/$orderId',
+    path: '/checkout/$orderId',
+    getParentRoute: () => MembershipRoute,
+  } as any)
 const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
   id: '/api/trpc/$',
   path: '/api/trpc/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsWebhookRoute = ApiPaymentsWebhookRouteImport.update({
+  id: '/api/payments/webhook',
+  path: '/api/payments/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -195,7 +208,7 @@ export interface FileRoutesByFullPath {
   '/deals': typeof DealsRoute
   '/disclaimer': typeof DisclaimerRoute
   '/guides': typeof GuidesRoute
-  '/membership': typeof MembershipRoute
+  '/membership': typeof MembershipRouteWithChildren
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
   '/privacy': typeof PrivacyRoute
@@ -214,7 +227,9 @@ export interface FileRoutesByFullPath {
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/payments/webhook': typeof ApiPaymentsWebhookRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/membership/checkout/$orderId': typeof MembershipCheckoutOrderIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -225,7 +240,7 @@ export interface FileRoutesByTo {
   '/deals': typeof DealsRoute
   '/disclaimer': typeof DisclaimerRoute
   '/guides': typeof GuidesRoute
-  '/membership': typeof MembershipRoute
+  '/membership': typeof MembershipRouteWithChildren
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
   '/privacy': typeof PrivacyRoute
@@ -244,7 +259,9 @@ export interface FileRoutesByTo {
   '/credit-cards': typeof CreditCardsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/payments/webhook': typeof ApiPaymentsWebhookRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/membership/checkout/$orderId': typeof MembershipCheckoutOrderIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -257,7 +274,7 @@ export interface FileRoutesById {
   '/deals': typeof DealsRoute
   '/disclaimer': typeof DisclaimerRoute
   '/guides': typeof GuidesRoute
-  '/membership': typeof MembershipRoute
+  '/membership': typeof MembershipRouteWithChildren
   '/news': typeof NewsRoute
   '/newsletter': typeof NewsletterRoute
   '/privacy': typeof PrivacyRoute
@@ -276,7 +293,9 @@ export interface FileRoutesById {
   '/credit-cards/': typeof CreditCardsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/payments/webhook': typeof ApiPaymentsWebhookRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/membership/checkout/$orderId': typeof MembershipCheckoutOrderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -309,7 +328,9 @@ export interface FileRouteTypes {
     | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
+    | '/api/payments/webhook'
     | '/api/trpc/$'
+    | '/membership/checkout/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -339,7 +360,9 @@ export interface FileRouteTypes {
     | '/credit-cards'
     | '/dashboard'
     | '/api/auth/$'
+    | '/api/payments/webhook'
     | '/api/trpc/$'
+    | '/membership/checkout/$orderId'
   id:
     | '__root__'
     | '/'
@@ -370,7 +393,9 @@ export interface FileRouteTypes {
     | '/credit-cards/'
     | '/dashboard/'
     | '/api/auth/$'
+    | '/api/payments/webhook'
     | '/api/trpc/$'
+    | '/membership/checkout/$orderId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -383,7 +408,7 @@ export interface RootRouteChildren {
   DealsRoute: typeof DealsRoute
   DisclaimerRoute: typeof DisclaimerRoute
   GuidesRoute: typeof GuidesRoute
-  MembershipRoute: typeof MembershipRoute
+  MembershipRoute: typeof MembershipRouteWithChildren
   NewsRoute: typeof NewsRoute
   NewsletterRoute: typeof NewsletterRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -397,6 +422,7 @@ export interface RootRouteChildren {
   ReviewsSubCategoryRoute: typeof ReviewsSubCategoryRoute
   CreditCardsIndexRoute: typeof CreditCardsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiPaymentsWebhookRoute: typeof ApiPaymentsWebhookRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
 }
 
@@ -591,11 +617,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/membership/checkout/$orderId': {
+      id: '/membership/checkout/$orderId'
+      path: '/checkout/$orderId'
+      fullPath: '/membership/checkout/$orderId'
+      preLoaderRoute: typeof MembershipCheckoutOrderIdRouteImport
+      parentRoute: typeof MembershipRoute
+    }
     '/api/trpc/$': {
       id: '/api/trpc/$'
       path: '/api/trpc/$'
       fullPath: '/api/trpc/$'
       preLoaderRoute: typeof ApiTrpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/webhook': {
+      id: '/api/payments/webhook'
+      path: '/api/payments/webhook'
+      fullPath: '/api/payments/webhook'
+      preLoaderRoute: typeof ApiPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -628,6 +668,18 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
 )
 
+interface MembershipRouteChildren {
+  MembershipCheckoutOrderIdRoute: typeof MembershipCheckoutOrderIdRoute
+}
+
+const MembershipRouteChildren: MembershipRouteChildren = {
+  MembershipCheckoutOrderIdRoute: MembershipCheckoutOrderIdRoute,
+}
+
+const MembershipRouteWithChildren = MembershipRoute._addFileChildren(
+  MembershipRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -638,7 +690,7 @@ const rootRouteChildren: RootRouteChildren = {
   DealsRoute: DealsRoute,
   DisclaimerRoute: DisclaimerRoute,
   GuidesRoute: GuidesRoute,
-  MembershipRoute: MembershipRoute,
+  MembershipRoute: MembershipRouteWithChildren,
   NewsRoute: NewsRoute,
   NewsletterRoute: NewsletterRoute,
   PrivacyRoute: PrivacyRoute,
@@ -652,6 +704,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReviewsSubCategoryRoute: ReviewsSubCategoryRoute,
   CreditCardsIndexRoute: CreditCardsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiPaymentsWebhookRoute: ApiPaymentsWebhookRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
 }
 export const routeTree = rootRouteImport
@@ -659,10 +712,11 @@ export const routeTree = rootRouteImport
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

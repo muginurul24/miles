@@ -41,7 +41,7 @@ export const privacyPolicyContent = {
         'Data digunakan untuk menyediakan fitur yang kamu minta, meningkatkan kualitas rekomendasi, dan menjaga keamanan platform.',
       ],
       bullets: [
-        'Mengelola akun, session, membership, dan akses konten premium.',
+        'Mengelola akun, session, membership, dan akses konten member.',
         'Mengirim newsletter, update produk, dan komunikasi terkait inquiry consulting.',
         'Menampilkan hasil calculator, compare, quiz, dan rekomendasi yang relevan.',
         'Menganalisis performa konten dan memperbaiki data kartu atau artikel.',

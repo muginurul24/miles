@@ -8,7 +8,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import Footer from '#/components/Footer'
 import Header from '#/components/Header'
-import { ToastViewport } from '#/components/Toast'
+import { LazyToastViewport } from '#/components/LazyToastViewport'
 import TanStackQueryDevtools from '#/integrations/tanstack-query/devtools'
 import { buildSeoMeta, DEFAULT_SEO } from '#/lib/seo'
 import appCss from '#/styles.css?url'
@@ -44,7 +44,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.bunny.net/css?family=andada-pro:400,400i,600,700|fira-mono:400,500,700|funnel-display:400,500,600,700|plus-jakarta-sans:400,500,600,700,800&display=swap',
+        href: 'https://fonts.bunny.net/css?family=andada-pro:400,400i,500,500i,600,600i,700,700i,800,800i|fira-mono:400,500,700|funnel-display:300,400,500,600,700,800|plus-jakarta-sans:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i&display=swap',
       },
       {
         rel: 'stylesheet',
@@ -95,7 +95,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           {children}
         </div>
         {isDashboardRoute ? null : <Footer />}
-        <ToastViewport />
+        <LazyToastViewport />
         <TanStackDevtools
           config={{
             position: 'bottom-right',

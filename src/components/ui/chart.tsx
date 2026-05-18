@@ -145,20 +145,36 @@ function ChartTooltipContent({
     'accessibilityLayer'
   >) {
   const { config } = useChart()
+  const tooltipPayload = React.useMemo(
+    () =>
+      (
+        (payload ?? []) as Array<
+          NonNullable<NonNullable<typeof payload>[number]> | null | undefined
+        >
+      ).filter(
+        (item): item is NonNullable<NonNullable<typeof payload>[number]> => {
+          return item != null
+        },
+      ),
+    [payload],
+  )
 
   const tooltipLabel = React.useMemo(() => {
-    const tooltipPayload = payload ?? []
-
     if (hideLabel || tooltipPayload.length === 0) {
       return null
     }
 
     const [item] = tooltipPayload
+
     const key = `${labelKey ?? item.dataKey ?? item.name ?? 'value'}`
     const itemConfig = getPayloadConfigFromPayload(config, item, key)
+    const labelConfig =
+      typeof label === 'string' && Object.hasOwn(config, label)
+        ? config[label]
+        : undefined
     const value =
       !labelKey && typeof label === 'string'
-        ? (config[label].label ?? label)
+        ? (labelConfig?.label ?? label)
         : itemConfig?.label
 
     if (labelFormatter) {
@@ -177,18 +193,18 @@ function ChartTooltipContent({
   }, [
     label,
     labelFormatter,
-    payload,
+    tooltipPayload,
     hideLabel,
     labelClassName,
     config,
     labelKey,
   ])
 
-  if (!active || !payload?.length) {
+  if (!active || tooltipPayload.length === 0) {
     return null
   }
 
-  const nestLabel = payload.length === 1 && indicator !== 'dot'
+  const nestLabel = tooltipPayload.length === 1 && indicator !== 'dot'
 
   return (
     <div
@@ -199,7 +215,7 @@ function ChartTooltipContent({
     >
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload
+        {tooltipPayload
           .filter((item) => item.type !== 'none')
           .map((item, index) => {
             const key = `${nameKey ?? item.name ?? item.dataKey ?? 'value'}`

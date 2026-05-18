@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ExternalLink } from 'lucide-react'
 import ThemeToggle from '#/components/ThemeToggle'
 import { AppSidebar } from '#/components/app-sidebar'
@@ -29,10 +30,10 @@ export function DashboardShell({
             <>
               <ThemeToggle />
               <Button asChild variant="outline" size="sm">
-                <a href="/" className="hidden no-underline sm:inline-flex">
+                <Link to="/" className="hidden no-underline sm:inline-flex">
                   Public site
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                </a>
+                </Link>
               </Button>
             </>
           }

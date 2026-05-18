@@ -1,4 +1,5 @@
 import { prisma } from '#/db'
+import { DEFAULT_TTL, cached } from '#/lib/cache'
 
 export interface ConsultingPackageView {
   id: string
@@ -42,25 +43,31 @@ function optionalText(value: string | undefined): string | null {
 
 export const consultingRepo = {
   async findPackages(): Promise<ConsultingPackageView[]> {
-    const packages = await prisma.consultingPackage.findMany({
-      orderBy: [{ name: 'asc' }],
-    })
+    return cached(
+      'consulting:packages',
+      DEFAULT_TTL.CONSULTING_PACKAGES,
+      async () => {
+        const packages = await prisma.consultingPackage.findMany({
+          orderBy: [{ name: 'asc' }],
+        })
 
-    return packages
-      .map((consultingPackage) => ({
-        id: consultingPackage.id,
-        name: consultingPackage.name,
-        description: consultingPackage.description,
-        priceIdr: consultingPackage.priceIdr,
-        priceLabel: consultingPackage.priceLabel,
-        outputs: normalizeOutputs(consultingPackage.outputs),
-        icon: consultingPackage.icon,
-      }))
-      .sort(
-        (first, second) =>
-          (first.priceIdr ?? Number.MAX_SAFE_INTEGER) -
-          (second.priceIdr ?? Number.MAX_SAFE_INTEGER),
-      )
+        return packages
+          .map((consultingPackage) => ({
+            id: consultingPackage.id,
+            name: consultingPackage.name,
+            description: consultingPackage.description,
+            priceIdr: consultingPackage.priceIdr,
+            priceLabel: consultingPackage.priceLabel,
+            outputs: normalizeOutputs(consultingPackage.outputs),
+            icon: consultingPackage.icon,
+          }))
+          .sort(
+            (first, second) =>
+              (first.priceIdr ?? Number.MAX_SAFE_INTEGER) -
+              (second.priceIdr ?? Number.MAX_SAFE_INTEGER),
+          )
+      },
+    )
   },
 
   async packageExists(packageId: string): Promise<boolean> {

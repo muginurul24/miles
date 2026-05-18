@@ -1,5 +1,6 @@
 'use client'
 
+import { Link } from '@tanstack/react-router'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -30,10 +31,10 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild tooltip={item.title}>
-                <a href={item.url}>
+                <Link to={item.url}>
                   {item.icon ? <item.icon /> : null}
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

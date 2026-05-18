@@ -1,10 +1,12 @@
+'use client'
+
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
+  Crown,
   LayoutDashboard,
   Loader2,
   LogIn,
   LogOut,
-  Settings,
   UserPlus,
 } from 'lucide-react'
 import { useState } from 'react'
@@ -21,6 +23,7 @@ import {
 } from '#/components/ui/dropdown-menu'
 import { SheetClose } from '#/components/ui/sheet'
 import { authClient } from '#/lib/auth-client'
+import { useHasMounted } from '#/lib/use-has-mounted'
 import { cn } from '#/lib/utils'
 
 type AuthActionsVariant = 'desktop' | 'mobile'
@@ -33,6 +36,7 @@ interface SessionUser {
   name?: string | null
   email: string
   image?: string | null
+  role?: string | null
 }
 
 function getDisplayName(user: SessionUser): string {
@@ -48,6 +52,10 @@ function getInitials(user: SessionUser): string {
   }
 
   return displayName.slice(0, 2).toUpperCase()
+}
+
+function getUserRole(user: SessionUser): string | null {
+  return typeof user.role === 'string' ? user.role : null
 }
 
 function UserAvatar({
@@ -117,6 +125,7 @@ function LoggedOutActions({ variant }: AuthActionsProps) {
 export function AuthActions({ variant }: AuthActionsProps) {
   const navigate = useNavigate()
   const { data: session, isPending } = authClient.useSession()
+  const hasMounted = useHasMounted()
   const [isSigningOut, setIsSigningOut] = useState(false)
 
   async function handleSignOut(): Promise<void> {
@@ -130,7 +139,7 @@ export function AuthActions({ variant }: AuthActionsProps) {
     }
   }
 
-  if (isPending) {
+  if (!hasMounted || isPending) {
     return (
       <div
         className={cn(
@@ -148,6 +157,7 @@ export function AuthActions({ variant }: AuthActionsProps) {
 
   const user = session.user
   const displayName = getDisplayName(user)
+  const isAdmin = getUserRole(user) === 'admin'
 
   if (variant === 'mobile') {
     return (
@@ -164,22 +174,33 @@ export function AuthActions({ variant }: AuthActionsProps) {
           </div>
         </div>
         <div className="grid gap-2">
-          <SheetClose asChild>
-            <Link
-              to="/dashboard"
-              className={buttonVariants({
-                variant: 'outline',
-                className: 'justify-start no-underline',
-              })}
-            >
-              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-              Dashboard
-            </Link>
-          </SheetClose>
-          <Button variant="outline" className="justify-start" disabled>
-            <Settings className="h-4 w-4" aria-hidden="true" />
-            Settings
-          </Button>
+          {isAdmin ? (
+            <SheetClose asChild>
+              <Link
+                to="/dashboard"
+                className={buttonVariants({
+                  variant: 'outline',
+                  className: 'justify-start no-underline',
+                })}
+              >
+                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                Dashboard
+              </Link>
+            </SheetClose>
+          ) : (
+            <SheetClose asChild>
+              <Link
+                to="/membership"
+                className={buttonVariants({
+                  variant: 'outline',
+                  className: 'justify-start no-underline',
+                })}
+              >
+                <Crown className="h-4 w-4" aria-hidden="true" />
+                Membership
+              </Link>
+            </SheetClose>
+          )}
           <SheetClose asChild>
             <Button
               type="button"
@@ -225,16 +246,21 @@ export function AuthActions({ variant }: AuthActionsProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link to="/dashboard">
-              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-              Dashboard
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem disabled>
-            <Settings className="h-4 w-4" aria-hidden="true" />
-            Settings
-          </DropdownMenuItem>
+          {isAdmin ? (
+            <DropdownMenuItem asChild>
+              <Link to="/dashboard">
+                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem asChild>
+              <Link to="/membership">
+                <Crown className="h-4 w-4" aria-hidden="true" />
+                Membership
+              </Link>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem

@@ -6,6 +6,7 @@ import { cardsRouter } from './cards'
 import { consultingRouter } from './consulting'
 import { membershipRouter } from './membership'
 import { newsletterRouter } from './newsletter'
+import { paymentsRouter } from './payments'
 
 import type { TRPCRouterRecord } from '@trpc/server'
 
@@ -19,6 +20,7 @@ const viewerRouter = {
     email: ctx.user.email,
     name: ctx.user.name,
     membershipTier: ctx.user.membershipTier,
+    membershipExpiresAt: ctx.user.membershipExpiresAt,
     role: ctx.user.role,
   })),
 } satisfies TRPCRouterRecord
@@ -31,6 +33,7 @@ export const trpcRouter = createTRPCRouter({
   calculator: calculatorRouter,
   articles: articlesRouter,
   membership: membershipRouter,
+  payments: paymentsRouter,
   consulting: consultingRouter,
   newsletter: newsletterRouter,
 })

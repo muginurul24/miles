@@ -42,8 +42,23 @@ export interface AdminOverview {
   membershipDistribution: AdminMembershipDistributionPoint[]
 }
 
-interface ApplicationRecord {
-  createdAt: Date
+interface ApplicationTrendGroup {
+  date: Date | string
+  applications: number
+}
+
+interface ArticleCategoryGroup {
+  category: string
+  _count: {
+    _all: number
+  }
+}
+
+interface MembershipTierGroup {
+  membershipTier: string
+  _count: {
+    _all: number
+  }
 }
 
 const APPLICATION_TREND_DAYS = 14
@@ -59,9 +74,9 @@ export const adminOverviewRepo = {
       newInquiries,
       premiumArticles,
       totalApplications,
-      applicationRecords,
-      articleCategories,
-      users,
+      applicationTrendGroups,
+      articleCategoryGroups,
+      membershipTierGroups,
       recentInquiries,
     ] = await Promise.all([
       prisma.creditCard.count(),
@@ -83,27 +98,25 @@ export const adminOverviewRepo = {
         },
       }),
       prisma.cardApplication.count(),
-      prisma.cardApplication.findMany({
-        where: {
-          createdAt: {
-            gte: since,
-          },
-        },
-        select: {
-          createdAt: true,
-        },
-        orderBy: {
-          createdAt: 'asc',
-        },
-      }),
-      prisma.article.findMany({
-        select: {
-          category: true,
+      prisma.$queryRaw<ApplicationTrendGroup[]>`
+        SELECT
+          date_trunc('day', created_at)::date AS date,
+          COUNT(*)::integer AS applications
+        FROM card_applications
+        WHERE created_at >= ${since}
+        GROUP BY 1
+        ORDER BY 1 ASC
+      `,
+      prisma.article.groupBy({
+        by: ['category'],
+        _count: {
+          _all: true,
         },
       }),
-      prisma.user.findMany({
-        select: {
-          membershipTier: true,
+      prisma.user.groupBy({
+        by: ['membershipTier'],
+        _count: {
+          _all: true,
         },
       }),
       prisma.consultingInquiry.findMany({
@@ -144,15 +157,15 @@ export const adminOverviewRepo = {
         packageName: inquiry.package?.name ?? null,
         createdAt: inquiry.createdAt,
       })),
-      applicationTrend: buildApplicationTrend(applicationRecords),
-      articleCategories: buildArticleCategories(articleCategories),
-      membershipDistribution: buildMembershipDistribution(users),
+      applicationTrend: buildApplicationTrend(applicationTrendGroups),
+      articleCategories: buildArticleCategories(articleCategoryGroups),
+      membershipDistribution: buildMembershipDistribution(membershipTierGroups),
     }
   },
 }
 
 function buildApplicationTrend(
-  records: ApplicationRecord[],
+  groups: ApplicationTrendGroup[],
 ): AdminApplicationTrendPoint[] {
   const buckets = new Map<string, number>()
 
@@ -160,9 +173,12 @@ function buildApplicationTrend(
     buckets.set(toDateKey(daysAgo(index)), 0)
   }
 
-  for (const record of records) {
-    const key = toDateKey(record.createdAt)
-    buckets.set(key, (buckets.get(key) ?? 0) + 1)
+  for (const group of groups) {
+    const key =
+      group.date instanceof Date
+        ? toDateKey(group.date)
+        : group.date.slice(0, 10)
+    buckets.set(key, group.applications)
   }
 
   return [...buckets.entries()].map(([date, applications]) => ({
@@ -188,36 +204,33 @@ function toDateKey(date: Date): string {
 }
 
 function buildArticleCategories(
-  articles: { category: string }[],
+  groups: ArticleCategoryGroup[],
 ): AdminArticleCategoryPoint[] {
-  return buildCountMap(articles.map((article) => article.category)).map(
-    ([category, articlesCount]) => ({
-      category,
-      articles: articlesCount,
-    }),
-  )
+  return groups
+    .map((group) => ({
+      category: group.category,
+      articles: group._count._all,
+    }))
+    .sort((first, second) => {
+      const countDelta = second.articles - first.articles
+      return countDelta === 0
+        ? first.category.localeCompare(second.category)
+        : countDelta
+    })
 }
 
 function buildMembershipDistribution(
-  users: { membershipTier: string }[],
+  groups: MembershipTierGroup[],
 ): AdminMembershipDistributionPoint[] {
-  return buildCountMap(users.map((user) => user.membershipTier)).map(
-    ([tier, usersCount]) => ({
-      tier,
-      users: usersCount,
-    }),
-  )
-}
-
-function buildCountMap(values: string[]): [string, number][] {
-  const counts = new Map<string, number>()
-
-  for (const value of values) {
-    counts.set(value, (counts.get(value) ?? 0) + 1)
-  }
-
-  return [...counts.entries()].sort((first, second) => {
-    const countDelta = second[1] - first[1]
-    return countDelta === 0 ? first[0].localeCompare(second[0]) : countDelta
-  })
+  return groups
+    .map((group) => ({
+      tier: group.membershipTier,
+      users: group._count._all,
+    }))
+    .sort((first, second) => {
+      const countDelta = second.users - first.users
+      return countDelta === 0
+        ? first.tier.localeCompare(second.tier)
+        : countDelta
+    })
 }

@@ -1,43 +1,20 @@
 import { Link } from '@tanstack/react-router'
-import { ChevronDown, Plane } from 'lucide-react'
-import { AuthActions } from './AuthActions'
-import MobileMenu from './MobileMenu'
+import { Plane } from 'lucide-react'
+import { LazyAuthActions } from './LazyAuthActions'
+import { LazyMobileMenu } from './LazyMobileMenu'
+import { NavGroupDropdown } from './NavGroupDropdown'
 import ThemeToggle from './ThemeToggle'
-import { Button } from '#/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu'
 import { cn } from '#/lib/utils'
 
-export interface NavItem {
-  label: string
-  href: string
-  highlighted?: boolean
-}
-
-export interface NavGroup {
-  title: string
-  items: NavItem[]
-}
+import type { NavGroup, NavItem } from './NavGroupDropdown'
 
 const mainNavItems: NavItem[] = [
-  { label: 'News', href: '/news' },
   { label: 'Credit Cards', href: '/credit-cards' },
   { label: 'Calculator', href: '/calculator', highlighted: true },
   { label: 'Compare', href: '/compare' },
-  { label: 'Guides', href: '/guides' },
-  { label: 'Deals', href: '/deals' },
-  { label: 'Membership', href: '/membership' },
-  { label: 'Consulting', href: '/consulting' },
 ]
 
-const reviewGroups: NavGroup[] = [
+const navGroups: NavGroup[] = [
   {
     title: 'Reviews',
     items: [
@@ -47,66 +24,33 @@ const reviewGroups: NavGroup[] = [
     ],
   },
   {
-    title: 'Guides',
+    title: 'Konten',
     items: [
-      { label: 'Semua Guides', href: '/guides' },
-      { label: 'Guide Pemula', href: '/guides' },
-      { label: 'Redemption Guide', href: '/guides' },
+      { label: 'News', href: '/news' },
+      { label: 'Guides', href: '/guides' },
+      { label: 'Deals', href: '/deals' },
     ],
   },
   {
-    title: 'Tools',
+    title: 'Layanan',
     items: [
-      { label: 'Miles Calculator', href: '/calculator' },
-      { label: 'Compare Cards', href: '/compare' },
-      { label: 'Advisor Quiz', href: '/quiz' },
+      { label: 'Membership', href: '/membership' },
+      { label: 'Consulting', href: '/consulting' },
     ],
   },
 ]
 
 function NavAnchor({ item }: { item: NavItem }) {
   return (
-    <a
-      href={item.href}
+    <Link
+      to={item.href}
       className={cn(
         'text-sm font-medium text-muted-foreground no-underline transition-colors hover:text-accent',
         item.highlighted && 'font-semibold text-accent hover:text-accent-hover',
       )}
     >
       {item.label}
-    </a>
-  )
-}
-
-function ReviewsDropdown() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1 px-0 text-sm font-medium text-muted-foreground hover:bg-transparent hover:text-accent"
-        >
-          Reviews
-          <ChevronDown className="h-4 w-4" aria-hidden="true" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-72 p-2">
-        {reviewGroups.map((group, index) => (
-          <DropdownMenuGroup key={group.title}>
-            {index > 0 ? <DropdownMenuSeparator /> : null}
-            <DropdownMenuLabel className="text-xs uppercase tracking-wider text-muted-foreground">
-              {group.title}
-            </DropdownMenuLabel>
-            {group.items.map((item) => (
-              <DropdownMenuItem key={`${group.title}-${item.label}`} asChild>
-                <a href={item.href}>{item.label}</a>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuGroup>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    </Link>
   )
 }
 
@@ -129,12 +73,11 @@ export default function Header() {
         </h2>
 
         <div className="hidden items-center gap-7 lg:flex">
-          {mainNavItems.slice(0, 4).map((item) => (
+          {mainNavItems.map((item) => (
             <NavAnchor key={item.label} item={item} />
           ))}
-          <ReviewsDropdown />
-          {mainNavItems.slice(4).map((item) => (
-            <NavAnchor key={item.label} item={item} />
+          {navGroups.map((group) => (
+            <NavGroupDropdown key={group.title} group={group} />
           ))}
         </div>
 
@@ -143,9 +86,9 @@ export default function Header() {
             <ThemeToggle />
           </div>
           <div className="hidden items-center gap-2 lg:flex">
-            <AuthActions variant="desktop" />
+            <LazyAuthActions variant="desktop" />
           </div>
-          <MobileMenu navItems={mainNavItems} reviewGroups={reviewGroups} />
+          <LazyMobileMenu navItems={mainNavItems} navGroups={navGroups} />
         </div>
       </nav>
     </header>

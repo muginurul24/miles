@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   getAdminRedirectTarget,
   getAuthRedirectTarget,
+  getGuestOnlyRedirectTarget,
 } from '#/lib/auth-guards'
 
 function createGuardSession(role: 'admin' | 'user') {
@@ -33,5 +34,23 @@ describe('getAdminRedirectTarget', () => {
 
   it('should allow access when user is admin', () => {
     expect(getAdminRedirectTarget(createGuardSession('admin'))).toBeNull()
+  })
+})
+
+describe('getGuestOnlyRedirectTarget', () => {
+  it('should allow access when session is missing', () => {
+    expect(getGuestOnlyRedirectTarget(null)).toBeNull()
+  })
+
+  it('should redirect to membership when user is already signed in', () => {
+    expect(getGuestOnlyRedirectTarget(createGuardSession('user'))).toBe(
+      '/membership',
+    )
+  })
+
+  it('should redirect to dashboard when admin is already signed in', () => {
+    expect(getGuestOnlyRedirectTarget(createGuardSession('admin'))).toBe(
+      '/dashboard',
+    )
   })
 })

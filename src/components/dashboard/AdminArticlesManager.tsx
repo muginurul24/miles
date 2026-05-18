@@ -5,10 +5,7 @@ import { AdminArticleForm } from '#/components/dashboard/AdminArticleForm'
 import { AdminArticlesTable } from '#/components/dashboard/AdminArticlesTable'
 import { useTRPC } from '#/integrations/trpc/react'
 
-import type {
-  AdminArticleCreateInput,
-  AdminArticleUpdateInput,
-} from '#/lib/schemas/admin-article'
+import type { AdminArticleFormValue } from '#/components/dashboard/AdminArticleForm'
 import type { AdminArticleRow } from '#/server/repositories/admin.repo'
 import type { ReactElement } from 'react'
 
@@ -68,9 +65,7 @@ export function AdminArticlesManager({
     }),
   )
 
-  function handleSubmit(
-    value: AdminArticleCreateInput | AdminArticleUpdateInput,
-  ): void {
+  function handleSubmit(value: AdminArticleFormValue): void {
     if (editingArticle) {
       updateArticle.mutate(value)
       return

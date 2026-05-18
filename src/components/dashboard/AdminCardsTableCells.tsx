@@ -3,11 +3,11 @@ import { Badge } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 
 import type { AdminCardRow } from '#/server/repositories/admin.repo'
-import type { ReactElement } from 'react'
+import type { MouseEventHandler, ReactElement } from 'react'
 
 interface SortableHeaderProps {
   label: string
-  onClick: (() => void) | undefined
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 export function SortableHeader({

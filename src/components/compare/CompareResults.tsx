@@ -29,6 +29,11 @@ interface CompareResultCard {
   rating: RatingLabel | null
 }
 
+interface CompareResultWithValue extends CompareResultCard {
+  idrPerMile: number
+  rating: RatingLabel
+}
+
 const numberFormatter = new Intl.NumberFormat('id-ID', {
   maximumFractionDigits: 1,
 })
@@ -97,6 +102,12 @@ function buildCompareResult(
   }
 }
 
+function hasMilesValue(
+  result: CompareResultCard,
+): result is CompareResultWithValue {
+  return result.idrPerMile !== null && result.rating !== null
+}
+
 export function CompareResults({
   cards,
   selections,
@@ -115,12 +126,8 @@ export function CompareResults({
     .filter((result): result is CompareResultCard => result !== null)
   const bestResult =
     [...results]
-      .filter((result) => result.idrPerMile !== null)
+      .filter(hasMilesValue)
       .sort((first, second) => {
-        if (first.idrPerMile === null || second.idrPerMile === null) {
-          return 0
-        }
-
         return first.idrPerMile - second.idrPerMile
       })
       .at(0) ?? null
@@ -155,9 +162,7 @@ export function CompareResults({
                 </p>
               </div>
             </div>
-            {bestResult.rating ? (
-              <RatingBadge rating={bestResult.rating} size="md" />
-            ) : null}
+            <RatingBadge rating={bestResult.rating} size="md" />
           </div>
         </Card>
       ) : null}

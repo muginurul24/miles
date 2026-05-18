@@ -1,17 +1,15 @@
 'use client'
 
+import { Link } from '@tanstack/react-router'
 import * as React from 'react'
 import {
-  BarChart3,
-  CircleHelp,
   CreditCard,
   FileText,
+  Home,
   Inbox,
   LayoutDashboard,
   Mail,
   Plane,
-  Settings,
-  Users,
 } from 'lucide-react'
 
 import { NavMain } from '#/components/nav-main.tsx'
@@ -28,11 +26,6 @@ import {
 } from '#/components/ui/sidebar.tsx'
 
 const data = {
-  user: {
-    name: 'JustMiles Admin',
-    email: 'admin@justmiles.id',
-    avatar: '',
-  },
   navMain: [
     {
       title: 'Overview',
@@ -59,27 +52,12 @@ const data = {
       url: '/dashboard/subscribers',
       icon: Mail,
     },
-    {
-      title: 'Charts',
-      url: '/dashboard/charts',
-      icon: BarChart3,
-    },
   ],
   navSecondary: [
     {
-      title: 'Members',
-      url: '/dashboard/members',
-      icon: Users,
-    },
-    {
-      title: 'Settings',
-      url: '/dashboard/settings',
-      icon: Settings,
-    },
-    {
       title: 'Public site',
       url: '/',
-      icon: CircleHelp,
+      icon: Home,
     },
   ],
 }
@@ -94,10 +72,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
+              <Link to="/dashboard">
                 <Plane className="size-5!" />
                 <span className="text-base font-semibold">JustMiles</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -107,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )

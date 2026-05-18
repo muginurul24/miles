@@ -19,7 +19,7 @@ export function ArticleBody({ article }: ArticleBodyProps): ReactElement {
           <p key={`${index}-${paragraph.slice(0, 24)}`}>{paragraph}</p>
         ))
       ) : (
-        <p>Konten artikel belum tersedia.</p>
+        <p>Artikel sedang diproses. Silakan kembali beberapa saat lagi.</p>
       )}
     </article>
   )

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ArrowRight, Calculator, CreditCard } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 
@@ -35,10 +36,10 @@ export function HeroSection() {
               asChild
               className="bg-accent text-accent-foreground hover:bg-accent-hover"
             >
-              <a href="/calculator" className="no-underline">
+              <Link to="/calculator" className="no-underline">
                 <Calculator className="h-4 w-4" aria-hidden="true" />
                 Hitung Miles Kamu
-              </a>
+              </Link>
             </Button>
             <Button
               size="lg"
@@ -46,20 +47,24 @@ export function HeroSection() {
               asChild
               className="border-accent-foreground/45 bg-accent-foreground/10 text-accent-foreground hover:bg-accent-foreground/20 hover:text-accent-foreground"
             >
-              <a href="/credit-cards" className="no-underline">
+              <Link
+                to="/credit-cards"
+                search={{ search: '', bank: '', partner: '', sort: 'name' }}
+                className="no-underline"
+              >
                 <CreditCard className="h-4 w-4" aria-hidden="true" />
                 Bandingkan Kartu Kredit
-              </a>
+              </Link>
             </Button>
           </div>
 
-          <a
-            href="/guides"
+          <Link
+            to="/guides"
             className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent-foreground no-underline hover:text-accent-foreground/80"
           >
             atau mulai dari Guide Pemula
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

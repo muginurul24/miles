@@ -37,7 +37,7 @@ export function ArticleBadges({ article }: ArticleBadgesProps): ReactElement {
       {article.premium ? (
         <Badge tone="warning" className="inline-flex items-center gap-1">
           <LockKeyhole className="h-3 w-3" aria-hidden="true" />
-          Premium
+          Exclusive
         </Badge>
       ) : null}
     </div>

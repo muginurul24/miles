@@ -70,6 +70,18 @@ export const Route = createFileRoute('/reviews/$subCategory')({
     return { reviews, subCategory: params.subCategory }
   },
   head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: buildSeoMeta({
+          title: 'Reviews — JustMiles',
+          description:
+            'Review flight, hotel, dan lounge dengan konteks points and miles untuk traveler Indonesia.',
+          path: '/reviews',
+        }),
+        links: buildCanonicalLinks('/reviews'),
+      }
+    }
+
     const section = getReviewSection(loaderData.subCategory)
     const label = section?.label ?? 'Reviews'
 
@@ -179,9 +191,9 @@ function ReviewsPage() {
 
       <PremiumContentCTA
         className="my-10"
-        title="Review premium untuk redemption yang lebih mahal"
-        description="Saat tiket, hotel, atau lounge access punya biaya opportunity tinggi, analisis premium membantu membandingkan value, comfort, dan alternatif redemption sebelum miles dikunci."
-        highlight="Review premium"
+        title="Review mendalam untuk redemption bernilai besar"
+        description="Saat tiket, hotel, atau lounge access punya biaya opportunity tinggi, analisis member membantu membandingkan value, comfort, dan alternatif redemption sebelum miles dipakai."
+        highlight="Deep review"
       />
 
       <NewsletterCTA

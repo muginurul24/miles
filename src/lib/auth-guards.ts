@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import { redirect } from '@tanstack/react-router'
 import { auth } from '#/lib/auth'
+import { SECURITY_HEADERS } from '#/lib/security-headers'
 
 interface GuardSession {
   user: {
@@ -9,7 +10,7 @@ interface GuardSession {
   }
 }
 
-type RedirectTarget = '/' | '/auth/login'
+type RedirectTarget = '/' | '/auth/login' | '/dashboard' | '/membership'
 
 export const getCurrentSession = createServerFn({ method: 'GET' }).handler(
   async () => {
@@ -34,10 +35,8 @@ export function getAuthRedirectTarget(
 export function getAdminRedirectTarget(
   session: GuardSession | null,
 ): RedirectTarget | null {
-  const authTarget = getAuthRedirectTarget(session)
-
-  if (authTarget) {
-    return authTarget
+  if (!session) {
+    return '/auth/login'
   }
 
   if (session.user.role !== 'admin') {
@@ -47,12 +46,22 @@ export function getAdminRedirectTarget(
   return null
 }
 
+export function getGuestOnlyRedirectTarget(
+  session: GuardSession | null,
+): RedirectTarget | null {
+  if (!session) {
+    return null
+  }
+
+  return session.user.role === 'admin' ? '/dashboard' : '/membership'
+}
+
 export async function requireAuth(): Promise<void> {
   const session = await getCurrentSession()
   const target = getAuthRedirectTarget(session)
 
   if (target) {
-    throw redirect({ to: target })
+    throw redirect({ headers: SECURITY_HEADERS, to: target })
   }
 }
 
@@ -61,6 +70,15 @@ export async function requireAdmin(): Promise<void> {
   const target = getAdminRedirectTarget(session)
 
   if (target) {
-    throw redirect({ to: target })
+    throw redirect({ headers: SECURITY_HEADERS, to: target })
+  }
+}
+
+export async function requireGuest(): Promise<void> {
+  const session = await getCurrentSession()
+  const target = getGuestOnlyRedirectTarget(session)
+
+  if (target) {
+    throw redirect({ headers: SECURITY_HEADERS, to: target })
   }
 }

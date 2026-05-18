@@ -2,6 +2,10 @@ import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import { RouteErrorState } from '#/components/shared/RouteErrorState'
 import { RoutePendingSkeleton } from '#/components/shared/RoutePendingSkeleton'
+import {
+  done as doneLoadingBar,
+  start as startLoadingBar,
+} from '#/lib/loading-bar'
 
 import type { ReactNode } from 'react'
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
@@ -28,6 +32,16 @@ export function getRouter() {
         </TanstackQueryProvider>
       )
     },
+  })
+
+  router.subscribe('onBeforeLoad', (event) => {
+    if (event.hrefChanged) {
+      startLoadingBar()
+    }
+  })
+
+  router.subscribe('onResolved', () => {
+    doneLoadingBar()
   })
 
   setupRouterSsrQueryIntegration({ router, queryClient: context.queryClient })
