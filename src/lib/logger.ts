@@ -75,7 +75,12 @@ function writeLog(
   }
 
   if (level === 'warn') {
-    console.warn(payload)
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(payload)
+      return
+    }
+
+    console.log(payload)
     return
   }
 

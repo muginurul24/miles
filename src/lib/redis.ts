@@ -51,8 +51,22 @@ export function reportRedisFailure(
   logger.warn('Redis operation failed', {
     ...context,
     area,
-    error,
+    error: summarizeRedisError(error),
     operation,
     redisStatus: redis.status,
   })
+}
+
+function summarizeRedisError(error: unknown): Record<string, string> {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      name: error.name,
+    }
+  }
+
+  return {
+    message: String(error),
+    name: 'UnknownRedisError',
+  }
 }
