@@ -1,18 +1,13 @@
 'use client'
 
-import {
-  Bell,
-  CircleUser,
-  CreditCard,
-  LogOut,
-  MoreVertical,
-} from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { Loader2, LogOut, MoreVertical } from 'lucide-react'
+import { useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar.tsx'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -24,17 +19,94 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '#/components/ui/sidebar.tsx'
+import { authClient } from '#/lib/auth-client.ts'
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
+interface SessionUser {
+  name?: string | null
+  email: string
+  image?: string | null
+}
+
+function getDisplayName(user: SessionUser): string {
+  return user.name?.trim() || user.email
+}
+
+function getInitials(user: SessionUser): string {
+  const displayName = getDisplayName(user)
+  const parts = displayName.split(/\s+/).filter(Boolean)
+
+  if (parts.length >= 2) {
+    return `${parts[0]?.[0] ?? ''}${parts[1]?.[0] ?? ''}`.toUpperCase()
   }
+
+  return displayName.slice(0, 2).toUpperCase()
+}
+
+function UserAvatar({
+  user,
+  muted = false,
+}: {
+  user: SessionUser
+  muted?: boolean
 }) {
+  const displayName = getDisplayName(user)
+
+  return (
+    <Avatar className="h-8 w-8 rounded-lg">
+      <AvatarImage src={user.image ?? undefined} alt={displayName} />
+      <AvatarFallback className="rounded-lg">
+        {muted ? '...' : getInitials(user)}
+      </AvatarFallback>
+    </Avatar>
+  )
+}
+
+export function NavUser() {
   const { isMobile } = useSidebar()
+  const navigate = useNavigate()
+  const { data: session, isPending } = authClient.useSession()
+  const [isSigningOut, setIsSigningOut] = useState(false)
+
+  async function handleSignOut(): Promise<void> {
+    setIsSigningOut(true)
+
+    try {
+      await authClient.signOut()
+      await navigate({ to: '/' })
+    } finally {
+      setIsSigningOut(false)
+    }
+  }
+
+  if (isPending) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            size="lg"
+            disabled
+            aria-label="Memuat profil admin"
+          >
+            <UserAvatar
+              user={{ name: 'Memuat profil admin', email: 'loading' }}
+              muted
+            />
+            <div className="grid flex-1 gap-1 text-left">
+              <span className="h-3 w-24 animate-pulse rounded bg-sidebar-accent" />
+              <span className="h-2.5 w-32 animate-pulse rounded bg-sidebar-accent" />
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
+  }
+
+  if (!session) {
+    return null
+  }
+
+  const user = session.user
+  const displayName = getDisplayName(user)
 
   return (
     <SidebarMenu>
@@ -45,12 +117,9 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">JM</AvatarFallback>
-              </Avatar>
+              <UserAvatar user={user} />
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{displayName}</span>
                 <span className="truncate text-xs text-muted-foreground">
                   {user.email}
                 </span>
@@ -66,12 +135,9 @@ export function NavUser({
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">JM</AvatarFallback>
-                </Avatar>
+                <UserAvatar user={user} />
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">{displayName}</span>
                   <span className="truncate text-xs text-muted-foreground">
                     {user.email}
                   </span>
@@ -79,24 +145,20 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <CircleUser />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+            <DropdownMenuItem
+              variant="destructive"
+              disabled={isSigningOut}
+              onSelect={(event) => {
+                event.preventDefault()
+                void handleSignOut()
+              }}
+            >
+              {isSigningOut ? (
+                <Loader2 className="animate-spin" aria-hidden="true" />
+              ) : (
+                <LogOut aria-hidden="true" />
+              )}
+              Keluar
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

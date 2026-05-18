@@ -33,7 +33,7 @@ export const paygateWebhookPayloadSchema = z.object({
   currency: z.literal('IDR').default('IDR'),
   paid_at: z.string().nullable().optional(),
   midtrans: z
-    .object({
+    .looseObject({
       cstore: z.string().optional(),
       fraud_status: z.string().optional(),
       qr_string: z.string().optional(),
@@ -49,7 +49,6 @@ export const paygateWebhookPayloadSchema = z.object({
         )
         .optional(),
     })
-    .passthrough()
     .default({}),
   metadata: z.record(z.string(), z.unknown()).default({}),
 })

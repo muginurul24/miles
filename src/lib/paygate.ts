@@ -34,33 +34,31 @@ const paygateChargeResponseSchema = z.object({
   expires_at: z.string().optional(),
   qr_string: z.string().optional(),
   qr_url: z.string().optional(),
-  midtrans: z
-    .object({
-      actions: z
-        .array(
-          z.object({
-            method: z.string().optional(),
-            name: z.string().optional(),
-            type: z.string().optional(),
-            url: z.string().optional(),
-          }),
-        )
-        .optional(),
-      transaction_id: z.string().optional(),
-      va_numbers: z
-        .array(
-          z.object({
-            bank: z.string(),
-            va_number: z.string(),
-          }),
-        )
-        .optional(),
-      transaction_status: z.string().optional(),
-      fraud_status: z.string().optional(),
-      qr_string: z.string().optional(),
-      qr_url: z.string().optional(),
-    })
-    .passthrough(),
+  midtrans: z.looseObject({
+    actions: z
+      .array(
+        z.object({
+          method: z.string().optional(),
+          name: z.string().optional(),
+          type: z.string().optional(),
+          url: z.string().optional(),
+        }),
+      )
+      .optional(),
+    transaction_id: z.string().optional(),
+    va_numbers: z
+      .array(
+        z.object({
+          bank: z.string(),
+          va_number: z.string(),
+        }),
+      )
+      .optional(),
+    transaction_status: z.string().optional(),
+    fraud_status: z.string().optional(),
+    qr_string: z.string().optional(),
+    qr_url: z.string().optional(),
+  }),
 })
 
 const paygateEnvelopeSchema = z.object({
