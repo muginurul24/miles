@@ -1,5 +1,5 @@
 import { redisStorage } from '@better-auth/redis-storage'
-import { redis } from '#/lib/redis'
+import { redis, reportRedisFailure } from '#/lib/redis'
 
 type AuthSecondaryStorage = ReturnType<typeof redisStorage>
 type StorageOperation =
@@ -20,8 +20,9 @@ function logStorageFailure(
   key: string | null,
   error: unknown,
 ): void {
-  const keyMessage = key ? ` for ${key}` : ''
-  console.warn(`Better Auth Redis ${operation} failed${keyMessage}.`, error)
+  reportRedisFailure('auth', operation, error, {
+    keyPresent: Boolean(key),
+  })
 }
 
 export const authSecondaryStorage: AuthSecondaryStorage = {

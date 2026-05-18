@@ -2,6 +2,7 @@ import { TRPCError, initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { auth } from '#/lib/auth'
 import { rateLimit } from '#/lib/rate-limit'
+import { reportRedisFailure } from '#/lib/redis'
 
 interface CreateTRPCContextOptions {
   req: Request
@@ -101,7 +102,10 @@ function rateLimitedProcedure(
         throw error
       }
 
-      console.warn(`Redis rate limit failed for ${keyPrefix}.`, error)
+      reportRedisFailure('rate-limit', 'check', error, {
+        failureMode: 'fail-open',
+        keyPrefix,
+      })
     }
 
     return next()

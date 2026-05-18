@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import superjson from 'superjson'
-import { redis } from '#/lib/redis'
+import { redis, reportRedisFailure } from '#/lib/redis'
 
 export const DEFAULT_TTL = {
   CARDS_LIST: 3600,
@@ -12,6 +12,10 @@ export const DEFAULT_TTL = {
   CALCULATOR_RESULT: 60,
   STATS: 300,
 } as const
+
+const REDIS_CACHE_RETRY_AFTER_MS = 30_000
+
+let redisCacheDisabledUntil = 0
 
 export function cacheHash(value: unknown): string {
   return createHash('sha256')
@@ -27,22 +31,33 @@ export async function cached<T>(
 ): Promise<T> {
   let cachedValue: string | null = null
 
-  try {
-    cachedValue = await redis.get(key)
-  } catch (error) {
-    console.warn(`Redis cache read failed for ${key}.`, error)
+  if (!shouldBypassRedisCache()) {
+    try {
+      cachedValue = await redis.get(key)
+      markRedisCacheAvailable()
+    } catch (error) {
+      markRedisCacheUnavailable('read', key, error)
+    }
   }
 
   if (cachedValue) {
-    return superjson.parse<T>(cachedValue)
+    try {
+      return superjson.parse<T>(cachedValue)
+    } catch (error) {
+      reportRedisFailure('cache', 'parse', error, { cacheKey: key })
+      await deleteCorruptCacheKey(key)
+    }
   }
 
   const data = await fn()
 
-  try {
-    await redis.setex(key, ttl, superjson.stringify(data))
-  } catch (error) {
-    console.warn(`Redis cache write failed for ${key}.`, error)
+  if (!shouldBypassRedisCache()) {
+    try {
+      await redis.setex(key, ttl, superjson.stringify(data))
+      markRedisCacheAvailable()
+    } catch (error) {
+      markRedisCacheUnavailable('write', key, error)
+    }
   }
 
   return data
@@ -51,6 +66,10 @@ export async function cached<T>(
 export async function invalidate(pattern: string): Promise<void> {
   const matchPattern = pattern.includes('*') ? pattern : `${pattern}*`
   let cursor = '0'
+
+  if (shouldBypassRedisCache()) {
+    return
+  }
 
   try {
     do {
@@ -68,8 +87,39 @@ export async function invalidate(pattern: string): Promise<void> {
 
       cursor = nextCursor
     } while (cursor !== '0')
+
+    markRedisCacheAvailable()
   } catch (error) {
-    console.warn(`Redis cache invalidation failed for ${matchPattern}.`, error)
+    markRedisCacheUnavailable('invalidate', matchPattern, error)
+  }
+}
+
+function shouldBypassRedisCache(): boolean {
+  return Date.now() < redisCacheDisabledUntil
+}
+
+function markRedisCacheAvailable(): void {
+  redisCacheDisabledUntil = 0
+}
+
+function markRedisCacheUnavailable(
+  operation: string,
+  key: string,
+  error: unknown,
+): void {
+  redisCacheDisabledUntil = Date.now() + REDIS_CACHE_RETRY_AFTER_MS
+  reportRedisFailure('cache', operation, error, {
+    cacheKey: key,
+    failureMode: 'fallback-to-source',
+    retryAfterMs: REDIS_CACHE_RETRY_AFTER_MS,
+  })
+}
+
+async function deleteCorruptCacheKey(key: string): Promise<void> {
+  try {
+    await redis.del(key)
+  } catch (error) {
+    markRedisCacheUnavailable('delete-corrupt-key', key, error)
   }
 }
 
