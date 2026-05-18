@@ -20,6 +20,7 @@ import {
   useSidebar,
 } from '#/components/ui/sidebar.tsx'
 import { authClient } from '#/lib/auth-client.ts'
+import { useHasMounted } from '#/lib/use-has-mounted.ts'
 
 interface SessionUser {
   name?: string | null
@@ -65,6 +66,7 @@ export function NavUser() {
   const { isMobile } = useSidebar()
   const navigate = useNavigate()
   const { data: session, isPending } = authClient.useSession()
+  const hasMounted = useHasMounted()
   const [isSigningOut, setIsSigningOut] = useState(false)
 
   async function handleSignOut(): Promise<void> {
@@ -78,7 +80,7 @@ export function NavUser() {
     }
   }
 
-  if (isPending) {
+  if (!hasMounted || isPending) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>

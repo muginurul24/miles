@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { LoginForm } from '#/components/login-form.tsx'
+import { requireGuest } from '#/lib/auth-guards'
 import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/auth/login')({
+  beforeLoad: requireGuest,
   head: () => ({
     meta: buildSeoMeta({
       title: 'Masuk | JustMiles',

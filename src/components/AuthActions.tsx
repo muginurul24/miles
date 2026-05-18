@@ -1,3 +1,5 @@
+'use client'
+
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
   Crown,
@@ -21,6 +23,7 @@ import {
 } from '#/components/ui/dropdown-menu'
 import { SheetClose } from '#/components/ui/sheet'
 import { authClient } from '#/lib/auth-client'
+import { useHasMounted } from '#/lib/use-has-mounted'
 import { cn } from '#/lib/utils'
 
 type AuthActionsVariant = 'desktop' | 'mobile'
@@ -122,6 +125,7 @@ function LoggedOutActions({ variant }: AuthActionsProps) {
 export function AuthActions({ variant }: AuthActionsProps) {
   const navigate = useNavigate()
   const { data: session, isPending } = authClient.useSession()
+  const hasMounted = useHasMounted()
   const [isSigningOut, setIsSigningOut] = useState(false)
 
   async function handleSignOut(): Promise<void> {
@@ -135,7 +139,7 @@ export function AuthActions({ variant }: AuthActionsProps) {
     }
   }
 
-  if (isPending) {
+  if (!hasMounted || isPending) {
     return (
       <div
         className={cn(

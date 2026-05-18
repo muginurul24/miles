@@ -14,9 +14,49 @@ function getAuthSecret(): string | undefined {
   return secret
 }
 
+function addOrigin(origins: Set<string>, value: string | undefined): void {
+  if (!value) {
+    return
+  }
+
+  try {
+    origins.add(new URL(value).origin)
+  } catch {
+    origins.add(value)
+  }
+}
+
+function getTrustedOrigins(): string[] {
+  const origins = new Set<string>()
+  const configuredOrigins = process.env.BETTER_AUTH_TRUSTED_ORIGINS?.split(',')
+
+  addOrigin(origins, process.env.BETTER_AUTH_URL)
+  addOrigin(origins, process.env.SERVER_URL)
+
+  configuredOrigins?.forEach((origin) => {
+    addOrigin(origins, origin.trim())
+  })
+
+  if (process.env.NODE_ENV !== 'production') {
+    const devOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3010',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:3001',
+      'http://127.0.0.1:3010',
+    ]
+
+    devOrigins.forEach((origin) => origins.add(origin))
+  }
+
+  return [...origins]
+}
+
 export const auth = betterAuth({
   appName: 'JustMiles',
   baseURL: process.env.BETTER_AUTH_URL ?? process.env.SERVER_URL,
+  trustedOrigins: getTrustedOrigins(),
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
     transaction: true,

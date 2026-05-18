@@ -6,6 +6,7 @@ import { PageHeader } from '#/components/shared'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { useTRPC } from '#/integrations/trpc/react'
+import { requireAuth } from '#/lib/auth-guards'
 import {
   getCheckoutPaymentChannel,
   getCheckoutStatus,
@@ -19,6 +20,7 @@ import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 import type { ReactElement } from 'react'
 
 export const Route = createFileRoute('/membership/checkout/$orderId')({
+  beforeLoad: requireAuth,
   head: () => ({
     meta: buildSeoMeta({
       title: 'Checkout Membership — JustMiles',

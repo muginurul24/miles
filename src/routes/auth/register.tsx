@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SignupForm } from '#/components/signup-form.tsx'
+import { requireGuest } from '#/lib/auth-guards'
 import { buildCanonicalLinks, buildSeoMeta } from '#/lib/seo'
 
 export const Route = createFileRoute('/auth/register')({
+  beforeLoad: requireGuest,
   head: () => ({
     meta: buildSeoMeta({
       title: 'Daftar | JustMiles',
